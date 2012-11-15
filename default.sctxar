@@ -1,47 +1,8 @@
 var o, p;
 o = [
 	ScriptLib.prNew,  MultiLevelIdentityDictionary.prNew,  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:-000TestBlobs_EMPTY
-
-~simpleBlob = BlobWatcher(
-{ | blob |
-	[\"started:\", blob].postln;
-	blob.x_pos.postln;
-},
-{ | blob | [\"moved:\", blob].postln },
-{ | blob | [\"ended:\", blob].postln },
-
-port: 3001
-).enable;
-",  "//:-005EnvDifferentStartingPoint
-var b0 = 'swallows10minL'.b;
-
-~simpleBlob = BlobWatcher(
-{ | blob |
-	{ | gate = 1 |
-		var rate = 1, env, envgen;
-		env = Env.linen(0.3, 0.1, 1, 3.5);
-		envgen = EnvGen.kr(env, gate: gate, doneAction: 2);
-		envgen * PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), 
-			startPos: blob.x_pos * BufFrames.kr(b0)
-			loop: 1)
-	}.play;
-},
-{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
-{ | blob | blob.state.release },
-port: 3001
-).enable;
-",  "//:-001SimpleBlobSound1
-~simpleBlob = BlobWatcher(
-{ | blob |
-	{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }.play(args: [\\freq, 400 rrand: 4000]);
-},
-{ | blob | [\"moved:\", blob].postln },
-{ | blob | blob.free },
-port: 3001
-).enable;
-",  "//:-004BufferPlaybackEnv
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(64),  
+	"//:-004BufferPlaybackEnv
 var b0 = 'swallows10minL'.b;
 
 ~simpleBlob = BlobWatcher(
@@ -55,19 +16,6 @@ var b0 = 'swallows10minL'.b;
 },
 { | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
 { | blob | blob.state.release },
-port: 3001
-).enable;
-",  
-	"//:-003SimpleBufferPlayback
-var b0 = 'swallows10minL'.b;
-
-~simpleBlob = BlobWatcher(
-{ | blob |
-	var rate = 1;
-	{ PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1) }.play;
-},
-{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
-{ | blob | blob.free },
 port: 3001
 ).enable;
 ",  "//:-006OneSoundProcessAtATimeOnly
@@ -87,20 +35,17 @@ var b0 = 'swallows10minL'.b;
 },
 port: 3001
 ).enable;
-",  "//:-002MappingParameters
+",  "//:-003SimpleBufferPlayback
+var b0 = 'swallows10minL'.b;
+
 ~simpleBlob = BlobWatcher(
 { | blob |
-	blob.watcher.mapper.postln;
-	{ | freq = 400 | SinOsc.ar(freq, 0, 0.01) }.play(args: [\\freq, blob.x_pos]);
+	var rate = 1;
+	{ PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1) }.play;
 },
-{ | blob | 
-	// [\"moved:\", blob].postln 
-},
-{ | blob | 
-	blob.free
-},
-mapper: BlobMapper(x_pos_map: \\freq.asSpec),
-port: 3001,
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob | blob.free },
+port: 3001
 ).enable;
 ",  "//:-007OneBlobOnlyDifferentStartingPoint
 var b0 = 'swallows10minL'.b;
@@ -120,7 +65,33 @@ var b0 = 'swallows10minL'.b;
 port: 3001
 ).enable;
 ",  
-	"//:-006OneBlobOnlyDifferentStartingPoint
+	"//:-005EnvSynth
+var b0 = 'swallows10minL'.b;
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	Synth('playbuf', [buf: b0, attack: 1, release: 3]);
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob | blob.state.release },
+port: 3001
+).enable;
+",  "//:-002MappingParameters
+~simpleBlob = BlobWatcher(
+{ | blob |
+	blob.watcher.mapper.postln;
+	{ | freq = 400 | SinOsc.ar(freq, 0, 0.01) }.play(args: [\\freq, blob.x_pos]);
+},
+{ | blob | 
+	// [\"moved:\", blob].postln 
+},
+{ | blob | 
+	blob.free
+},
+mapper: BlobMapper(x_pos_map: \\freq.asSpec),
+port: 3001,
+).enable;
+",  "//:-006OneBlobOnlyDifferentStartingPoint
 var b0 = 'swallows10minL'.b;
 
 ~simpleBlob = BlobWatcher(
@@ -137,20 +108,63 @@ var b0 = 'swallows10minL'.b;
 },
 port: 3001
 ).enable;
-",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:-PlayBufWithSynthDef
+",  "//:-006EnvDifferentStartingPoint
+var b0 = 'swallows10minL'.b;
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	{ | gate = 1 |
+		var rate = 1, env, envgen;
+		env = Env.linen(0.3, 0.1, 1, 3.5);
+		envgen = EnvGen.kr(env, gate: gate, doneAction: 2);
+		envgen * PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), 
+			startPos: blob.x_pos * BufFrames.kr(b0)
+			loop: 1)
+	}.play;
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob | blob.state.release },
+port: 3001
+).enable;
+",  
+	"//:-000TestBlobs_EMPTY
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	[\"started:\", blob].postln;
+	blob.x_pos.postln;
+},
+{ | blob | [\"moved:\", blob].postln },
+{ | blob | [\"ended:\", blob].postln },
+
+port: 3001
+).enable;
+",  "//:-001SimpleBlobSound1
+~simpleBlob = BlobWatcher(
+{ | blob |
+	{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }.play(args: [\\freq, 400 rrand: 4000]);
+},
+{ | blob | [\"moved:\", blob].postln },
+{ | blob | blob.free },
+port: 3001
+).enable;
+",  "//:---FreeAllBlobwatchers
+Blobs(3001).free; // webcam
+Blobs(3333).free; // kinect",  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  "//:-PlayBufWithSynthDef
 var b0 = 'a11wlk01-44_1'.b;
-Synth('playbuf', [buf: b0]);",  "//:-PlayBuffer
-var b0 = 'a11wlk01-44_1'.b;
+Synth('playbuf', [buf: b0]);",  
+	"//:-PlayBuffer
+var b0 = 'swallows'.b;
 { | rate = 1 | PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1) };",  "//:Pings
-{ { 100 do: { Synth(\\ping, [out: 2.rand, freq: 400.rrand(4000), dur: 0.01.exprand(1)]); 0.01.exprand(1).wait } }.fork; } ! 5;",  
-	"//:-01SineWithFreq
+{ { 100 do: { Synth(\\ping, [out: 2.rand, freq: 400.rrand(4000), dur: 0.01.exprand(1)]); 0.01.exprand(1).wait } }.fork; } ! 5;",  "//:-01SineWithFreq
 { | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  "//:-02PwhiteDiatonic
-Pbind(\\degree, Pbrown(), \\dur, 0.1);",  "//:-00WhiteNoise
+Pbind(\\degree, Pbrown(), \\dur, 0.1);",  
+	"//:-00WhiteNoise
 Synth('ping');",  "//:-01SineWithoutFreqControl
 { SinOsc.ar(400, 0, 0.1) }
-",  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:endlessRogerCormanmovie‬
+",  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:endlessRogerCormanmovie‬
 var b6 = 'ChippingSparrow'.b, b7 = 'BarredOwl'.b;
 fork{
   loop{
@@ -161,8 +175,8 @@ fork{
     };
     1.wait;
   }
-}; // ‪#endlessRogerCormanmovie‬",  IdentityDictionary.prNew,  
-	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  "//:-000NewProxyList
+}; // ‪#endlessRogerCormanmovie‬",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:-000NewProxyList
 AppModel().window({ | w, a |
 	w.layout = VLayout(
 		a.listView('proxies').proxyWatcher(
@@ -199,8 +213,7 @@ AppModel().window({ | w, a |
 		.view
 	)
 });
-",  
-	"//:-001ProxyControls (+ Tabbed View)
+",  "//:-001ProxyControls (+ Tabbed View)
 
 AppModel().window({ | w, a |
 	var font, stripWidth = 80, numStrips = 8, winWidth;
@@ -274,24 +287,24 @@ AppModel().window({ | w, a |
 	}
 })
 
-",  "//:-000TestSound2freq
+",  
+	"//:-000TestSound2freq
 { | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  "//:-000TestSound
 var b0 = 'a11wlk01'.b;
-{ PlayBuf.ar(1, b0, loop: 1) };",  
-	"//:-003Scopes
+{ PlayBuf.ar(1, b0, loop: 1) };",  "//:-003Scopes
 Server.default.scope;
-Server.default.freqscope;",  IdentityDictionary.prNew,  Array.prNew(32),  "//:00BufferConfig
+Server.default.freqscope;",  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:00BufferConfig
 AppModel().stickyWindow(\\test, \\buffers, { | w, app |
 
 
-})",  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:EvalSnippet
+})",  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:EvalSnippet
 ScriptLib.current.snippetValue(['---Config---', 'Buffers', 'EasternAmericanFrog']);",  "//:ScriptTest
 ~loop = { loop { 1.wait; \"asdf\".postln; } }.fork;
 
-~stop = { loop.postln };",  
-	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:-01Analyse1File
+~stop = { loop.postln };",  IdentityDictionary.prNew,  Array.prNew(32),  
+	IdentityDictionary.prNew,  Array.prNew(32),  "//:-01Analyse1File
 /* Should not use this as tmp is just fine. Analysis file is removed by SCMIR upon end.
 SCMIR.setTempDir(\"/Users/iani2/Desktop/000SCMIRTMP/\");
 */
@@ -313,7 +326,8 @@ e = SCMIRAudioFile(Platform.resourceDir +/+ \"sounds/a11wlk01.wav\", [[MFCC, 13]
 ~smaf.featuredata.postln;
 ~smaf.featuredata.size.postln;
 
-",  "//:-OnsetTries
+",  
+	"//:-OnsetTries
 e = SCMIRAudioFile(Platform.resourceDir +/+ \"sounds/a11wlk01.wav\", [[MFCC, 13], [Chromagram, 12]]);
 \\test.addNotifier(e, \\extractionDone, { | smaf |
 	smaf.featureinfo.postln;
@@ -346,8 +360,7 @@ e = SCMIRAudioFile(Platform.resourceDir +/+ \"sounds/a11wlk01.wav\", [[\\Loudnes
 //:
 
 {e.extractFeatures()}.fork(AppClock);
-",  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:-00BasicIdea-UsingScriptLibForData
+",  IdentityDictionary.prNew,  Array.prNew(32),  "//:-00BasicIdea-UsingScriptLibForData
 
 // Getting all buffers in this ScriptLib's config: 
 ~scriptLib.buffers.keys.asArray.collect(BufferItem.named(_)).postln;
@@ -381,71 +394,62 @@ Folder: Features
 3. Synthesis experiments to be collected in folder \"Synthesis\"
 
 */
-",  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:a11wlk01
+",  
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:a11wlk01
 BufferItem(
 \"/Applications/SuperCollider3.6ide/SuperCollider3.6ide.app/Contents/Resources/sounds/a11wlk01.wav\"
 )",  "//:a11wlk01-44_1
 BufferItem(
 \"/Applications/SuperCollider3.6ide/SuperCollider3.6ide.app/Contents/Resources/sounds/a11wlk01-44_1.aiff\"
-).loadIfNeeded",  
-	"//:EasternGreyTreefrog
+).loadIfNeeded",  "//:EasternGreyTreefrog
 BufferItem(
 \"/Users/iani2/Music/sounds/SoundSamplesJPH/frogs/EasternGreyTreefrog.wav\"
 )",  "//:NorthernSpringPeeper
 BufferItem(
 \"/Users/iani2/Music/sounds/SoundSamplesJPH/frogs/NorthernSpringPeeper.wav\"
-)",  "//:NorthernPygmyOwl
+)",  
+	"//:NorthernPygmyOwl
 BufferItem(
 \"/Users/iani2/Music/sounds/SoundSamplesJPH/birds/NorthernPygmyOwl.wav\"
 )",  "//:swallows10minL
 BufferItem(
 \"/Users/iani2/Music/sounds/111202rhythmanalysis/swallows10minL.aiff\"
-)",  
-	"//:NorthernRoughWingedSwallow
+)",  "//:NorthernRoughWingedSwallow
 BufferItem(
 \"/Users/iani2/Music/sounds/SoundSamplesJPH/birds/NorthernRoughWingedSwallow.wav\"
 )",  "//:SinedPink
 BufferItem(
 \"/Applications/SuperCollider3.6ide/SuperCollider3.6ide.app/Contents/Resources/sounds/SinedPink.aiff\"
-).loadIfNeeded",  "//:EasternAmericanFrog
+).loadIfNeeded",  
+	"//:EasternAmericanFrog
 BufferItem(
 \"/Users/iani2/Music/sounds/SoundSamplesJPH/frogs/EasternAmericanFrog.wav\"
-)",  IdentityDictionary.prNew,  
-	Array.prNew(128),  "//:swallows10minL
+)",  IdentityDictionary.prNew,  Array.prNew(128),  "//:swallows10minL
 BufferItem(
 \"/Users/iani2/Music/sounds/111202rhythmanalysis/swallows10minL.aiff\"
-).loadIfNeeded",  "//:swallows
+).loadIfNeeded",  
+	"//:swallows
 BufferItem(
 \"/Users/iani2/Music/sounds/SoundSamplesJPH/swallows/swallows.wav\"
 ).loadIfNeeded",  "//:a11wlk01
 BufferItem(
 \"/Applications/SuperCollider3.6ide/SuperCollider3.6ide.app/Contents/Resources/sounds/a11wlk01.wav\"
-).loadIfNeeded",  
-	"//:a11wlk01-44_1
+).loadIfNeeded",  "//:a11wlk01-44_1
 BufferItem(
 \"/Applications/SuperCollider3.6ide/SuperCollider3.6ide.app/Contents/Resources/sounds/a11wlk01-44_1.aiff\"
-).loadIfNeeded",  IdentityDictionary.prNew,  Array.prNew(32),  "//:playbuf
-SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startAt = 0, loop = 1, fadein = 0.01, fadeout = 1, gate = 1, amp = 1 |
+).loadIfNeeded",  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:playbuf
+SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startAt = 0, loop = 1, attack = 0.01, release = 1, gate = 1, amp = 1 |
 	var env, envgen;
-	env = Env.asr(fadein, 1, fadeout);
+	env = Env.asr(attack, 1, release);
 	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
 	Out.ar(out, envgen * PlayBuf.ar(buf.numChannels, buf, rate * BufRateScale.kr(buf), 1, loop, doneAction: 2)
 	)
-}).add;",  
-	"//:playbuf-test
-SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startAt = 0, loop = 1, fadein = 0.01, fadeout = 1, gate = 1, amp = 1 |
-	var env, envgen;
-	env = Env.asr(fadein, 1, fadeout);
-	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
-	Out.ar(out, envgen * PlayBuf.ar(buf.numChannels, buf, rate * BufRateScale.kr(buf), 1, loop, doneAction: 2)
-	)
-}).add;
-
-//",  IdentityDictionary.prNew,  Array.prNew(32),  "//:BootDefaultServer
+}).add;",  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:BootDefaultServer
 Server.default.boot;
-",  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:ping
+",  IdentityDictionary.prNew,  Array.prNew(32),  "//:ping
 SynthDef(\"ping\", { | out = 0, freq = 400, dur = 0.5, amp = 0.1 |
 	Out.ar(out, 
 		SinOsc.ar(freq, 0, 
@@ -468,10 +472,10 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'-Sounds',  o[17],  '-0Dev',  o[31],  
+		'-Sounds',  o[19],  '-0Dev',  o[33],  
 		nil,  nil,  nil,  nil,  
-		'SCMIR',  o[48],  nil,  nil,  
-		nil,  nil,  '---Config---',  o[58] ],  
+		'SCMIR',  o[50],  nil,  nil,  
+		nil,  nil,  '---Config---',  o[60] ],  
 	// IdentityDictionary
 	4, [ array: o[5],  size: 1,  
 		proto: nil,  parent: nil,  
@@ -486,90 +490,59 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	6, [ array: o[7],  size: 9,  
+	6, [ array: o[7],  size: 11,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	7, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'-000TestBlobs_EMPTY',  o[8],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-005EnvDifferentStartingPoint',  o[9],  '-001SimpleBlobSound1',  o[10],  
-		'-004BufferPlaybackEnv',  o[11],  '-003SimpleBufferPlayback',  o[12],  
-		'-006OneSoundProcessAtATimeOnly',  o[13],  '-002MappingParameters',  o[14],  
-		'-007OneBlobOnlyDifferentStartingPoint',  o[15],  '-006OneBlobOnlyDifferentStartingPoint',  o[16] ],  
-	// IdentityDictionary
-	17, [ array: o[18],  size: 2,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	18, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  '-000BasicSoundLib',  o[19],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-004BufferPlaybackEnv',  o[8],  
+		'-006OneSoundProcessAtATimeOnly',  o[9],  '-003SimpleBufferPlayback',  o[10],  
+		'-007OneBlobOnlyDifferentStartingPoint',  o[11],  '-005EnvSynth',  o[12],  
+		'-002MappingParameters',  o[13],  '-006OneBlobOnlyDifferentStartingPoint',  o[14],  
+		'-006EnvDifferentStartingPoint',  o[15],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-FromScCode.org',  o[28],  
+		'-000TestBlobs_EMPTY',  o[16],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-001SimpleBlobSound1',  o[17],  
+		'---FreeAllBlobwatchers',  o[18],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	19, [ array: o[20],  size: 7,  
+	19, [ array: o[20],  size: 2,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	20, [ '-PlayBufWithSynthDef',  o[21],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-PlayBuffer',  o[22],  
-		nil,  nil,  'Pings',  o[23],  
-		'-01SineWithFreq',  o[24],  nil,  nil,  
-		'-02PwhiteDiatonic',  o[25],  'Ping',  o[26],  
-		nil,  nil,  '-01SineWithoutFreqControl',  o[27] ],  
-	// IdentityDictionary
-	28, [ array: o[29],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	29, [ nil,  nil,  nil,  nil,  
-		'endlessRogerCormanmovie',  o[30],  nil,  nil,  
+	20, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  '-000BasicSoundLib',  o[21],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-FromScCode.org',  o[30],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	31, [ array: o[32],  size: 3,  
+	21, [ array: o[22],  size: 7,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	32, [ '-000ScriptMixerRedo',  o[33],  nil,  nil,  
-		nil,  nil,  '-01BufferConfigWindow',  o[41],  
+	22, [ '-PlayBufWithSynthDef',  o[23],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-ScriptLibExtensions',  o[44],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
+		nil,  nil,  '-PlayBuffer',  o[24],  
+		nil,  nil,  'Pings',  o[25],  
+		'-01SineWithFreq',  o[26],  nil,  nil,  
+		'-02PwhiteDiatonic',  o[27],  'Ping',  o[28],  
+		nil,  nil,  '-01SineWithoutFreqControl',  o[29] ],  
 	// IdentityDictionary
-	33, [ array: o[34],  size: 6,  
+	30, [ array: o[31],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	34, [ nil,  nil,  '-000NewProxyList',  o[35],  
-		'-001ProxyControls',  o[36],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-002ProxyControls (+ Tabbed View)',  o[37],  nil,  nil,  
-		'-000TestSound2freq',  o[38],  nil,  nil,  
-		nil,  nil,  '-000TestSound',  o[39],  
-		nil,  nil,  '-003Scopes',  o[40],  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	41, [ array: o[42],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	42, [ '00BufferConfig',  o[43],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+	31, [ nil,  nil,  nil,  nil,  
+		'endlessRogerCormanmovie',  o[32],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -577,113 +550,37 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	44, [ array: o[45],  size: 2,  
+	33, [ array: o[34],  size: 3,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	45, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'EvalSnippets',  o[46],  
-		nil,  nil,  nil,  nil,  
+	34, [ '-000ScriptMixerRedo',  o[35],  nil,  nil,  
+		nil,  nil,  '-01BufferConfigWindow',  o[43],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'ScriptTest',  o[47],  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	48, [ array: o[49],  size: 2,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	49, [ nil,  nil,  '-00EarlyTests',  o[50],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-01GUIDesign',  o[55],  
-		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-ScriptLibExtensions',  o[46],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	50, [ array: o[51],  size: 3,  
+	35, [ array: o[36],  size: 6,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	51, [ nil,  nil,  nil,  nil,  
+	36, [ nil,  nil,  '-000NewProxyList',  o[37],  
+		'-001ProxyControls',  o[38],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-01Analyse1File',  o[52],  '-02DoThisAfter01ToSeeData',  o[53],  
-		'-OnsetTries0',  o[54],  nil,  nil ],  
-	// IdentityDictionary
-	55, [ array: o[56],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	56, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  '-00BasicIdea-UsingScriptLibForData',  o[57],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+		'-002ProxyControls (+ Tabbed View)',  o[39],  nil,  nil,  
+		'-000TestSound2freq',  o[40],  nil,  nil,  
+		nil,  nil,  '-000TestSound',  o[41],  
+		nil,  nil,  '-003Scopes',  o[42],  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	58, [ array: o[59],  size: 5,  
+	43, [ array: o[44],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	59, [ 'SoundFiles',  o[60],  'Buffers-Autoload',  o[71],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'SynthDefs02-buffers',  o[77],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'ServerStuff',  o[81],  
-		nil,  nil,  nil,  nil,  
-		'SynthDefs01-simple',  o[84],  nil,  nil ],  
-	// IdentityDictionary
-	60, [ array: o[61],  size: 9,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	61, [ nil,  nil,  nil,  nil,  
-		'a11wlk01',  o[62],  'a11wlk01-44_1',  o[63],  
-		'EasternGreyTreefrog',  o[64],  nil,  nil,  
-		nil,  nil,  'NorthernSpringPeeper',  o[65],  
-		'NorthernPygmyOwl',  o[66],  nil,  nil,  
-		'swallows10minL',  o[67],  'NorthernRoughWingedSwallow',  o[68],  
-		'SinedPink',  o[69],  'EasternAmericanFrog',  o[70],  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	71, [ array: o[72],  size: 4,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	72, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'swallows10minL',  o[73],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'swallows',  o[74],  nil,  nil,  
-		'a11wlk01',  o[75],  'a11wlk01-44_1',  o[76],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+	44, [ '00BufferConfig',  o[45],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -692,25 +589,51 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	77, [ array: o[78],  size: 2,  
+	46, [ array: o[47],  size: 2,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	78, [ nil,  nil,  nil,  nil,  
+	47, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'playbuf',  o[79],  
-		'playbuf-test',  o[80],  nil,  nil,  
+		nil,  nil,  'EvalSnippets',  o[48],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'ScriptTest',  o[49],  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	50, [ array: o[51],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	51, [ nil,  nil,  '-00EarlyTests',  o[52],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-01GUIDesign',  o[57],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	81, [ array: o[82],  size: 1,  
+	52, [ array: o[53],  size: 3,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	82, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'BootDefaultServer',  o[83],  
+	53, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-01Analyse1File',  o[54],  '-02DoThisAfter01ToSeeData',  o[55],  
+		'-OnsetTries0',  o[56],  nil,  nil ],  
+	// IdentityDictionary
+	57, [ array: o[58],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	58, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  '-00BasicIdea-UsingScriptLibForData',  o[59],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -718,16 +641,105 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	84, [ array: o[85],  size: 1,  
+	60, [ array: o[61],  size: 5,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	85, [ nil,  nil,  nil,  nil,  
+	61, [ 'SoundFiles',  o[62],  'Buffers-Autoload',  o[73],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'SynthDefs02-buffers',  o[79],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'ServerStuff',  o[82],  
+		nil,  nil,  nil,  nil,  
+		'SynthDefs01-simple',  o[85],  nil,  nil ],  
+	// IdentityDictionary
+	62, [ array: o[63],  size: 9,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	63, [ nil,  nil,  nil,  nil,  
+		'a11wlk01',  o[64],  'a11wlk01-44_1',  o[65],  
+		'EasternGreyTreefrog',  o[66],  nil,  nil,  
+		nil,  nil,  'NorthernSpringPeeper',  o[67],  
+		'NorthernPygmyOwl',  o[68],  nil,  nil,  
+		'swallows10minL',  o[69],  'NorthernRoughWingedSwallow',  o[70],  
+		'SinedPink',  o[71],  'EasternAmericanFrog',  o[72],  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	73, [ array: o[74],  size: 4,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	74, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'ping',  o[86],  nil,  nil,  
+		'swallows10minL',  o[75],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'swallows',  o[76],  nil,  nil,  
+		'a11wlk01',  o[77],  'a11wlk01-44_1',  o[78],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	79, [ array: o[80],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	80, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'playbuf',  o[81],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	82, [ array: o[83],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	83, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'BootDefaultServer',  o[84],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	85, [ array: o[86],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	86, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'ping',  o[87],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ]
 ];
