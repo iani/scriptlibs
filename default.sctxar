@@ -440,7 +440,9 @@ SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startAt = 0, loop = 1, fad
 	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
 	Out.ar(out, envgen * PlayBuf.ar(buf.numChannels, buf, rate * BufRateScale.kr(buf), 1, loop, doneAction: 2)
 	)
-}).add;",  IdentityDictionary.prNew,  Array.prNew(32),  "//:BootDefaultServer
+}).add;
+
+//",  IdentityDictionary.prNew,  Array.prNew(32),  "//:BootDefaultServer
 Server.default.boot;
 ",  
 	IdentityDictionary.prNew,  Array.prNew(32),  "//:ping
