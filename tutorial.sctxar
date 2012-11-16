@@ -2,230 +2,66 @@ var o, p;
 o = [
 	ScriptLib.prNew,  MultiLevelIdentityDictionary.prNew,  IdentityDictionary.prNew,  Array.prNew(32),  
 	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:-00SimpleBufferPlayback
-var b0 = 'swallows10minL'.b;
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:-03_The_Snippet_List
+/* 
 
-Blobs.enable;
-~simpleBlob = BlobWatcher(
-{ | blob |
-	{ PlayBuf.ar(b0.numChannels, b0, loop: 1) }.play;
-},
-{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
-{ | blob | blob.free }
-);
-",  "//:-000SimpleBlobSound
-var freqSpec;
-freqSpec = \\freq.asSpec;
-Blobs.enable(3001);
-BlobWatcher(
-{ | blob |
-	{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }.play(args: [freq: freqSpec.map(blob.y_pos)]);
-},
-{ | blob | blob.set(\\freq, freqSpec.map(blob.y_pos)) },
-{ | blob | blob.free },
-3001
-);
-",  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:-01Sine
-{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  "//:-PlayBuffer
-var b0 = 'NorthernPygmyOwl'.b;
-{ | rate = 1 | PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1) };",  
-	"//:Pings
-{ { 100 do: { Synth(\\ping, [out: 2.rand, freq: 400.rrand(4000), dur: 0.01.exprand(1)]); 0.01.exprand(1).wait } }.fork; } ! 5;",  "//:-02PwhiteDiatonic
-Pbind(\\degree, Pbrown(), \\dur, 0.1);",  "//:-00WhiteNoise
-Synth('ping');",  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:endlessRogerCormanmovie‬
-var b6 = 'ChippingSparrow'.b, b7 = 'BarredOwl'.b;
-fork{
-  loop{
-    play{
-     Splay.ar(
-       {Klank.ar(`[99.rand*(1..9)],Crackle.ar(2,0.01))*LFGauss.ar(9,1/4,0,0,2)}!2
-     )
-    };
-    1.wait;
-  }
-}; // ‪#endlessRogerCormanmovie‬",  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:-001ProxyControls (+ Tabbed View)
+Keyboard commands:
+The following actions are performed when typing the corresponding key with the Snippet List selected: 
 
-AppModel().window({ | w, a |
-	var font, stripWidth = 80, numStrips = 8, winWidth;
-	winWidth = stripWidth * numStrips;
-	font = Font.default.size_(10);
-	w.name_(\"Proxy Script Mixer\")
-	.bounds_(Rect(Window.screenBounds.width - winWidth, 0, winWidth, 250))
-	.layout = HLayout(
-		*({ | i | VLayout(
-			a.popUpMenu(format(\"proxy%\", i).asSymbol).proxyList(ProxyCentral.default.proxySpace, i)
-			.view.fixedWidth_(80).font_(font).background_(Color(0.9, 1, 0.9)),
-			a.popUpMenu(format(\"knob%\", i).asSymbol).proxyControlList(format(\"proxy%\", i).asSymbol, 3)
-			.view.fixedWidth_(80).font_(font),
-			a.knob(format(\"knob%\", i).asSymbol).proxyControl.view,
-			HLayout(
-				a.slider(format(\"slider%\", i).asSymbol).proxyControl.view.orientation_(\\vertical),
-				VLayout(
-					a.numberBox(format(\"knob%\", i).asSymbol).proxyControl.view.font_(font).fixedWidth_(50),
-					a.numberBox(format(\"slider%\", i).asSymbol).proxyControl.view.font_(font).fixedWidth_(50),
-					a.button(format(\"proxy%\", i).asSymbol)
-						.action_({ \"TOODO\".postln; })
-						.view.states_([[\"ed\"]]).font_(font).fixedWidth_(50),
-					a.button(format(\"proxy%\", i).asSymbol).proxyWatcher
-						.view.states_([[\">\"], [\"||\", nil, Color.red]]).font_(font).fixedWidth_(50),
-				),
-			),
-			a.popUpMenu(format(\"slider%\", i).asSymbol).proxyControlList(format(\"proxy%\", i).asSymbol, 1)
-			.view.fixedWidth_(80).font_(font),
+- Return key: Set the current snippet as source to the current proxy
+- Space key: Play/stop the current proxy (toggle the state of the current proxy on-off). 
+- Escape key: Open window displaying list of proxies. Selecting a proxy on the list makes it current.
 
-		) } ! 8)
-	)
-})
+*/
 
-",  "//:-001ProxyControls (+ Tabbed View)
-
-AppModel().window({ | w, a |
-	var font, stripWidth = 82, numStrips = 8, winWidth, mWidth = 75, nWidth = 50;
-	var tabbedView;
-	winWidth = stripWidth * numStrips;
-	font = Font.default.size_(10);
-	w.name_(\"Proxy Script Mixer\")
-	.bounds_(Rect(Window.screenBounds.width - winWidth, 0, winWidth, 250));
-	tabbedView = TabbedView(w, labels: [\"1-8\", \"q-i\", \"a-k\", \"z-,\"]);
-	tabbedView.views do: { | view, viewNum |
-	viewNum = viewNum * 8;
-	view.layout = HLayout(
-		*({ | i | VLayout(
-			i = i + viewNum;
-			a.popUpMenu(format(\"proxy%\", i).asSymbol).proxyList(ProxyCentral.default.proxySpace, i)
-			.view.fixedWidth_(mWidth).font_(font).background_(Color(0.9, 1, 0.9)),
-			a.popUpMenu(format(\"knob%\", i).asSymbol).proxyControlList(format(\"proxy%\", i).asSymbol, 3)
-			.view.fixedWidth_(mWidth).font_(font),
-			a.knob(format(\"knob%\", i).asSymbol).proxyControl.view,
-			HLayout(
-				a.slider(format(\"slider%\", i).asSymbol).proxyControl.view.orientation_(\\vertical),
-				VLayout(
-					a.numberBox(format(\"knob%\", i).asSymbol).proxyControl.view.font_(font).fixedWidth_(nWidth),
-					a.numberBox(format(\"slider%\", i).asSymbol).proxyControl.view.font_(font).fixedWidth_(nWidth),
-					a.button(format(\"proxy%\", i).asSymbol)
-						.action_({ \"TOODO\".postln; })
-						.view.states_([[\"ed\"]]).font_(font).fixedWidth_(nWidth),
-					a.button(format(\"proxy%\", i).asSymbol).proxyWatcher
-						.view.states_([[\">\"], [\"||\", nil, Color.red]]).font_(font).fixedWidth_(nWidth),
-				),
-			),
-			a.popUpMenu(format(\"slider%\", i).asSymbol).proxyControlList(format(\"proxy%\", i).asSymbol, 1)
-			.view.fixedWidth_(mWidth).font_(font),
-
-		) } ! 8)
-	)
-	}
-})
-
+{ WhiteNoise.ar(0.1) };",  IdentityDictionary.prNew,  Array.prNew(32),  "//:-05_The_Edit_Snippet_list_Menu
+/* 
+This ScriptLib contains notes towards documenting the ScriptLib class and how it works. 
+*/
 ",  
-	"//:-000TestSound2freq
-{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  "//:-000TestSound
-var b0 = 'a11wlk01'.b;
-{ PlayBuf.ar(1, b0, loop: 1) };",  "//:-003Scopes
-Server.default.scope;
-Server.default.freqscope;",  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:00BufferConfig
-AppModel().stickyWindow(\\test, \\buffers, { | w, app |
+	"//:-01_The_File_Menu
+/* 
+The File menu contains 
+*/
+",  "//:-04_The_Edit_File_list_Menu
+/* 
+This ScriptLib contains notes towards documenting the ScriptLib class and how it works. 
+*/
+",  "//:-03_b_The_Edit_Folder_list_Menu
+/* 
+This ScriptLib contains notes towards documenting the ScriptLib class and how it works. 
+*/
+",  "//:-03_a_The_Edit_ItemMenus
+/* 
+This ScriptLib contains notes towards documenting the ScriptLib class and how it works. 
+*/
+",  
+	"//:-02_The_Server_Menu
+/* 
+This ScriptLib contains notes towards documenting the ScriptLib class and how it works. 
+*/
+",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:-01_Routine
+/* 
+Press \"script>\" to run this script, then script|| to stop it
+*/
 
-
-})",  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:EvalSnippet
-ScriptLib.current.snippetValue(['---Config---', 'Buffers', 'EasternAmericanFrog']);",  "//:ScriptTest
-~loop = { loop { 1.wait; \"asdf\".postln; } }.fork;
-
-~stop = { loop.postln };",  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:-OnsetTries
-e = SCMIRAudioFile(Platform.resourceDir +/+ \"sounds/a11wlk01.wav\", [[MFCC, 13], [Chromagram, 12]]);
-\\test.addNotifier(e, \\extractionDone, { | smaf |
-	smaf.featureinfo.postln;
-	smaf.featuredata.postln; });
-//:
-{e.extractFeatures()}.fork(AppClock);
-
-//:
-
-{ e.extractOnsets(); }.fork(AppClock);
-
-//:
-e.onsetdata;
-//:
-e.numonsets;
-
-//:
-
-
-
-
-//:----------------------- NEED DEBUGGING: ------------------------
-//:NOT!!!
-
-e = SCMIRAudioFile(Platform.resourceDir +/+ \"sounds/a11wlk01.wav\", [[\\Loudness],[\\Transient,0.7,0.2],[\\Transient,0.1,0.05],[\\Transient,0.1,0.0],[\\Transient,0.9,0.0],[\\Transient,0.2,0.01],[\\Onsets,\\rcomplex]]);
-
-\\test.addNotifier(e, \\extractionDone, { | smaf |
-	smaf.featureinfo.postln;
-	smaf.featuredata.postln; });
-//:
-
-{e.extractFeatures()}.fork(AppClock);
-",  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:-00BasicIdea-UsingScriptLibForData
-
-// Getting all buffers in this ScriptLib's config: 
-~scriptLib.buffers.keys.asArray.collect(BufferItem.named(_)).postln;
-
+{ loop { 100.rand.postln; 0.1.wait } }.fork;
 ",  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:NorthernPygmyOwl
-BufferItem(
-\"/Users/iani2/Music/sounds/SoundSamplesJPH/birds/NorthernPygmyOwl.wav\"
-)",  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:ping
-SynthDef(\"ping\", { | out = 0, freq = 400, dur = 0.5, amp = 0.1 |
-	Out.ar(out, 
-		SinOsc.ar(freq, 0, 
-			EnvGen.kr(Env.perc(releaseTime: dur - 0.01 max: 0.01, level: amp), doneAction: 2)
-		)
-	)
-}).add;",  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:BufferAutoloadTest
-ScriptLib.current.lib.at('---Config---', 'Buffers-Autoload').values do: { | script |
-	script.interpret.loadIfNeeded;
-};
+	"//:01WhiteNoise
+{ WhiteNoise.ar(0.1) }",  "//:01Pbind
+/* 
+Press \"proxy>\" to start this script as proxy, and \"proxy||\" to stop it
+*/
 
-",  IdentityDictionary.prNew,  Array.prNew(32),  "//:a11wlk01
-BufferItem(
-\"/Applications/SuperCollider3.6ide/SuperCollider3.6ide.app/Contents/Resources/sounds/a11wlk01.wav\"
-)",  
-	"//:a11wlk01-44_1
-BufferItem(
-\"/Applications/SuperCollider3.6ide/SuperCollider3.6ide.app/Contents/Resources/sounds/a11wlk01-44_1.aiff\"
-)",  "//:EasternGreyTreefrog
-BufferItem(
-\"/Users/iani2/Music/sounds/SoundSamplesJPH/frogs/EasternGreyTreefrog.wav\"
-)",  "//:NorthernSpringPeeper
-BufferItem(
-\"/Users/iani2/Music/sounds/SoundSamplesJPH/frogs/NorthernSpringPeeper.wav\"
-)",  "//:NorthernPygmyOwl
-BufferItem(
-\"/Users/iani2/Music/sounds/SoundSamplesJPH/birds/NorthernPygmyOwl.wav\"
-)",  
-	"//:swallows10minL
-BufferItem(
-\"/Users/iani2/Music/sounds/111202rhythmanalysis/swallows10minL.aiff\"
-)",  "//:NorthernRoughWingedSwallow
-BufferItem(
-\"/Users/iani2/Music/sounds/SoundSamplesJPH/birds/NorthernRoughWingedSwallow.wav\"
-)",  "//:SinedPink
-BufferItem(
-\"/Applications/SuperCollider3.6ide/SuperCollider3.6ide.app/Contents/Resources/sounds/SinedPink.aiff\"
-)",  "//:EasternAmericanFrog
-BufferItem(
-\"/Users/iani2/Music/sounds/SoundSamplesJPH/frogs/EasternAmericanFrog.wav\"
-)",  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:BootDefaultServer
-Server.default.boot;
+Pbind(\\degree, Pwhite(-10, 10, inf), \\dur, 0.1);",  IdentityDictionary.prNew,  Array.prNew(32),  
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:-About This ScriptLib
+/* 
+This ScriptLib contains notes towards documenting the ScriptLib class and how it works. 
+*/
 "
 ];
 p = [
@@ -234,33 +70,33 @@ p = [
 	// MultiLevelIdentityDictionary
 	1, [ dictionary: o[2] ],  
 	// IdentityDictionary
-	2, [ array: o[3],  size: 5,  
+	2, [ array: o[3],  size: 4,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	3, [ nil,  nil,  nil,  nil,  
+	3, [ nil,  nil,  '-01User Interface',  o[4],  
 		nil,  nil,  nil,  nil,  
-		'Narcissus',  o[4],  nil,  nil,  
+		'-02Programming Interface',  o[23],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'-Sounds',  o[10],  '-0Dev',  o[22],  
 		nil,  nil,  nil,  nil,  
-		'SCMIR',  o[38],  nil,  nil,  
-		nil,  nil,  '---Config---',  o[46] ],  
+		'-03Examples',  o[25],  nil,  nil,  
+		nil,  nil,  '-00Intro',  o[34],  
+		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	4, [ array: o[5],  size: 1,  
+	4, [ array: o[5],  size: 5,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	5, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-0BlobTests',  o[6],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+		'-05 The Snippet Editor and List Pane',  o[6],  nil,  nil,  
+		nil,  nil,  '-04 The Buffer Selection Menus',  o[8],  
+		nil,  nil,  '-02The Folder, File and Snippet Lists',  o[10],  
+		'-01The Top Menus',  o[13],  '-03 The Snippet Buttons',  o[21],  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	6, [ array: o[7],  size: 2,  
+	6, [ array: o[7],  size: 0,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
@@ -271,131 +107,131 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'-00SimpleBufferPlayback',  o[8],  '-000SimpleBlobSound',  o[9] ],  
+		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	10, [ array: o[11],  size: 2,  
+	8, [ array: o[9],  size: 0,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	9, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	10, [ array: o[11],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	11, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  '-000BasicSoundLib',  o[12],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-FromScCode.org',  o[19],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	12, [ array: o[13],  size: 5,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	13, [ nil,  nil,  '-01Sine',  o[14],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-PlayBuffer',  o[15],  
-		nil,  nil,  'Pings',  o[16],  
-		nil,  nil,  nil,  nil,  
-		'-02PwhiteDiatonic',  o[17],  'Ping',  o[18],  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	19, [ array: o[20],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	20, [ nil,  nil,  nil,  nil,  
-		'endlessRogerCormanmovie',  o[21],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+		'-03_The_Snippet_List',  o[12],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	22, [ array: o[23],  size: 3,  
+	13, [ array: o[14],  size: 6,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	23, [ '-000ScriptMixerRedo',  o[24],  nil,  nil,  
-		nil,  nil,  '-01BufferConfigWindow',  o[31],  
+	14, [ nil,  nil,  '-05_The_Edit_Snippet_list_Menu',  o[15],  
+		nil,  nil,  '-01_The_File_Menu',  o[16],  
+		nil,  nil,  '-04_The_Edit_File_list_Menu',  o[17],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-03_b_The_Edit_Folder_list_Menu',  o[18],  
+		'-03_a_The_Edit_ItemMenus',  o[19],  nil,  nil,  
+		'-02_The_Server_Menu',  o[20],  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	21, [ array: o[22],  size: 0,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	22, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-ScriptLibExtensions',  o[34],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	24, [ array: o[25],  size: 5,  
+	23, [ array: o[24],  size: 0,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	25, [ nil,  nil,  nil,  nil,  
-		'-001ProxyControls',  o[26],  nil,  nil,  
+	24, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'-002ProxyControls (+ Tabbed View)',  o[27],  nil,  nil,  
-		'-000TestSound2freq',  o[28],  nil,  nil,  
-		nil,  nil,  '-000TestSound',  o[29],  
-		nil,  nil,  '-003Scopes',  o[30],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	25, [ array: o[26],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	26, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '02Non-Proxy Scripts',  o[27],  
+		nil,  nil,  '01Proxies',  o[30],  
+		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	31, [ array: o[32],  size: 1,  
+	27, [ array: o[28],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	32, [ '00BufferConfig',  o[33],  nil,  nil,  
+	28, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-01_Routine',  o[29],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	30, [ array: o[31],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	31, [ nil,  nil,  '01WhiteNoise',  o[32],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '01Pbind',  o[33] ],  
 	// IdentityDictionary
 	34, [ array: o[35],  size: 2,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	35, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'EvalSnippets',  o[36],  
-		nil,  nil,  nil,  nil,  
+		'-How To Use This ScriptLib',  o[36],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'ScriptTest',  o[37],  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	38, [ array: o[39],  size: 2,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	39, [ nil,  nil,  '-00EarlyTests',  o[40],  
+		nil,  nil,  '-About',  o[38],  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-01GUIDesignConsiderations',  o[43] ],  
-	// IdentityDictionary
-	40, [ array: o[41],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	41, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-OnsetTries',  o[42],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	43, [ array: o[44],  size: 1,  
+	36, [ array: o[37],  size: 0,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	44, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  '-00BasicIdea-UsingScriptLibForData',  o[45],  
+	37, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -403,78 +239,13 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	46, [ array: o[47],  size: 5,  
+	38, [ array: o[39],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	47, [ nil,  nil,  'Buffers-Autoload',  o[48],  
+	39, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'SynthDefs',  o[51],  nil,  nil,  
-		nil,  nil,  'OtherConfig',  o[54],  
-		nil,  nil,  nil,  nil,  
-		'Buffers',  o[57],  'ServerStuff',  o[68],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	48, [ array: o[49],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	49, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'NorthernPygmyOwl',  o[50],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	51, [ array: o[52],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	52, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'ping',  o[53],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	54, [ array: o[55],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	55, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'BufferAutoloadTest',  o[56],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	57, [ array: o[58],  size: 9,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	58, [ nil,  nil,  nil,  nil,  
-		'a11wlk01',  o[59],  'a11wlk01-44_1',  o[60],  
-		'EasternGreyTreefrog',  o[61],  nil,  nil,  
-		nil,  nil,  'NorthernSpringPeeper',  o[62],  
-		'NorthernPygmyOwl',  o[63],  nil,  nil,  
-		'swallows10minL',  o[64],  'NorthernRoughWingedSwallow',  o[65],  
-		'SinedPink',  o[66],  'EasternAmericanFrog',  o[67],  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	68, [ array: o[69],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	69, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'BootDefaultServer',  o[70],  
-		nil,  nil,  nil,  nil,  
+		'-About This ScriptLib',  o[40],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
