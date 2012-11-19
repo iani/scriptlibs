@@ -1,0 +1,712 @@
+var o, p;
+o = [
+	ScriptLib.prNew,  MultiLevelIdentityDictionary.prNew,  IdentityDictionary.prNew,  Array.prNew(32),  
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:-001BlobRectSoundTest
+BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), {
+	{ WhiteNoise.ar(0.1) }.play 
+}, {}, { | state |
+	state.free;
+}).enable;
+
+// BlobRects(3001);
+// Blobs(3001).enable;",  "//:-000BlobRectTest
+BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), { \"starting\".postln; }, {}, { \"stopping\".postln; }).enable;
+
+// BlobRects(3001);
+// Blobs(3001).enable;",  "//:-002BlobRectx2SoundTest
+
+~brects = ~brects add: BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), {
+	{ WhiteNoise.ar(0.1) }.play 
+}, {}, { | state |
+	state.free;
+}).enable;
+
+~brects = ~brects add: BlobRect(3001, Rect(0.5, 0.5, 0.3, 0.3), {
+	{ GrayNoise.ar(0.1) }.play 
+}, {}, { | state |
+	state.free;
+}).enable;
+
+~stop = { ~brects do: { | br | br.postln; br.disable }; };",  IdentityDictionary.prNew,  
+	Array.prNew(64),  "//:-011OneBlobInRectRateXPos
+var b0 = 'swallows10minL'.b;
+var synth, rect;
+rect = Rect(0.1, 0.1, 0.3, 0.3);
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { rect.containsPoint((blob.x_pos@blob.y_pos)) }) {
+		synth = Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos, rate: blob.x_pos])
+	}
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | rect.containsPoint(b.x_pos@b.y_pos) }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  "//:-007OneSoundProcessAtATimeOnly
+var b0 = 'swallows10minL'.b;
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (blob.blobs.size == 1) {
+		{ WhiteNoise.ar(0.1) }.play.addNotifierOneShot(blob.watcher, \\blobsEnded, { | notification |
+			notification.listener.postln;
+			notification.listener.free;
+		});
+	}
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob |
+	if (blob.blobs.size == 0) { blob.watcher.changed(\\blobsEnded) }
+},
+port: 3001
+).enable;
+",  "//:-009OneBlobOnlyDependingOnX_posCorrect
+var b0 = 'swallows10minL'.b;
+var synth;
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { blob.x_pos > 0.5}) {
+		synth = Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos])
+	}
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | b.x_pos > 0.5 }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  
+	"//:-008OneBlobOnlyDifferentStartingPoint
+var b0 = 'swallows10minL'.b;
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (blob.blobs.size == 1) {
+		Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos])
+		.addNotifierOneShot(blob.watcher, \\blobsEnded, { | notification | 
+			notification.listener.release;
+		});
+	}
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob |
+	if (blob.blobs.size == 0) { blob.watcher.changed(\\blobsEnded) }
+},
+port: 3001
+).enable;
+",  "//:-011OneBlobInRectRateXposContinuous
+var b0 = 'swallows10minL'.b;
+var synth, rect;
+rect = Rect(0.1, 0.1, 0.3, 0.3);
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { rect.containsPoint((blob.x_pos@blob.y_pos)) }) {
+		synth = Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos, rate: blob.x_pos])
+	}
+},
+{ | blob | blob.set(\\rate, blob.x_pos) },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | rect.containsPoint(b.x_pos@b.y_pos) }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  "//:-004BufferPlaybackEnv
+var b0 = 'swallows10minL'.b;
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	{ | gate = 1 |
+		var rate = 1, env, envgen;
+		env = Env.linen(0.3, 0.1, 1, 3.5);
+		envgen = EnvGen.kr(env, gate: gate, doneAction: 2);
+		envgen * PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1)
+	}.play;
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob | blob.state.release },
+port: 3001
+).enable;
+",  "//:-006EnvDifferentStartingPoint
+var b0 = 'swallows10minL'.b;
+
+BlobWatcher(
+{ | blob |
+	Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos]);
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob | blob.state.release },
+port: 3001
+).enable;
+",  
+	"//:-003SimpleBufferPlayback
+var b0 = 'swallows10minL'.b;
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	var rate = 1;
+	{ PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1) }.play;
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob | blob.free },
+port: 3001
+).enable;
+",  "//:-005EnvSynth
+var b0 = 'swallows10minL'.b;
+
+BlobWatcher(
+{ | blob |
+	Synth('playbuf', [buf: b0, attack: 1, release: 3]);
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob | blob.state.release },
+port: 3001
+).enable;
+",  "//:-002MappingParameters
+
+BlobWatcher(
+{ | blob |
+	{ | freq = 400 | SinOsc.ar(freq, 0, 0.01) }.play(args: [\\freq, blob.x_pos]);
+},
+{ | blob | 
+	// [\"moved:\", blob].postln 
+},
+{ | blob | 
+	blob.free
+},
+mapper: BlobMapper(x_pos_map: \\freq.asSpec),
+port: 3001,
+).enable;
+",  "//:-010OneBlobInRect
+var b0 = 'swallows10minL'.b;
+var synth, rect;
+rect = Rect(0.1, 0.1, 0.3, 0.3);
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { rect.containsPoint((blob.x_pos@blob.y_pos)) }) {
+		synth = Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos])
+	}
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | rect.containsPoint(b.x_pos@b.y_pos) }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  
+	"//:-000TestBlobs_EMPTY
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	[\"started:\", blob].postln;
+	blob.x_pos.postln;
+},
+{ | blob | [\"moved:\", blob].postln },
+{ | blob | [\"ended:\", blob].postln },
+
+port: 3001
+).enable;
+",  "//:-001SimpleBlobSound1
+~simpleBlob = BlobWatcher(
+{ | blob |
+	{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }.play(args: [\\freq, 400 rrand: 4000]);
+},
+{ | blob | [\"moved:\", blob].postln },
+{ | blob | blob.free },
+port: 3001
+).enable;
+",  "//:---FreeAllBlobwatchers
+Blobs(3001).free; // webcam
+Blobs(3333).free; // kinect",  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:---FreeAllBlobwatchers
+Blobs(3001).free; // webcam
+Blobs(3333).free; // kinect
+",  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:-000OneBlobInRect01010303RateXposCont
+var b0 = 'swallows10minL'.b;
+var synth, rect;
+rect = Rect(0.1, 0.1, 0.3, 0.3);
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { rect.containsPoint((blob.x_pos@blob.y_pos)) }) {
+		synth = Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos, rate: blob.x_pos])
+	}
+},
+{ | blob | blob.set(\\rate, blob.x_pos) },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | rect.containsPoint(b.x_pos@b.y_pos) }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  "//:-002SRect01010303RateXpCMagAboveYp
+var b0 = 'swallows10minL'.b;
+var synth, rect;
+rect = Rect(0.1, 0.1, 0.3, 0.3);
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { rect.containsPoint((blob.x_pos@blob.y_pos)) }) {
+		synth = Synth('playbufmagabove', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos,
+			rate: blob.x_pos + 0.7, magabove: blob.y_pos * 15])
+	}
+},
+{ | blob | synth.set(\\rate, blob.x_pos + 0.7, \\magabove, blob.y_pos * 15) },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | rect.containsPoint(b.x_pos@b.y_pos) }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  "//:-003SRect07070303RateXpCMagAboveYp
+var b0 = 'swallows10minL'.b;
+var synth, rect;
+rect = Rect(0.4, 0.4, 0.2, 0.2);
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { rect.containsPoint((blob.x_pos@blob.y_pos)) }) {
+		synth = Synth('playbufmagbelow', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos,
+			rate: blob.x_pos + 0.7, magbelow: blob.y_pos * 5 max: 0.51])
+	}
+},
+{ | blob | synth.set(\\rate, blob.x_pos + 0.7, \\magbelow, blob.y_pos * 5 max: 0.51) },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | rect.containsPoint(b.x_pos@b.y_pos) }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  "//:-001OneBlobInRect07070303RateXposCont
+var b0 = 'swallows10minL'.b;
+var synth, rect;
+rect = Rect(0.7, 0.7, 0.29, 0.29);
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { rect.containsPoint((blob.x_pos@blob.y_pos)) }) {
+		synth = Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos, rate: blob.x_pos + 0.4])
+	}
+},
+{ | blob | synth.set(\\rate, blob.x_pos + 0.4) },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | rect.containsPoint(b.x_pos@b.y_pos) }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  
+	"//:-004SRect01010303LoRateXpCMagAboveYp0
+var b0 = 'swallows10minL'.b;
+var synth, rect;
+rect = Rect(0.4, 0.4, 0.2, 0.2);
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (synth.isNil and: { rect.containsPoint((blob.x_pos@blob.y_pos)) }) {
+		synth = Synth('playbufmagbelow', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos,
+			rate: blob.x_pos + 0.17, magbelow: blob.y_pos * 5 max: 0.51])
+	}
+},
+{ | blob | synth.set(\\rate, blob.x_pos + 0.17, \\magbelow, blob.y_pos * 5 max: 0.51) },
+{ | blob |
+	synth !? {
+		if (blob.blobs.detect({ | b | rect.containsPoint(b.x_pos@b.y_pos) }).isNil) { synth.release; synth = nil }
+	};
+},
+port: 3001
+).enable;
+",  IdentityDictionary.prNew,  Array.prNew(32),  "//:-009OneBlobOnlyDependingOnX_pos
+var b0 = 'swallows10minL'.b;
+
+// NOTE: NOT
+
+~simpleBlob = BlobWatcher(
+{ | blob |
+	if (blob.blobs.size == 1 and: { blob.x_pos.postln > 0.5 }) {
+		Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: blob.x_pos.postln])
+		.addNotifierOneShot(blob.watcher, \\blobsEnded, { | notification | 
+			notification.listener.release;
+		});
+	}
+},
+{ | blob | /* blob.set(\\freq, freqSpec.map(blob.y_pos)) */ },
+{ | blob |
+	if (blob.blobs.size == 0) { blob.watcher.changed(\\blobsEnded) }
+},
+port: 3001
+).enable;
+",  
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:-PlayBufWithSynthDef
+var b0 = 'a11wlk01-44_1'.b;
+Synth('playbuf', [buf: b0]);",  "//:-PlayBuffer
+var b0 = 'swallows'.b;
+{ | rate = 1 | PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1) };",  "//:Pings
+{ { 100 do: { Synth(\\ping, [out: 2.rand, freq: 400.rrand(4000), dur: 0.01.exprand(1)]); 0.01.exprand(1).wait } }.fork; } ! 5;",  "//:-01SineWithFreq
+{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  
+	"//:-02PwhiteDiatonic
+Pbind(\\degree, Pbrown(), \\dur, 0.1);",  "//:-00WhiteNoise
+Synth('ping');",  "//:-01SineWithoutFreqControl
+{ SinOsc.ar(400, 0, 0.1) }
+",  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:-01pvmagabovepshift
+var b0 = 'swallows10minL'.b;
+
+Synth('playbufmagabovepshift', [buf: b0, magabove: 5, pshift: 0.1]);",  "//:-01pvmagabove
+var b0 = 'swallows10minL'.b;
+
+Synth('playbufmagabove', [buf: b0, magabove: 10]);",  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:endlessRogerCormanmovie‬
+fork{
+  loop{
+    play{
+     Splay.ar(
+       {Klank.ar(`[99.rand*(1..9)],Crackle.ar(2,0.01))*LFGauss.ar(9,1/4,0,0,2)}!2
+     )
+    };
+    1.wait;
+  }
+}; // ‪#endlessRogerCormanmovie‬",  IdentityDictionary.prNew,  Array.prNew(32),  
+	IdentityDictionary.prNew,  Array.prNew(128),  "//:swallows10minL
+BufferItem(
+\"/Users/iani2/Music/sounds/111202rhythmanalysis/swallows10minL.aiff\"
+).loadIfNeeded",  "//:swallows
+BufferItem(
+\"/Users/iani2/Music/sounds/SoundSamplesJPH/swallows/swallows.wav\"
+).loadIfNeeded",  
+	IdentityDictionary.prNew,  Array.prNew(32),  "//:playbuf
+SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, gate = 1, amp = 1 |
+	var env, envgen;
+	env = Env.asr(attack, 1, release);
+	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
+	Out.ar(out, envgen * 
+		PlayBuf.ar(buf.numChannels, buf, rate * BufRateScale.kr(buf), 1, 
+		startPos * BufFrames.kr(buf),
+		loop, 
+		doneAction: 2)
+	)
+}).add;",  "//:playbufmagabovepshift
+SynthDef(\"playbufmagabovepshift\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, 
+	gate = 1, amp = 1, pshift = 1,
+	magabove = 0 |
+	var env, envgen, source, chain;
+	env = Env.asr(attack, 1, release);
+	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
+	source = envgen * 
+		PlayBuf.ar(buf.numChannels, buf, rate * BufRateScale.kr(buf), 1, 
+		startPos * BufFrames.kr(buf),
+		loop, 
+		doneAction: 2);
+	chain = FFT(LocalBuf(2048), source);
+	chain = PV_MagAbove(chain, magabove);
+	Out.ar(out, PitchShift.ar(IFFT(chain), 0.2, pshift, 0, 0.1));
+}).add;",  
+	"//:playbufmagabove
+SynthDef(\"playbufmagabove\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, 
+	gate = 1, amp = 1,
+	magabove = 0 |
+	var env, envgen, source, chain;
+	env = Env.asr(attack, 1, release);
+	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
+	source = envgen * 
+		PlayBuf.ar(buf.numChannels, buf, rate * BufRateScale.kr(buf), 1, 
+		startPos * BufFrames.kr(buf),
+		loop, 
+		doneAction: 2);
+	chain = FFT(LocalBuf(2048), source);
+	chain = PV_MagAbove(chain, magabove);
+	Out.ar(out, IFFT(chain));
+}).add;",  "//:playbufmagbelow
+SynthDef(\"playbufmagbelow\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, 
+	gate = 1, amp = 1,
+	magbelow = 10 |
+	var env, envgen, source, chain;
+	env = Env.asr(attack, 1, release);
+	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
+	source = envgen * 
+		PlayBuf.ar(buf.numChannels, buf, rate * BufRateScale.kr(buf), 1, 
+		startPos * BufFrames.kr(buf),
+		loop, 
+		doneAction: 2);
+	chain = FFT(LocalBuf(2048), source);
+	chain = PV_MagBelow(chain, magbelow);
+	Out.ar(out, IFFT(chain));
+}).add;",  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:BootDefaultServer
+Server.default.boot;
+",  IdentityDictionary.prNew,  Array.prNew(32),  "//:ping
+SynthDef(\"ping\", { | out = 0, freq = 400, dur = 0.5, amp = 0.1 |
+	Out.ar(out, 
+		SinOsc.ar(freq, 0, 
+			EnvGen.kr(Env.perc(releaseTime: dur - 0.01 max: 0.01, level: amp), doneAction: 2)
+		)
+	)
+}).add;"
+];
+p = [
+	// ScriptLib
+	0, [ lib: o[1],  soundFilePath: nil ],  
+	// MultiLevelIdentityDictionary
+	1, [ dictionary: o[2] ],  
+	// IdentityDictionary
+	2, [ array: o[3],  size: 3,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	3, [ nil,  nil,  '----Narcissus----',  o[4],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-SoundTests',  o[40],  nil,  nil,  
+		nil,  nil,  '---Config---',  o[58] ],  
+	// IdentityDictionary
+	4, [ array: o[5],  size: 5,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	5, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-04WebcamBlobRects',  o[6],  nil,  nil,  
+		nil,  nil,  '-01BlobTestsWebcam',  o[11],  
+		nil,  nil,  nil,  nil,  
+		'-02BlobTestsKinect',  o[27],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-03WebcamVaryingSounds',  o[30],  'z03BlobTestsWebcamRejected',  o[37] ],  
+	// IdentityDictionary
+	6, [ array: o[7],  size: 3,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	7, [ nil,  nil,  nil,  nil,  
+		'-001BlobRectSoundTest',  o[8],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-000BlobRectTest0',  o[9],  '-002BlobRectx2SoundTest',  o[10],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	11, [ array: o[12],  size: 14,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	12, [ nil,  nil,  nil,  nil,  
+		'-011OneBlobInRectRateXPos',  o[13],  '-007OneSoundProcessAtATimeOnly',  o[14],  
+		'-009OneBlobOnlyDependingOnX_posCorrect',  o[15],  '-008OneBlobOnlyDifferentStartingPoint',  o[16],  
+		nil,  nil,  nil,  nil,  
+		'-011OneBlobInRectRateXposContinuous',  o[17],  '-004BufferPlaybackEnv',  o[18],  
+		'-006EnvDifferentStartingPoint',  o[19],  '-003SimpleBufferPlayback',  o[20],  
+		nil,  nil,  '-005EnvSynth',  o[21],  
+		'-002MappingParameters',  o[22],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-010OneBlobInRect',  o[23],  
+		'-000TestBlobs_EMPTY',  o[24],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-001SimpleBlobSound1',  o[25],  
+		'---FreeAllBlobwatchers',  o[26],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	27, [ array: o[28],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	28, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'---FreeAllBlobwatchers',  o[29],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	30, [ array: o[31],  size: 5,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	31, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  '-000OneBlobInRect01010303RateXposCont',  o[32],  
+		nil,  nil,  nil,  nil,  
+		'-002SRect01010303RateXpCMagAboveYp',  o[33],  nil,  nil,  
+		nil,  nil,  '-003SRect07070303RateXpCMagAboveYp',  o[34],  
+		nil,  nil,  nil,  nil,  
+		'-001OneBlobInRect07070303RateXposCont',  o[35],  '-004SRect01010303LoRateXpCMagAboveYp0',  o[36],  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	37, [ array: o[38],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	38, [ nil,  nil,  '-009OneBlobOnlyDependingOnX_pos',  o[39],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	40, [ array: o[41],  size: 3,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	41, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  '-000BasicSoundLib',  o[42],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-001BufferDefs',  o[51],  '-FromScCode.org',  o[55],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	42, [ array: o[43],  size: 7,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	43, [ '-PlayBufWithSynthDef',  o[44],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-PlayBuffer',  o[45],  
+		nil,  nil,  'Pings',  o[46],  
+		'-01SineWithFreq',  o[47],  nil,  nil,  
+		'-02PwhiteDiatonic',  o[48],  'Ping',  o[49],  
+		nil,  nil,  '-01SineWithoutFreqControl',  o[50] ],  
+	// IdentityDictionary
+	51, [ array: o[52],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	52, [ nil,  nil,  '-01pvmagabovepshift',  o[53],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-01pvmagabove',  o[54],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	55, [ array: o[56],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	56, [ nil,  nil,  nil,  nil,  
+		'endlessRogerCormanmovie',  o[57],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	58, [ array: o[59],  size: 4,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	59, [ nil,  nil,  'Buffers-Autoload',  o[60],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'SynthDefs02-buffers',  o[64],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'ServerStuff',  o[70],  
+		nil,  nil,  nil,  nil,  
+		'SynthDefs01-simple',  o[73],  nil,  nil ],  
+	// IdentityDictionary
+	60, [ array: o[61],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	61, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'swallows10minL',  o[62],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'swallows',  o[63],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	64, [ array: o[65],  size: 4,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	65, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'playbuf',  o[66],  
+		'playbufmagabovepshift',  o[67],  nil,  nil,  
+		nil,  nil,  'playbufmagabove',  o[68],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'playbufmagbelow',  o[69],  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	70, [ array: o[71],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	71, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'BootDefaultServer',  o[72],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	73, [ array: o[74],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	74, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'ping',  o[75],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ]
+];
+prUnarchive(o,p);
