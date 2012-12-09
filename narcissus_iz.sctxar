@@ -2,7 +2,41 @@ var o, p;
 o = [
 	ScriptLib.prNew,  MultiLevelIdentityDictionary.prNew,  IdentityDictionary.prNew,  Array.prNew(32),  
 	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:-001BlobRectSoundTest
+	"//:-006BlobRectArrayChangeRects
+
+BlobRectArray(3001, 
+[	Rect(0.001, 0.001, 0.3, 0.3),
+	{ { WhiteNoise.ar(0.1) }.play; },
+	{},
+	{ | state | state.free }
+],
+[	Rect(0.6, 0.6, 0.3, 0.3),
+	{ { SinOsc.ar(1000, 0, 0.5) }.play; },
+	{},
+	{ | state | state.free }
+],
+).enable.fork({ | bra |
+	loop {
+	10 do: {
+		1.wait;
+		bra.blobRects do: { | br |
+			br.rect.width.postln;
+			br.rect.width = br.rect.width / 2;
+			[\"new width\", br.rect.width].postln;
+			br.rect.height = br.rect.height / 2;
+		};
+	};
+	10 do: {
+		1.wait;
+		bra.blobRects do: { | br |
+			br.rect.width.postln;
+			br.rect.width = br.rect.width * 2;
+			[\"new width\", br.rect.width].postln;
+			br.rect.height = br.rect.height * 2;
+		};
+	};
+	};
+});",  "//:-001BlobRectSoundTest
 BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), {
 	{ WhiteNoise.ar(0.1) }.play 
 }, {}, { | state |
@@ -10,13 +44,49 @@ BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), {
 }).enable;
 
 // BlobRects(3001);
-// Blobs(3001).enable;",  "//:-000BlobRectTest
+// Blobs(3001).enable;",  "//:-004BlobRect2xSampleTest
+var b0 = 'swallows10minL'.b;
+
+~brects = [] add: BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), { | xy |
+	Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: xy.x, rate: xy.x]);
+}, { | xy, brect |
+	brect.state.set(\\rate, xy.x);
+}, { | state |
+	state.free;
+}).enable;
+
+~brects = ~brects add: BlobRect(3001, Rect(0.5, 0.5, 0.3, 0.3), { | xy |
+	Synth('playbufmagabove', [buf: b0, attack: 1, release: 3, startPos: xy.x,
+		rate: xy.x + 0.7, magabove: xy.y * 15])},
+{ | xy, brect |
+	brect.state.set(\\rate, xy.x + 0.7, \\magabove, xy.y * 15);
+}, { | state |
+	state.free;
+}).enable;
+
+~stop = { ~brects do: { | br | br.postln; br.disable }; };
+
+",  "//:-005BlobRectArrayTest
+
+BlobRectArray(3001, 
+[	Rect(0.001, 0.001, 0.3, 0.3),
+	{ { WhiteNoise.ar(0.1) }.play; },
+	{},
+	{ | state | state.free }
+],
+[	Rect(0.6, 0.6, 0.3, 0.3),
+	{ { SinOsc.ar(1000, 0, 0.5) }.play; },
+	{},
+	{ | state | state.free }
+],
+).enable;",  
+	"//:-000BlobRectTest
 BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), { \"starting\".postln; }, {}, { \"stopping\".postln; }).enable;
 
 // BlobRects(3001);
 // Blobs(3001).enable;",  "//:-002BlobRectx2SoundTest
 
-~brects = ~brects add: BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), {
+~brects = [] add: BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), {
 	{ WhiteNoise.ar(0.1) }.play 
 }, {}, { | state |
 	state.free;
@@ -28,7 +98,19 @@ BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), { \"starting\".postln; }, {}, { \"sto
 	state.free;
 }).enable;
 
-~stop = { ~brects do: { | br | br.postln; br.disable }; };",  IdentityDictionary.prNew,  
+~stop = { ~brects do: { | br | br.postln; br.disable }; };",  "//:-003BlobRectSampleTest
+var b0 = 'swallows10minL'.b;
+
+BlobRect(3001, Rect(0.01, 0.01, 0.3, 0.3), { | xy |
+	Synth('playbuf', [buf: b0, attack: 1, release: 3, startPos: xy.x, rate: xy.x]);
+}, { | xy, brect |
+	brect.state.set(\\rate, xy.x);
+}, { | state |
+	state.free;
+}).enable;
+
+
+",  IdentityDictionary.prNew,  
 	Array.prNew(64),  "//:-011OneBlobInRectRateXPos
 var b0 = 'swallows10minL'.b;
 var synth, rect;
@@ -357,26 +439,47 @@ port: 3001
 ).enable;
 ",  
 	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:-PlayBufWithSynthDef
+	"//:000EVERYTHING_TOGETHER
+{ WhiteNoise.ar(0.1) }",  IdentityDictionary.prNew,  Array.prNew(64),  "//:alexandra_cardenas01_proxy_style
+/* by  alexandra cardenas */
+{a=Dust;b=TRand;Splay.ar(Blip.ar(b.kr(1,40,a.kr(2.5)),b.kr(1,150,a.kr(0.5))!3),1,b.kr(0,1,a.kr(2)),b.kr(-1,1,a.kr(0.7)))}",  
+	"//:tim_walters01_proxy_style
+/* by  tim walters */
+{HPF.ar(GVerb.ar(({|k|({|i|y=SinOsc;y.ar(i,y.ar(i+k**i)/Decay.kr(Impulse.kr(0.5**i/k),[1,2]+i,k))}!6).sum}!16).sum,1,1)/180,40)}",  "//:tim_walters01_proxy_style_with_parameters [impulse_rate: 0.1, 10]
+/* by  tim walters */
+{ | impulse_rate = 0.5 |
+	HPF.ar(GVerb.ar(({|k|({|i|y=SinOsc;y.ar(i,y.ar(i+k**i)/Decay.kr(Impulse.kr(impulse_rate**i/k),[1,2]+i,k))}!6).sum}!16).sum,1,1)/180,40)
+}",  "//:tim_walters01
+/* by  dan stowell */
+{ Klank.ar(`[(33,44..77).midicps,nil,0.1], SinOsc.ar(LFSaw.kr(1/60).exprange(0.01, 200)).exprange(100,1000)).dup/9 };
+",  "//:alexandra_cardenas02_proxy_style
+/* by  alexandra cardenas */
+{d=Dust;r=TRand.kr(1,2,d.kr(1));z=TRand.kr(1,2,d.kr(2));l=LFClipNoise;Crackle.ar([z,r], 0.6)+SinOsc.ar([l.ar(r,60,90),l.ar(z,40,100)])}
+",  
+	"//:jonatan_liljedahl01_proxy_style
+/* by  jonatan liljedahl */
+{ | quotient = 1, triquot = 0.4 | x=0; (100..110).do{|f|f=f/ (2.5 * quotient) ;x=SinOsc.ar(f+[0,1],x*LFTri.kr(triquot,2).range(1.2,1.6))};x}
+",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:-PlayBufWithSynthDef
 var b0 = 'a11wlk01-44_1'.b;
 Synth('playbuf', [buf: b0]);",  "//:-PlayBuffer
 var b0 = 'swallows'.b;
 { | rate = 1 | PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1) };",  "//:Pings
-{ { 100 do: { Synth(\\ping, [out: 2.rand, freq: 400.rrand(4000), dur: 0.01.exprand(1)]); 0.01.exprand(1).wait } }.fork; } ! 5;",  "//:-01SineWithFreq
-{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  
-	"//:-02PwhiteDiatonic
+{ { 100 do: { Synth(\\ping, [out: 2.rand, freq: 400.rrand(4000), dur: 0.01.exprand(1)]); 0.01.exprand(1).wait } }.fork; } ! 5;",  
+	"//:-01SineWithFreq
+{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  "//:-02PwhiteDiatonic
 Pbind(\\degree, Pbrown(), \\dur, 0.1);",  "//:-00WhiteNoise
 Synth('ping');",  "//:-01SineWithoutFreqControl
 { SinOsc.ar(400, 0, 0.1) }
-",  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:-01pvmagabovepshift
+",  
+	IdentityDictionary.prNew,  Array.prNew(32),  "//:-01pvmagabovepshift
 var b0 = 'swallows10minL'.b;
 
 Synth('playbufmagabovepshift', [buf: b0, magabove: 5, pshift: 0.1]);",  "//:-01pvmagabove
 var b0 = 'swallows10minL'.b;
 
-Synth('playbufmagabove', [buf: b0, magabove: 10]);",  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:endlessRogerCormanmovie‬
+Synth('playbufmagabove', [buf: b0, magabove: 10]);",  
+	IdentityDictionary.prNew,  Array.prNew(32),  "//:endlessRogerCormanmovie‬
 fork{
   loop{
     play{
@@ -386,15 +489,15 @@ fork{
     };
     1.wait;
   }
-}; // ‪#endlessRogerCormanmovie‬",  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(128),  "//:swallows10minL
+}; // ‪#endlessRogerCormanmovie‬",  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(128),  "//:swallows10minL
 BufferItem(
 \"/Users/iani2/Music/sounds/111202rhythmanalysis/swallows10minL.aiff\"
-).loadIfNeeded",  "//:swallows
+).loadIfNeeded",  
+	"//:swallows
 BufferItem(
 \"/Users/iani2/Music/sounds/SoundSamplesJPH/swallows/swallows.wav\"
-).loadIfNeeded",  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:playbuf
+).loadIfNeeded",  IdentityDictionary.prNew,  Array.prNew(32),  "//:playbuf
 SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, gate = 1, amp = 1 |
 	var env, envgen;
 	env = Env.asr(attack, 1, release);
@@ -405,7 +508,8 @@ SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, at
 		loop, 
 		doneAction: 2)
 	)
-}).add;",  "//:playbufmagabovepshift
+}).add;",  
+	"//:playbufmagabovepshift
 SynthDef(\"playbufmagabovepshift\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, 
 	gate = 1, amp = 1, pshift = 1,
 	magabove = 0 |
@@ -420,8 +524,7 @@ SynthDef(\"playbufmagabovepshift\", { | out = 0, buf = 0, rate = 1, startPos = 0
 	chain = FFT(LocalBuf(2048), source);
 	chain = PV_MagAbove(chain, magabove);
 	Out.ar(out, PitchShift.ar(IFFT(chain), 0.2, pshift, 0, 0.1));
-}).add;",  
-	"//:playbufmagabove
+}).add;",  "//:playbufmagabove
 SynthDef(\"playbufmagabove\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, 
 	gate = 1, amp = 1,
 	magabove = 0 |
@@ -451,10 +554,11 @@ SynthDef(\"playbufmagbelow\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop
 	chain = FFT(LocalBuf(2048), source);
 	chain = PV_MagBelow(chain, magbelow);
 	Out.ar(out, IFFT(chain));
-}).add;",  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:BootDefaultServer
+}).add;",  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:BootDefaultServer
 Server.default.boot;
-",  IdentityDictionary.prNew,  Array.prNew(32),  "//:ping
+",  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:ping
 SynthDef(\"ping\", { | out = 0, freq = 400, dur = 0.5, amp = 0.1 |
 	Out.ar(out, 
 		SinOsc.ar(freq, 0, 
@@ -469,7 +573,7 @@ p = [
 	// MultiLevelIdentityDictionary
 	1, [ dictionary: o[2] ],  
 	// IdentityDictionary
-	2, [ array: o[3],  size: 3,  
+	2, [ array: o[3],  size: 4,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
@@ -477,10 +581,10 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
+		'SoundCollections',  o[44],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-SoundTests',  o[40],  nil,  nil,  
-		nil,  nil,  '---Config---',  o[58] ],  
+		'-SoundTests',  o[57],  nil,  nil,  
+		nil,  nil,  '---Config---',  o[75] ],  
 	// IdentityDictionary
 	4, [ array: o[5],  size: 5,  
 		proto: nil,  parent: nil,  
@@ -489,179 +593,77 @@ p = [
 	5, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		'-04WebcamBlobRects',  o[6],  nil,  nil,  
-		nil,  nil,  '-01BlobTestsWebcam',  o[11],  
+		nil,  nil,  '-01BlobTestsWebcam',  o[15],  
 		nil,  nil,  nil,  nil,  
-		'-02BlobTestsKinect',  o[27],  nil,  nil,  
+		'-02BlobTestsKinect',  o[31],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'-03WebcamVaryingSounds',  o[30],  'z03BlobTestsWebcamRejected',  o[37] ],  
+		'-03WebcamVaryingSounds',  o[34],  'z03BlobTestsWebcamRejected',  o[41] ],  
 	// IdentityDictionary
-	6, [ array: o[7],  size: 3,  
+	6, [ array: o[7],  size: 7,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	7, [ nil,  nil,  nil,  nil,  
-		'-001BlobRectSoundTest',  o[8],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-000BlobRectTest0',  o[9],  '-002BlobRectx2SoundTest',  o[10],  
-		nil,  nil,  nil,  nil,  
+	7, [ '-006BlobRectArrayChangeRects',  o[8],  nil,  nil,  
+		'-001BlobRectSoundTest',  o[9],  nil,  nil,  
+		'-004BlobRect2xSampleTest',  o[10],  '-005BlobRectArrayTest',  o[11],  
+		'-000BlobRectTest0',  o[12],  '-002BlobRectx2SoundTest',  o[13],  
+		nil,  nil,  '-003BlobRectSampleTest',  o[14],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	11, [ array: o[12],  size: 14,  
+	15, [ array: o[16],  size: 14,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	12, [ nil,  nil,  nil,  nil,  
-		'-011OneBlobInRectRateXPos',  o[13],  '-007OneSoundProcessAtATimeOnly',  o[14],  
-		'-009OneBlobOnlyDependingOnX_posCorrect',  o[15],  '-008OneBlobOnlyDifferentStartingPoint',  o[16],  
+	16, [ nil,  nil,  nil,  nil,  
+		'-011OneBlobInRectRateXPos',  o[17],  '-007OneSoundProcessAtATimeOnly',  o[18],  
+		'-009OneBlobOnlyDependingOnX_posCorrect',  o[19],  '-008OneBlobOnlyDifferentStartingPoint',  o[20],  
 		nil,  nil,  nil,  nil,  
-		'-011OneBlobInRectRateXposContinuous',  o[17],  '-004BufferPlaybackEnv',  o[18],  
-		'-006EnvDifferentStartingPoint',  o[19],  '-003SimpleBufferPlayback',  o[20],  
-		nil,  nil,  '-005EnvSynth',  o[21],  
-		'-002MappingParameters',  o[22],  nil,  nil,  
+		'-011OneBlobInRectRateXposContinuous',  o[21],  '-004BufferPlaybackEnv',  o[22],  
+		'-006EnvDifferentStartingPoint',  o[23],  '-003SimpleBufferPlayback',  o[24],  
+		nil,  nil,  '-005EnvSynth',  o[25],  
+		'-002MappingParameters',  o[26],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-010OneBlobInRect',  o[23],  
-		'-000TestBlobs_EMPTY',  o[24],  nil,  nil,  
+		nil,  nil,  '-010OneBlobInRect',  o[27],  
+		'-000TestBlobs_EMPTY',  o[28],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-001SimpleBlobSound1',  o[25],  
-		'---FreeAllBlobwatchers',  o[26],  nil,  nil,  
+		nil,  nil,  '-001SimpleBlobSound1',  o[29],  
+		'---FreeAllBlobwatchers',  o[30],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	27, [ array: o[28],  size: 1,  
+	31, [ array: o[32],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	28, [ nil,  nil,  nil,  nil,  
+	32, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'---FreeAllBlobwatchers',  o[29],  nil,  nil,  
+		'---FreeAllBlobwatchers',  o[33],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	30, [ array: o[31],  size: 5,  
+	34, [ array: o[35],  size: 5,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	31, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  '-000OneBlobInRect01010303RateXposCont',  o[32],  
+	35, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  '-000OneBlobInRect01010303RateXposCont',  o[36],  
 		nil,  nil,  nil,  nil,  
-		'-002SRect01010303RateXpCMagAboveYp',  o[33],  nil,  nil,  
-		nil,  nil,  '-003SRect07070303RateXpCMagAboveYp',  o[34],  
+		'-002SRect01010303RateXpCMagAboveYp',  o[37],  nil,  nil,  
+		nil,  nil,  '-003SRect07070303RateXpCMagAboveYp',  o[38],  
 		nil,  nil,  nil,  nil,  
-		'-001OneBlobInRect07070303RateXposCont',  o[35],  '-004SRect01010303LoRateXpCMagAboveYp0',  o[36],  
+		'-001OneBlobInRect07070303RateXposCont',  o[39],  '-004SRect01010303LoRateXpCMagAboveYp0',  o[40],  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	37, [ array: o[38],  size: 1,  
+	41, [ array: o[42],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	38, [ nil,  nil,  '-009OneBlobOnlyDependingOnX_pos',  o[39],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	40, [ array: o[41],  size: 3,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	41, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  '-000BasicSoundLib',  o[42],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-001BufferDefs',  o[51],  '-FromScCode.org',  o[55],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	42, [ array: o[43],  size: 7,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	43, [ '-PlayBufWithSynthDef',  o[44],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-PlayBuffer',  o[45],  
-		nil,  nil,  'Pings',  o[46],  
-		'-01SineWithFreq',  o[47],  nil,  nil,  
-		'-02PwhiteDiatonic',  o[48],  'Ping',  o[49],  
-		nil,  nil,  '-01SineWithoutFreqControl',  o[50] ],  
-	// IdentityDictionary
-	51, [ array: o[52],  size: 2,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	52, [ nil,  nil,  '-01pvmagabovepshift',  o[53],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-01pvmagabove',  o[54],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	55, [ array: o[56],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	56, [ nil,  nil,  nil,  nil,  
-		'endlessRogerCormanmovie',  o[57],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	58, [ array: o[59],  size: 4,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	59, [ nil,  nil,  'Buffers-Autoload',  o[60],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'SynthDefs02-buffers',  o[64],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'ServerStuff',  o[70],  
-		nil,  nil,  nil,  nil,  
-		'SynthDefs01-simple',  o[73],  nil,  nil ],  
-	// IdentityDictionary
-	60, [ array: o[61],  size: 2,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	61, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'swallows10minL',  o[62],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'swallows',  o[63],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+	42, [ nil,  nil,  '-009OneBlobOnlyDependingOnX_pos',  o[43],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -670,42 +672,191 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	64, [ array: o[65],  size: 4,  
+	44, [ array: o[45],  size: 2,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	65, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'playbuf',  o[66],  
-		'playbufmagabovepshift',  o[67],  nil,  nil,  
-		nil,  nil,  'playbufmagabove',  o[68],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'playbufmagbelow',  o[69],  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	70, [ array: o[71],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	71, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'BootDefaultServer',  o[72],  
+	45, [ nil,  nil,  'SC140List+StealThisSound',  o[46],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
+		nil,  nil,  'SC140-Andre_Bartetzki',  o[49],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	73, [ array: o[74],  size: 1,  
+	46, [ array: o[47],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	74, [ nil,  nil,  nil,  nil,  
+	47, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'ping',  o[75],  nil,  nil,  
+		nil,  nil,  '000EVERYTHING_TOGETHER',  o[48],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	49, [ array: o[50],  size: 6,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	50, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'alexandra_cardenas01_proxy_style',  o[51],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'tim_walters01_proxy_style',  o[52],  'tim_walters01_proxy_style_with_parameters',  o[53],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'dan_stowell_01_proxy_style',  o[54],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'alexandra_cardenas02_proxy_style',  o[55],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'jonatan_liljedahl01_proxy_style',  o[56] ],  
+	// IdentityDictionary
+	57, [ array: o[58],  size: 3,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	58, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  '-000BasicSoundLib',  o[59],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-001BufferDefs',  o[68],  '-FromScCode.org',  o[72],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	59, [ array: o[60],  size: 7,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	60, [ '-PlayBufWithSynthDef',  o[61],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-PlayBuffer',  o[62],  
+		nil,  nil,  'Pings',  o[63],  
+		'-01SineWithFreq',  o[64],  nil,  nil,  
+		'-02PwhiteDiatonic',  o[65],  'Ping',  o[66],  
+		nil,  nil,  '-01SineWithoutFreqControl',  o[67] ],  
+	// IdentityDictionary
+	68, [ array: o[69],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	69, [ nil,  nil,  '-01pvmagabovepshift',  o[70],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-01pvmagabove',  o[71],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	72, [ array: o[73],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	73, [ nil,  nil,  nil,  nil,  
+		'endlessRogerCormanmovie',  o[74],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	75, [ array: o[76],  size: 4,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	76, [ nil,  nil,  'Buffers-Autoload',  o[77],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'SynthDefs02-buffers',  o[81],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'ServerStuff',  o[87],  
+		nil,  nil,  nil,  nil,  
+		'SynthDefs01-simple',  o[90],  nil,  nil ],  
+	// IdentityDictionary
+	77, [ array: o[78],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	78, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'swallows10minL',  o[79],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'swallows',  o[80],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	81, [ array: o[82],  size: 4,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	82, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'playbuf',  o[83],  
+		'playbufmagabovepshift',  o[84],  nil,  nil,  
+		nil,  nil,  'playbufmagabove',  o[85],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'playbufmagbelow',  o[86],  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	87, [ array: o[88],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	88, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'BootDefaultServer',  o[89],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	90, [ array: o[91],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	91, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'ping',  o[92],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ]
 ];

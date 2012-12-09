@@ -1,0 +1,285 @@
+var o, p;
+o = [
+	ScriptLib.prNew,  MultiLevelIdentityDictionary.prNew,  IdentityDictionary.prNew,  Array.prNew(32),  
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:-sustaintest
+Pbind(\\sustain, 0.05, \\amp, 1, \\dur, Pn(Pgeom(0.1, 1.1, 20), inf)).play;
+",  "//:-playbuf
+var b0 = 'SmokyJungleFrog'.b;
+{ | rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, gate = 1, amp = 1 |
+	var env, envgen;
+	env = Env.asr(attack, 1, release);
+	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
+	envgen * 
+		PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), 1, 
+		startPos * BufFrames.kr(b0),
+		loop, 
+		doneAction: 2);
+};",  "//:-pbind
+var b0 = 'SmokyJungleFrog'.b;
+// Synth('playbuf', [\\buf, b0]);
+Pbind(\\instrument, \\playbuf, \\buf, b0, \\amp, 1, \\startPos, 0.5);
+",  IdentityDictionary.prNew,  
+	Array.prNew(64),  "//:-002LowOneWoodFrog
+var b0 = 'WoodFrog'.b, b1 = 'MorthernLeopardFrog'.b, b2 = 'CopesGrayTreefrog'.b, b3 = 'CricketFrog'.b, b4 = 'EasternGreyTreefrog'.b, b5 = 'GreenFrog'.b, b6 = 'MinkFrog'.b, b7 = 'MorthernLeopardFrog'.b;
+Pbind(\\instrument, \\playbuf, 
+	\\buf, b0, 
+	\\amp, 1, 
+	\\startPos, Pn(Pseries(0, 0.01, 100), inf),
+	\\rate, Pn(Pseq([Pseries(0.1, 0.01, 100), Pseries(0.1, 0.01, 100)], inf) + Pwhite(0.05, 0.07, inf),
+);
+",  "//:-00cHocketus4MovingStartPosRate
+var b0 = 'SmokyJungleFrog'.b, b1 = 'AmericanBullFrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, Pseq([b0, b1], inf), \\amp, 1, 
+	\\startPos, Pn(Pseries(0.01, 0.01, 100), inf),
+	\\rate, Pseq([0.2, 0.5, 0.9, 1.1, 1.5, 0.4, 1.4], inf)
+);
+",  "//:-00bHocketus2MovingStartPos
+var b0 = 'SmokyJungleFrog'.b, b1 = 'AmericanBullFrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, Pseq([b0, b1], inf), \\amp, 1, \\startPos, Pn(Pseries(0.01, 0.01, 100), inf));
+",  
+	"//:-00aSafeStart
+var b0 = 'SmokyJungleFrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, b0, \\amp, 1, \\startPos, 0.5);
+",  "//:-00dHocketus4MovingStartPosRateDurPlay
+var b0 = 'SmokyJungleFrog'.b, b1 = 'CopesGrayTreefrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, Pseq([b0, b1, [b0, b1]], inf), \\amp, 1, 
+	\\startPos, Pn(Pseries(0.01, 0.01, 100), inf),
+	\\rate, Pseq([0.5, 1, 2], inf),
+	\\dur, Pseq([Pn(0.1, 50), Pn(0.01, 50), Pn(2, 5)], inf)
+);
+",  "//:-001LowOneSmokyJungleFrog
+var b0 = 'SmokyJungleFrog'.b, b1 = 'MorthernLeopardFrog'.b, b2 = 'CopesGrayTreefrog'.b, b3 = 'CricketFrog'.b, b4 = 'EasternGreyTreefrog'.b, b5 = 'GreenFrog'.b, b6 = 'MinkFrog'.b, b7 = 'MorthernLeopardFrog'.b;
+Pbind(\\instrument, \\playbuf, 
+	\\buf, b0, 
+	\\amp, 1, 
+	\\startPos, Pn(Pseries(0, 0.01, 100), inf),
+	\\rate, Pseq([Pseries(0.1, 0.01, 100), Pseries(0.1, 0.01, 100)], inf) + Pwhite(0.05, 0.07, inf),
+);
+",  "//:-01movingOn
+var b0 = 'SmokyJungleFrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, b0, \\amp, 1, \\startPos, Pn(Pseries(), inf);
+",  
+	"//:-00bHocketus1
+var b0 = 'SmokyJungleFrog'.b, b1 = 'AmericanBullFrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, Pseq([b0, b1], inf), \\amp, 1);
+",  "//:-00fHocketus4MovingStartPosGlissRate2DurPlay
+var b0 = 'SmokyJungleFrog'.b, b1 = 'CopesGrayTreefrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, Pseq([b0, b1, [b0, b1]], inf), \\amp, 1, 
+	\\startPos, Pn(Pseries(0.01, 0.01, 100), inf),
+	\\rate, Pseq([Pseries(0.1, 0.1, 20), Pseries(2.1, -0.1, 20)], inf),
+	\\dur, Pseq([Pn(0.1, 50), Pn(0.01, 50), Pn(2, 5)], inf)
+);
+",  "//:-00gLikeAboveOtherFrogs
+var b0 = 'EasternGreyTreefrog'.b, b1 = 'MorthernLeopardFrog'.b, b2 = 'CopesGrayTreefrog'.b, b3 = 'CricketFrog'.b, b4 = 'EasternGreyTreefrog'.b, b5 = 'GreenFrog'.b, b6 = 'MinkFrog'.b, b7 = 'MorthernLeopardFrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, Pseq([b0, b1, [b0, b1], b2, b3, b4, b5, b6, b7], inf), \\amp, 1, 
+	\\startPos, Pn(Pseries(0.01, 0.01, 100), inf),
+	\\rate, Pseq([Pseries(0.1, 0.1, 20), Pseries(2.1, -0.1, 20)], inf),
+	\\dur, Pseq([Pn(0.1, 50), Pn(0.01, 50), Pn(2, 10)], inf)
+);
+",  "//:-003LowOneMany
+var b0 = 'WoodFrog'.b, b1 = 'MorthernLeopardFrog'.b, b2 = 'CopesGrayTreefrog'.b, b3 = 'CricketFrog'.b, b4 = 'EasternGreyTreefrog'.b, b5 = 'GreenFrog'.b, b6 = 'MinkFrog'.b, b7 = 'MorthernLeopardFrog'.b;
+Pbind(\\instrument, \\playbuf, 
+	\\buf, b0, 
+	\\amp, 1,
+	\\buf, Prand([b0, b1, b2, b3, b4, b5, b6, b7], inf),
+	\\startPos, Pn(Pseries(0, 0.01, 100), inf),
+	\\rate, Pseq([Pseries(0.1, 0.01, 100), Pseries(0.1, 0.01, 100)], inf) + Pwhite(0.05, 0.07, inf),
+);
+",  
+	"//:-00eHocketus4MovingStartPosGlissRateDurPlay
+var b0 = 'SmokyJungleFrog'.b, b1 = 'CopesGrayTreefrog'.b;
+Pbind(\\instrument, \\playbuf, \\buf, Pseq([b0, b1, [b0, b1]], inf), \\amp, 1, 
+	\\startPos, Pn(Pseries(0.01, 0.01, 100), inf),
+	\\rate, Pn(Pseries(0.1, 0.1, 20), inf),
+	\\dur, Pseq([Pn(0.1, 50), Pn(0.01, 50), Pn(2, 5)], inf)
+);
+",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:0016Channels
+Server.default.options.numOutputBusChannels = 16;",  IdentityDictionary.prNew,  Array.prNew(64),  
+	"//:CopesGrayTreefrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/CopesGrayTreefrog.wav\"
+).loadIfNeeded",  "//:NorthernSpringPeeper
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/NorthernSpringPeeper.wav\"
+).loadIfNeeded",  "//:EasternAmericanFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/EasternAmericanFrog.wav\"
+).loadIfNeeded",  "//:SmokyJungleFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/SmokyJungleFrog.wav\"
+).loadIfNeeded",  
+	"//:WoodFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/WoodFrog.wav\"
+).loadIfNeeded",  "//:EasternGreyTreefrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/EasternGreyTreefrog.wav\"
+).loadIfNeeded",  "//:MinkFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/MinkFrog.wav\"
+).loadIfNeeded",  "//:CricketFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/CricketFrog.wav\"
+).loadIfNeeded",  
+	"//:GreenFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/GreenFrog.wav\"
+).loadIfNeeded",  "//:MorthernLeopardFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/MorthernLeopardFrog.wav\"
+).loadIfNeeded",  "//:WesternChorusFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/WesternChorusFrog.wav\"
+).loadIfNeeded",  "//:AmericanBullFrog
+BufferItem(
+\"/Users/iani2/Dropbox/Persons+Projects/JPH2/SoundSamples/frogs/AmericanBullFrog.wav\"
+).loadIfNeeded",  
+	IdentityDictionary.prNew,  Array.prNew(32),  "//:playbuf
+SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, gate = 1, amp = 1,
+	pos = 0, width = 2 |
+	var env, envgen;
+	env = Env.asr(attack, 1, release);
+	envgen = EnvGen.kr(env, gate, amp, doneAction: 2);
+	Out.ar(out, envgen * 
+		PanAz.ar(8, 
+			PlayBuf.ar(buf.numChannels, buf, rate * BufRateScale.kr(buf), 1, 
+			startPos * BufFrames.kr(buf),
+			loop, 
+			doneAction: 2)
+		),
+		pos, 1, width
+	)
+}).add;
+",  Array.prNew(2)
+];
+p = [
+	// ScriptLib
+	0, [ lib: o[1],  soundFilePath: o[47] ],  
+	// MultiLevelIdentityDictionary
+	1, [ dictionary: o[2] ],  
+	// IdentityDictionary
+	2, [ array: o[3],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	3, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  '-TheShow',  o[4],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '---Config---',  o[25] ],  
+	// IdentityDictionary
+	4, [ array: o[5],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	5, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-Tests',  o[6],  
+		nil,  nil,  nil,  nil,  
+		'-0TheShow',  o[11],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	6, [ array: o[7],  size: 3,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	7, [ nil,  nil,  nil,  nil,  
+		'-sustaintest',  o[8],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-playbuf',  o[9],  
+		'-pbind',  o[10],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	11, [ array: o[12],  size: 12,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	12, [ '-002LowOneWoodFrog',  o[13],  nil,  nil,  
+		nil,  nil,  '-00cHocketus4MovingStartPosRate',  o[14],  
+		'-00bHocketus2MovingStartPos',  o[15],  nil,  nil,  
+		'-00aSafeStart',  o[16],  nil,  nil,  
+		'-00dHocketus4MovingStartPosRateDurPlay',  o[17],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-001LowOneSmokyJungleFrog',  o[18],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-01movingOn',  o[19],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-00bHocketus1',  o[20],  nil,  nil,  
+		'-00fHocketus4MovingStartPosGlissRate2DurPlay',  o[21],  nil,  nil,  
+		nil,  nil,  '-00gLikeAboveOtherFrogs',  o[22],  
+		'-003LowOneMany',  o[23],  '-00eHocketus4MovingStartPosGlissRateDurPlay',  o[24] ],  
+	// IdentityDictionary
+	25, [ array: o[26],  size: 3,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	26, [ '00ServerChannelSetup',  o[27],  'Buffers-Autoload',  o[30],  
+		nil,  nil,  nil,  nil,  
+		'SynthDefs',  o[44],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	27, [ array: o[28],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	28, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'0016Channels',  o[29],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	30, [ array: o[31],  size: 12,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	31, [ nil,  nil,  'CopesGrayTreefrog',  o[32],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'NorthernSpringPeeper',  o[33],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'EasternAmericanFrog',  o[34],  nil,  nil,  
+		'SmokyJungleFrog',  o[35],  nil,  nil,  
+		'WoodFrog',  o[36],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'EasternGreyTreefrog',  o[37],  'MinkFrog',  o[38],  
+		nil,  nil,  'CricketFrog',  o[39],  
+		'GreenFrog',  o[40],  'MorthernLeopardFrog',  o[41],  
+		'WesternChorusFrog',  o[42],  nil,  nil,  
+		'AmericanBullFrog',  o[43],  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	44, [ array: o[45],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	45, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'playbuf',  o[46],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// Array
+	47, [ 'SoundFiles',  o[0] ]
+];
+prUnarchive(o,p);

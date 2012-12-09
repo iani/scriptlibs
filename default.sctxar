@@ -1,8 +1,10 @@
 var o, p;
 o = [
 	ScriptLib.prNew,  MultiLevelIdentityDictionary.prNew,  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(64),  
-	"//:-004BufferPlaybackEnv
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:ParseSpecs
+{ WhiteNoise.ar(0.1) }",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(64),  "//:-004BufferPlaybackEnv
 var b0 = 'swallows10minL'.b;
 
 ~simpleBlob = BlobWatcher(
@@ -47,7 +49,8 @@ var b0 = 'swallows10minL'.b;
 { | blob | blob.free },
 port: 3001
 ).enable;
-",  "//:-007OneBlobOnlyDifferentStartingPoint
+",  
+	"//:-007OneBlobOnlyDifferentStartingPoint
 var b0 = 'swallows10minL'.b;
 
 ~simpleBlob = BlobWatcher(
@@ -64,8 +67,7 @@ var b0 = 'swallows10minL'.b;
 },
 port: 3001
 ).enable;
-",  
-	"//:-005EnvSynth
+",  "//:-005EnvSynth
 var b0 = 'swallows10minL'.b;
 
 BlobWatcher(
@@ -108,7 +110,8 @@ var b0 = 'swallows10minL'.b;
 },
 port: 3001
 ).enable;
-",  "//:-006EnvDifferentStartingPoint
+",  
+	"//:-006EnvDifferentStartingPoint
 var b0 = 'swallows10minL'.b;
 
 BlobWatcher(
@@ -119,8 +122,7 @@ BlobWatcher(
 { | blob | blob.state.release },
 port: 3001
 ).enable;
-",  
-	"//:-000TestBlobs_EMPTY
+",  "//:-000TestBlobs_EMPTY
 
 ~simpleBlob = BlobWatcher(
 { | blob |
@@ -143,21 +145,21 @@ port: 3001
 ).enable;
 ",  "//:---FreeAllBlobwatchers
 Blobs(3001).free; // webcam
-Blobs(3333).free; // kinect",  IdentityDictionary.prNew,  
-	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  "//:-PlayBufWithSynthDef
+Blobs(3333).free; // kinect",  
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:-PlayBufWithSynthDef
 var b0 = 'a11wlk01-44_1'.b;
-Synth('playbuf', [buf: b0]);",  
-	"//:-PlayBuffer
+Synth('playbuf', [buf: b0]);",  "//:-PlayBuffer
 var b0 = 'swallows'.b;
 { | rate = 1 | PlayBuf.ar(b0.numChannels, b0, rate * BufRateScale.kr(b0), loop: 1) };",  "//:Pings
 { { 100 do: { Synth(\\ping, [out: 2.rand, freq: 400.rrand(4000), dur: 0.01.exprand(1)]); 0.01.exprand(1).wait } }.fork; } ! 5;",  "//:-01SineWithFreq
-{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  "//:-02PwhiteDiatonic
-Pbind(\\degree, Pbrown(), \\dur, 0.1);",  
-	"//:-00WhiteNoise
+{ | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  
+	"//:-02PwhiteDiatonic
+Pbind(\\degree, Pbrown(), \\dur, 0.1);",  "//:-00WhiteNoise
 Synth('ping');",  "//:-01SineWithoutFreqControl
 { SinOsc.ar(400, 0, 0.1) }
-",  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:endlessRogerCormanmovie‬
+",  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:endlessRogerCormanmovie‬
 var b6 = 'ChippingSparrow'.b, b7 = 'BarredOwl'.b;
 fork{
   loop{
@@ -168,8 +170,8 @@ fork{
     };
     1.wait;
   }
-}; // ‪#endlessRogerCormanmovie‬",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:-000NewProxyList
+}; // ‪#endlessRogerCormanmovie‬",  IdentityDictionary.prNew,  Array.prNew(32),  
+	IdentityDictionary.prNew,  Array.prNew(32),  "//:-000NewProxyList
 AppModel().window({ | w, a |
 	w.layout = VLayout(
 		a.listView('proxies').proxyWatcher(
@@ -240,7 +242,8 @@ AppModel().window({ | w, a |
 	)
 })
 
-",  "//:-001ProxyControls (+ Tabbed View)
+",  
+	"//:-001ProxyControls (+ Tabbed View)
 
 AppModel().window({ | w, a |
 	var font, stripWidth = 82, numStrips = 8, winWidth, mWidth = 75, nWidth = 50;
@@ -280,24 +283,23 @@ AppModel().window({ | w, a |
 	}
 })
 
-",  
-	"//:-000TestSound2freq
+",  "//:-000TestSound2freq
 { | freq = 400 | SinOsc.ar(freq, 0, 0.1) }",  "//:-000TestSound
 var b0 = 'a11wlk01'.b;
 { PlayBuf.ar(1, b0, loop: 1) };",  "//:-003Scopes
 Server.default.scope;
-Server.default.freqscope;",  IdentityDictionary.prNew,  
-	Array.prNew(32),  "//:00BufferConfig
+Server.default.freqscope;",  
+	IdentityDictionary.prNew,  Array.prNew(32),  "//:00BufferConfig
 AppModel().stickyWindow(\\test, \\buffers, { | w, app |
 
 
-})",  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:EvalSnippet
+})",  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:EvalSnippet
 ScriptLib.current.snippetValue(['---Config---', 'Buffers', 'EasternAmericanFrog']);",  "//:ScriptTest
 ~loop = { loop { 1.wait; \"asdf\".postln; } }.fork;
 
-~stop = { loop.postln };",  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:-01Analyse1File
+~stop = { loop.postln };",  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  "//:-01Analyse1File
 /* Should not use this as tmp is just fine. Analysis file is removed by SCMIR upon end.
 SCMIR.setTempDir(\"/Users/iani2/Desktop/000SCMIRTMP/\");
 */
@@ -312,15 +314,15 @@ e = SCMIRAudioFile(Platform.resourceDir +/+ \"sounds/a11wlk01.wav\", [[MFCC, 13]
 {e.extractFeatures()}.fork(AppClock);
 
 
-",  "//:-02DoThisAfter01ToSeeData
+",  
+	"//:-02DoThisAfter01ToSeeData
 
 ~smaf = Library.at('SCMIR_LatestAnalysis');
 // ~smaf.inspect;
 ~smaf.featuredata.postln;
 ~smaf.featuredata.size.postln;
 
-",  
-	"//:-OnsetTries
+",  "//:-OnsetTries
 e = SCMIRAudioFile(Platform.resourceDir +/+ \"sounds/a11wlk01.wav\", [[MFCC, 13], [Chromagram, 12]]);
 \\test.addNotifier(e, \\extractionDone, { | smaf |
 	smaf.featureinfo.postln;
@@ -353,7 +355,8 @@ e = SCMIRAudioFile(Platform.resourceDir +/+ \"sounds/a11wlk01.wav\", [[\\Loudnes
 //:
 
 {e.extractFeatures()}.fork(AppClock);
-",  IdentityDictionary.prNew,  Array.prNew(32),  "//:-00BasicIdea-UsingScriptLibForData
+",  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:-00BasicIdea-UsingScriptLibForData
 
 // Getting all buffers in this ScriptLib's config: 
 ~scriptLib.buffers.keys.asArray.collect(BufferItem.named(_)).postln;
@@ -387,10 +390,9 @@ Folder: Features
 3. Synthesis experiments to be collected in folder \"Synthesis\"
 
 */
-",  
-	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(128),  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:playbuf
+",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(128),  IdentityDictionary.prNew,  
+	Array.prNew(32),  "//:playbuf
 SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, attack = 0.01, release = 1, gate = 1, amp = 1 |
 	var env, envgen;
 	env = Env.asr(attack, 1, release);
@@ -401,10 +403,10 @@ SynthDef(\"playbuf\", { | out = 0, buf = 0, rate = 1, startPos = 0, loop = 1, at
 		loop, 
 		doneAction: 2)
 	)
-}).add;",  IdentityDictionary.prNew,  Array.prNew(32),  "//:BootDefaultServer
+}).add;",  IdentityDictionary.prNew,  Array.prNew(32),  
+	"//:BootDefaultServer
 Server.default.boot;
-",  
-	IdentityDictionary.prNew,  Array.prNew(32),  "//:ping
+",  IdentityDictionary.prNew,  Array.prNew(32),  "//:ping
 SynthDef(\"ping\", { | out = 0, freq = 400, dur = 0.5, amp = 0.1 |
 	Out.ar(out, 
 		SinOsc.ar(freq, 0, 
@@ -415,128 +417,115 @@ SynthDef(\"ping\", { | out = 0, freq = 400, dur = 0.5, amp = 0.1 |
 ];
 p = [
 	// ScriptLib
-	0, [ lib: o[1] ],  
+	0, [ lib: o[1],  soundFilePath: nil ],  
 	// MultiLevelIdentityDictionary
 	1, [ dictionary: o[2] ],  
 	// IdentityDictionary
-	2, [ array: o[3],  size: 5,  
+	2, [ array: o[3],  size: 6,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	3, [ nil,  nil,  '----Narcissus----',  o[4],  
+	3, [ 'Tests',  o[4],  '----Narcissus----',  o[9],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'-Sounds',  o[19],  '-0Dev',  o[33],  
+		'-Sounds',  o[24],  '-0Dev',  o[38],  
 		nil,  nil,  nil,  nil,  
-		'SCMIR',  o[50],  nil,  nil,  
-		nil,  nil,  '---Config---',  o[60] ],  
+		'SCMIR',  o[55],  nil,  nil,  
+		nil,  nil,  '---Config---',  o[65] ],  
 	// IdentityDictionary
 	4, [ array: o[5],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	5, [ nil,  nil,  nil,  nil,  
+	5, [ 'Tests',  o[6],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-0BlobTests',  o[6],  
+		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	6, [ array: o[7],  size: 11,  
+	6, [ array: o[7],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	7, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-004BufferPlaybackEnv',  o[8],  
-		'-006OneSoundProcessAtATimeOnly',  o[9],  '-003SimpleBufferPlayback',  o[10],  
-		'-007OneBlobOnlyDifferentStartingPoint',  o[11],  '-005EnvSynth',  o[12],  
-		'-002MappingParameters',  o[13],  '-006OneBlobOnlyDifferentStartingPoint',  o[14],  
-		'-006EnvDifferentStartingPoint',  o[15],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-000TestBlobs_EMPTY',  o[16],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-001SimpleBlobSound1',  o[17],  
-		'---FreeAllBlobwatchers',  o[18],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	19, [ array: o[20],  size: 2,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	20, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  '-000BasicSoundLib',  o[21],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-FromScCode.org',  o[30],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	21, [ array: o[22],  size: 7,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	22, [ '-PlayBufWithSynthDef',  o[23],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-PlayBuffer',  o[24],  
-		nil,  nil,  'Pings',  o[25],  
-		'-01SineWithFreq',  o[26],  nil,  nil,  
-		'-02PwhiteDiatonic',  o[27],  'Ping',  o[28],  
-		nil,  nil,  '-01SineWithoutFreqControl',  o[29] ],  
-	// IdentityDictionary
-	30, [ array: o[31],  size: 1,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	31, [ nil,  nil,  nil,  nil,  
-		'endlessRogerCormanmovie',  o[32],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+		'ParseSpecs',  o[8],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	33, [ array: o[34],  size: 3,  
+	9, [ array: o[10],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	34, [ '-000ScriptMixerRedo',  o[35],  nil,  nil,  
-		nil,  nil,  '-01BufferConfigWindow',  o[43],  
+	10, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-ScriptLibExtensions',  o[46],  
+		nil,  nil,  '-0BlobTests',  o[11],  
+		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	35, [ array: o[36],  size: 6,  
+	11, [ array: o[12],  size: 11,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	36, [ nil,  nil,  '-000NewProxyList',  o[37],  
-		'-001ProxyControls',  o[38],  nil,  nil,  
+	12, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'-002ProxyControls (+ Tabbed View)',  o[39],  nil,  nil,  
-		'-000TestSound2freq',  o[40],  nil,  nil,  
-		nil,  nil,  '-000TestSound',  o[41],  
-		nil,  nil,  '-003Scopes',  o[42],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-004BufferPlaybackEnv',  o[13],  
+		'-006OneSoundProcessAtATimeOnly',  o[14],  '-003SimpleBufferPlayback',  o[15],  
+		'-007OneBlobOnlyDifferentStartingPoint',  o[16],  '-005EnvSynth',  o[17],  
+		'-002MappingParameters',  o[18],  '-006OneBlobOnlyDifferentStartingPoint',  o[19],  
+		'-006EnvDifferentStartingPoint',  o[20],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'-000TestBlobs_EMPTY',  o[21],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-001SimpleBlobSound1',  o[22],  
+		'---FreeAllBlobwatchers',  o[23],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	43, [ array: o[44],  size: 1,  
+	24, [ array: o[25],  size: 2,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	44, [ '00BufferConfig',  o[45],  nil,  nil,  
+	25, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  '-000BasicSoundLib',  o[26],  
 		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-FromScCode.org',  o[35],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	26, [ array: o[27],  size: 7,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	27, [ '-PlayBufWithSynthDef',  o[28],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-PlayBuffer',  o[29],  
+		nil,  nil,  'Pings',  o[30],  
+		'-01SineWithFreq',  o[31],  nil,  nil,  
+		'-02PwhiteDiatonic',  o[32],  'Ping',  o[33],  
+		nil,  nil,  '-01SineWithoutFreqControl',  o[34] ],  
+	// IdentityDictionary
+	35, [ array: o[36],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	36, [ nil,  nil,  nil,  nil,  
+		'endlessRogerCormanmovie',  o[37],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -544,77 +533,90 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	46, [ array: o[47],  size: 2,  
+	38, [ array: o[39],  size: 3,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	47, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'EvalSnippets',  o[48],  
-		nil,  nil,  nil,  nil,  
+	39, [ '-000ScriptMixerRedo',  o[40],  nil,  nil,  
+		nil,  nil,  '-01BufferConfigWindow',  o[48],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'ScriptTest',  o[49],  
-		nil,  nil,  nil,  nil ],  
-	// IdentityDictionary
-	50, [ array: o[51],  size: 2,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	51, [ nil,  nil,  '-00EarlyTests',  o[52],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  '-01GUIDesign',  o[57],  
-		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-ScriptLibExtensions',  o[51],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	52, [ array: o[53],  size: 3,  
+	40, [ array: o[41],  size: 6,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	53, [ nil,  nil,  nil,  nil,  
+	41, [ nil,  nil,  '-000NewProxyList',  o[42],  
+		'-001ProxyControls',  o[43],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'-01Analyse1File',  o[54],  '-02DoThisAfter01ToSeeData',  o[55],  
-		'-OnsetTries0',  o[56],  nil,  nil ],  
+		'-002ProxyControls (+ Tabbed View)',  o[44],  nil,  nil,  
+		'-000TestSound2freq',  o[45],  nil,  nil,  
+		nil,  nil,  '-000TestSound',  o[46],  
+		nil,  nil,  '-003Scopes',  o[47],  
+		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	57, [ array: o[58],  size: 1,  
+	48, [ array: o[49],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	49, [ '00BufferConfig',  o[50],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	51, [ array: o[52],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	52, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'EvalSnippets',  o[53],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'ScriptTest',  o[54],  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	55, [ array: o[56],  size: 2,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	56, [ nil,  nil,  '-00EarlyTests',  o[57],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-01GUIDesign',  o[62],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	57, [ array: o[58],  size: 3,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	58, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  '-00BasicIdea-UsingScriptLibForData',  o[59],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
+		'-01Analyse1File',  o[59],  '-02DoThisAfter01ToSeeData',  o[60],  
+		'-OnsetTries0',  o[61],  nil,  nil ],  
 	// IdentityDictionary
-	60, [ array: o[61],  size: 5,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	61, [ 'SoundFiles',  o[62],  'Buffers-Autoload',  o[64],  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		'SynthDefs02-buffers',  o[66],  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'ServerStuff',  o[69],  
-		nil,  nil,  nil,  nil,  
-		'SynthDefs01-simple',  o[72],  nil,  nil ],  
-	// IdentityDictionary
-	62, [ array: o[63],  size: 0,  
+	62, [ array: o[63],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	63, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
+		nil,  nil,  '-00BasicIdea-UsingScriptLibForData',  o[64],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -622,62 +624,62 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	64, [ array: o[65],  size: 0,  
+	65, [ array: o[66],  size: 5,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	65, [ nil,  nil,  nil,  nil,  
+	66, [ 'SoundFiles',  o[67],  'Buffers-Autoload',  o[69],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
+		'SynthDefs02-buffers',  o[71],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
+		nil,  nil,  'ServerStuff',  o[74],  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil ],  
+		'SynthDefs01-simple',  o[77],  nil,  nil ],  
 	// IdentityDictionary
-	66, [ array: o[67],  size: 1,  
+	67, [ array: o[68],  size: 0,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	67, [ nil,  nil,  nil,  nil,  
+	68, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'playbuf',  o[68],  
+		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	69, [ array: o[70],  size: 1,  
+	69, [ array: o[70],  size: 0,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	70, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'BootDefaultServer',  o[71],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -685,16 +687,42 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ],  
 	// IdentityDictionary
-	72, [ array: o[73],  size: 1,  
+	71, [ array: o[72],  size: 1,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	73, [ nil,  nil,  nil,  nil,  
+	72, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'playbuf',  o[73],  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		'ping',  o[74],  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	74, [ array: o[75],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	75, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'BootDefaultServer',  o[76],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	77, [ array: o[78],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	78, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'ping',  o[79],  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil ]
 ];
