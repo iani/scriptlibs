@@ -2,8 +2,8 @@ var o, p;
 o = [
 	ScriptLib.prNew,  MultiLevelIdentityDictionary.prNew,  IdentityDictionary.prNew,  Array.prNew(32),  
 	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
-	"//:ParseSpecs
-{ WhiteNoise.ar(0.1) }",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	"//:ParseSpecs [freq: \\freq]
+{ | amp = 0.1 | WhiteNoise.ar(0.1) }",  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
 	Array.prNew(64),  "//:-004BufferPlaybackEnv
 var b0 = 'swallows10minL'.b;
 

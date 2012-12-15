@@ -1,0 +1,3181 @@
+var o, p;
+o = [
+	ScriptLib.prNew,  MultiLevelIdentityDictionary.prNew,  IdentityDictionary.prNew,  Array.prNew(32),  
+	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(1024),  
+	"//:lucas samaruga */
+q=play{SinOsc.ar({\\freq.kr.lag(0.9.rand)}!2)*0.1};fork{inf.do{5.do{fork{var x=1.7.rand;(1800.rand!10).do{|i|q.set(\\freq,i);x.wait}}};7.wait}}
+
+",  "//:tim walters */
+play{HPF.ar(GVerb.ar(({|k|({|i|y=SinOsc;y.ar(i,y.ar(i+k**i)/Decay.kr(Impulse.kr(0.5**i/k),[1,2]+i,k))}!6).sum}!16).sum,1,1)/180,40)}
+
+",  "//:nathaniel virgo */
+Ndef('x',{Normalizer.ar(FreqShift.ar(Rotate2.ar(*Ndef('x').ar++1/8).tanh,20*[-3,0.995])+Dust.ar(1!2,0.005),1,0.5)}).play//#supercollider
+
+",  "//:Monocular Sludgebath the 7th */
+{b=99;GVerb.ar(Mix.fill(b,{|i|a=Saw.ar([b.rand+i,LFNoise0.ar(i*0.5.rand,b,rrand(b,2e3))]);RLPF.ar(Saw.ar(a,a)*0.05,(1000*a).max(b))}))}.play
+
+",  
+	"//:jonatan liljedahl */
+play{sum({|i|GrainSin.ar(1,Impulse.ar(LFTri.kr(0.05*i+[0.2,0.201]).range(1,30)),0.02, 200*i+50)}!9).tanh}
+
+",  "//:nathaniel virgo */
+play{PitchShift.ar(CombN.ar(Formant.ar(101,4**LFNoise1.kr(0.5)*450,200),1,0.5,99),1,Duty.kr(4,0,Dseq([[6,8,10],[6,7.2,7]]/8,inf))).sum/25!2}
+
+",  "//:redfrik */
+play{a=LFPulse;b=(1..4);Mix(a.ar(a.ar(a.ar(a.ar(b/32)+1/8)+1*b)+(Mix(a.ar(b/64))+a.ar(4/b)*(a.ar(a.ar(b/8))*2+b))*100))/8!2}//#SuperCollider
+
+",  "//:juan alzate romero */
+play{a=Decay2.ar(Impulse.ar(2),1e-4)*SinOsc.ar(40);Compander.ar(Blip.ar([40,40.5]*TChoose.kr(a>0.6,(1..8)),4),a,8e-3,1,0.001,0.1,1/3)+a}
+
+",  
+	"//:nathaniel virgo */
+p={|x,a,f|9.do{x=BAllPass.ar(x*a,f).tanh};x};play{i=Dust.ar(2);p.(Dust.ar(EnvGen.ar(Env.perc,i,1e3,0,1).poll),1.4,50)/9+p.(i,1.8,40)!2}
+
+",  "//:nathaniel virgo */
+play{w=LFSaw;a=w.ar(-3,1)+1/2;f=Sweep.ar(0,3).floor;f=(f**3+f%8+4)*(f%3+3)%49*3;CombN.ar(RLPF.ar(w.ar(f)*a,f**a*30,0.3).tanh,5/6,5/6,6)!2}
+
+",  "//:jonatan liljedahl */
+play{x=0;(100..110).do{|f|f=f/2;x=SinOsc.ar(f+[0,1],x*LFTri.kr(0.4,2).range(1.2,1.6))};x}
+
+",  "//:redfrik */
+{|j|r{{|i|x=sin(i/5+(j*5));Ndef(i%5+(j*5),{Pan2.ar(LFCub.ar(j*2+x*40+400+i)/15,i%5/2-1)}).play;wait(x.abs+0.5)}!500}.play}!5//#SuperCollider
+
+",  
+	"//:juan alzate romero */
+fork{loop{d=rrand(1,9.0);play{f=500.rand+60;Splay.ar(SinOsc.ar(XLine.kr(f,(f,f+1..f+f),d,1,0,2),0,0.1))};d.wait}}
+
+",  "//:juan alzate romero */
+play{a=Decay2.ar(Impulse.ar(2),1e-4)*SinOsc.ar(40);Compander.ar(Blip.ar([40,40.5]*TChoose.kr(a>0.6,(1..8)),4),a,8e-3,1,0.001,0.1,1/3)+a}
+
+",  "//:aliaksandr tsurko */
+{Mix.fill(100, {arg a = 1 + a; Pan2.ar(SinOsc.ar(70 * a, 0, Dust.kr(0.01 + (a * 0.009), 0.5)), {rrand(-0.2, 0.2)})})}.play
+
+",  "//:redfrik */
+play{b=LocalBuf(8e4,2).clear;i=Sweep.ar(BufRd.ar(2,b,Saw.ar(3.1,4e4,4e4)),8e4);BufWr.ar(Blip.ar([2,3]),b,i);BufRd.ar(2,b,i)}//#SuperCollider
+
+",  
+	"//:batuhan bozkurt */
+play{k=Pulse.ar([3,3.01,2,2.01]/2,[0.4,0.6]).lag(0.8,0);k=[k[0],k[1]]*[k[2],k[3]];Splay.ar((k*Blip.ar([80,81],2)*6.5).tanh,0.5)}
+
+",  "//:miquel parera jaques */
+{a=rrand(25,50);Pan2.ar(SinOsc.ar(Demand.ar(Impulse.ar(1/a),0,Dwhite(100,333)))*EnvGen.ar(Env.perc(a/2,a/2,0.1),Impulse.ar(1/a)),0)}.play;
+
+",  "//:juan alzate romero */
+play{t=Impulse.kr(6);f=lag(Demand.kr(t,0,Drand(midicps((10,13..40)),inf)));RLPF.ar(Pulse.ar(f),1+Decay2.kr(t)*LFNoise2.kr(2,8,9)*f,1/9)!2}
+
+",  "//:juan alzate romero */
+play{GVerb.ar(Mix(9.collect{SetResetFF.ar(Dust.ar(8.rand+1),Dust.ar(8.rand+1)).lag*SinOsc.ar(LFNoise2.kr(0.1,25,exprand(40,1500)))/9}))}
+
+",  
+	"//:batuhan bozkurt */
+play{t=Impulse.ar(75);Sweep.ar(t,150).fold(0,1)*PlayBuf.ar(1,Buffer.read(s,\"s*/*\".pathMatch[2]),1,t,Demand.ar(t,0,Dbrown(0,2e5,2e3,inf)))!2}
+
+",  "//:juan alzate romero */
+play{t=TDuty.kr(Dshuf([4,2,1]/8,inf));c=TChoose;Pan2.ar(SinOscFB.ar(c.kr(t,(50,75..300)),Decay2.kr(t)+0.8),c.kr(t,[-0.5,0,0.5]).lag)}
+
+",  "//:andrea valle */
+{t=\"With my prayers\";999.do{|i|{MoogFF.ar(Saw.ar(t[i.postln%15].ascii),i%99*99)*EnvGen.kr(Env.perc)}.play;0.2.wait}}.fork
+
+",  "//:minkepatt */
+(9.rand.do{{LFCub.ar(441/3+441*5.rand)*LFGauss.kr(0.25+2.25.rand.round(0.125));}.play})
+
+",  
+	"//:redfrik */
+play{c=[97,99];l=3**9;a=LocalBuf(l,2).clear;BufWr.ar(Saw.ar(c/5),a,BPF.ar(VarSaw.ar(c),98,0.1)*l);PlayBuf.ar(2,a,1/4,1,0,1)}//#SuperCollider
+
+",  "//:chad mckinney */
+play{{|i|r=LFNoise2.ar(0.3,0.5,0.5);n=DelayC.ar(In.ar(i*r),1,i);Out.ar(i*r,Ringz.ar(n+Impulse.ar(),Pitch.kr(n)[0]*i,200).softclip)}!30};
+
+",  "//:minkepatt */
+(play{LFTri.ar(CombL.ar(Dust.kr(GrayNoise.ar)*44.1,1e-17,1e-6).round(441/3.5))};) 
+
+",  "//:tim walters */
+play{({|i|Resonz.ar({Gendy1.ar}!2,i*2+1*50,Blip.ar(i+1/99,i+8).squared*0.005*LFTri.kr(i+1*0.001).abs*25)*(i+1).sqrt}!15).sum/4}
+
+",  
+	"//:tim walters */
+play{HPF.ar(({|k|({|i|SinOsc.ar(i/96,Saw.ar(2**(i+k))/Decay.ar(Impulse.ar(0.5**i/k),[k*i+1,k*i+1*2],3**k))}!6).product}!32).sum/2,40)}
+
+",  "//:redfrik */
+r{99.do{|i|x={Pan2.ar(SinOsc.ar(i+1,SinOsc.ar((i%9).div(3)*100+(i%9)+500),0.03),1.0.rand2)}.play;2.wait;x.release(25)}}.play//#SuperCollider
+
+",  "//:jonatan liljedahl */
+play{p=LFPulse;tanh(p.ar([50,52])*p.kr([2,1]/4)+mean({|n|(p.ar(n*3e2+100*p.kr(2-n/[1,5,7],(0..2)/10).sum+2e2)*p.kr(n+1*6,0,0.8).lag)}!2)/2)}
+
+",  "//:redfrik */
+play{x=CombN.ar(Phasor.ar(0,{|i|i+1/20}!22),0.042,0.042);y=Phasor.ar(LPF.ar(x,LFPar.ar(1/99,0,400,500)),x);Splay.ar(y)*0.25}//#SuperCollider
+
+",  
+	"//:redfrik */
+r{loop{x={GVerb.ar(MoogFF.ar(ClipNoise.ar*0.4,LFPar.kr({0.3.rand}!2,0,600,990)),9,9,1)}.play(s,0,19);3.wait;x.release}}.play//#SuperCollider
+
+",  "//:tweety on a power cord */
+{SinOsc.ar(SinOsc.ar([0.1, 0.2],0.5,{LFNoise2.kr(25, 0.5, 2.5)}!2)/SampleDur.ir)}.play;
+
+",  "//:matt barber */
+{g=LFNoise2.ar(3,11,12);f=LFNoise0.ar(g,4,6).octcps;x=Resonz.ar(LFNoise0.ar(f),f/6,(g**2.3)/f).clip;AllpassC.ar([x,0-x],1,g/230,99)}.play
+
+",  "//:aucotsi */
+play{#a,b,c=[LFSaw,TRand,SinOsc];a.ar(c.kr(5),b.kr(-2pi,2pi),b.kr(0.1,1.0,c.kr(340)))*c.ar(680!2*c.kr(b.kr(87,393,c.kr(7))),0,c.kr(pi/13))}
+
+",  
+	"//:juan alzate romero */
+play{Resonz.ar(Crackle.ar!2,Duty.kr(Dseq([1,1,4,2,2]/8,inf),0,Dseq([99,Dwhite(99,9e3,1)],inf)),TExpRand.kr(0.001,1,Impulse.kr(8)))*4}
+
+",  "//:micromoog */
+4.do({{PanB2.ar(Gendy1.ar(1,1,1,1,rrand(150,250),500,0.1)*LFNoise1.kr(1,0.25,0.75),LFNoise1.kr(1))}.play})//#supercollider
+
+",  "//:aucotsi */
+play{c=LFPulse.kr(50);a=Line.kr(0.1,2pi,37000);b=SinOsc.kr(a/pi);FreeVerb.ar(Blip.ar(a*340!2*Impulse.kr(b*340/pi),c*TIRand.kr(0,999,c),c))}
+
+",  "//:julian rohrhuber */
+play { [0,0.08] * Pulse.ar(2020) * product(LFPulse.ar([8,1])) + [PinkNoise,WhiteNoise].sum(_.ar(XLine.kr(0.4, 0.02, 20) ! 2)) };
+
+",  
+	"//:jonatan liljedahl */
+play{v=Dust2.ar(4!2);7.do{|n|v=LeakDC.ar(CombL.ar(v,0.2,n*0.001+0.03+LFNoise1.kr(10,0.001),3))};v.clip2(1)}
+
+",  "//:nathaniel virgo */
+{a=LFTri.ar(1);20.do{a=BAllPass.ar(a,80,1);a=((a+0.02)*LFNoise0.kr(1/2)*8).tanh;a=LeakDC.ar(a,0.995)};a*0.1!2}.play//#supercollider
+
+",  "//:juan alzate romero */
+play{d=Duty;f=d.kr(1/[1,2,3],0,Dseq([0,3,7,12,8]+36,inf));GVerb.ar(Blip.ar(f.midicps*[1,2,3],LFNoise1.kr(1,8,8)).sum,99,4)} // #sc
+
+",  "//:jonatan liljedahl */
+play{sum({|i|GrainSin.ar(1,Impulse.ar(LFNoise1.kr(0.5!2).range(1,30)),0.025, 200*i+100)}!7).tanh}
+
+",  
+	"//:nathaniel virgo */
+p={|f,a=5|GVerb.ar(LFPulse.ar(f)*a)+f};play{tanh(HPF.ar(p.(99-p.(1/2,20)*(1+p.(2,1/5))+p.(4+p.(1/2)),0.5),80,XLine.kr(4e-4,1/8,61,1,0,2)))}
+
+",  "//:juan alzate romero */
+play{a={rrand(-1,1.0)}!1e3;e=InterplEnv(a,[1e-3],a*3);IEnvGen.ar(e,LFSaw.kr(LFCub.kr(8,0,300,300),0,e.times.sum)*LFNoise2.kr(99,1,10))!2}
+
+",  "//:redfrik */
+r{loop{x=play{t=SinOsc.ar(999.rand).abs;Formlet.ar(TDuty.ar(t,0,t),4e3.linrand,t,1-t)!2};wait(9.rand+1);x.release(39)}}.play//#SuperCollider
+
+",  "//:batuhan bozkurt */
+play{LocalOut.ar(k=tanh(500*(PinkNoise.ar(1!2)**(8/(LagUD.ar(y=LocalIn.ar(2).range(0, 0.9)+0.1,0,0.2))))));Splay.ar(k,1-y)}
+
+",  
+	"//:redfrik */
+play{a=LFCub;n=8;Splay.ar(a.ar({|i|pow(i+1,a.kr(1/n,i/n,1/n,1))}!n*150,0,a.kr({|i|pow(i+1,a.kr(i+0.5/n,i/n))}!n).max(0))/4)}//#SuperCollider
+
+",  "//:nathaniel virgo */
+f=g=0;Routine({loop{g=g+1e-3;f=f+g%1;play{l=Line.kr(1,0,3,doneAction:2);h=2**f*100;e=Pluck.ar(CuspL.ar,1,i=1/h,i,2,0.3)!2};0.15.wait}}).play
+
+",  "//:juan alzate romero */
+fork{loop{x=play{l=LFPar;Splay.ar(l.ar(l.kr(rrand(1,8)).wrap(l.kr(12/{rrand(1,9)}!9))*100+{(40,80..400).choose}!9))/9};16.wait;x.free}}//#sc
+
+",  "//:aucotsi */
+play{#a,b=[SinOsc,TIRand];FreeVerb.ar(a.kr(2)*Formant.ar(68!2*Stepper.kr(LFTri.kr(3),0,4*b.kr(-4,12,a.kr(3).ceil)),a.kr(8*11),222,16))}
+
+",  
+	"//:juan alzate romero */
+play{o=LFCub.kr(1/[24,8,12,16]);PitchShift.ar(LFPulse.ar(o[0]*50+100,0,0.1).lag(1/1000),o[3]*0.299+0.3,o[2]*8+8,o[1],o[0]*0.1+0.1)!2} 
+
+",  "//:matt rogalsky */
+{Splay.ar(Array.fill(100, { Pulse.ar(LFNoise2.kr(1,2500,10000)) + BPF.ar(Dust.ar(rrand(0.001,0.009)),LFNoise2.kr(0.01,50,5000),0.01,500) }))}.play;
+
+",  "//:sciss */
+play{{|i|b=LocalBuf(512);d=HPZ1.ar(Dust.ar(99));x=(IFFT(FFT(b,PlayBuf.ar(1,b)+d,0.5,0,1-d))).wrap;RecordBuf.ar(InFeedback.ar(i),b);x}!2}
+
+",  "//:juan alzate romero */
+play{a=0;6.do{x=Sweep.ar(Dust2.kr(0.1+2.0.rand),9.rand+9)+LFNoise1.kr(0.1,60,80);a=a+Pan2.ar(Gendy1.ar(1,1,1,1,x,x+9),LFNoise2.kr(1))};a}
+
+",  
+	"//:batuhan bozkurt */
+play{Mix(HPF.ar(MidEQ.ar(Limiter.ar(GVerb.ar(HPF.ar(Pulse.ar([[0.1,0.11],[0.12,0.13]],0.6,5e-3),99),[[1,5/4],[1.5,2]],99)),9e3,0.9,9),200))}
+
+",  "//:batuhan bozkurt */
+play{t=[0,3,5,7,10,12]+30;a=Demand.kr(Impulse.kr(8),0,Drand(t+24++t,inf));(BHiPass.ar(LFNoise1.ar(8)**3,[a,a+0.2].midicps,a/2e3,67-a)).tanh}
+
+",  "//:batuhan bozkurt */
+{r=44100;BufRd.ar(1,Buffer.read(s,\"s*/*\".pathMatch[2]),[r,r+500]*LFNoise0.ar(8,9,9)+(Sweep.ar(t=Impulse.ar(8),r)%TRand.ar(100,r/2,t)))}.play
+
+",  "//:nathaniel virgo */
+p={|f,a=1|LFPulse.ar(f)*a*[1,1.01]};{p.(p.(100-p.(1/16,20))+p.(2,1+p.(1/4))-0.5*200)+p.(100-p.(1/8,20),p.(8))*0.1}.play//#supercollider
+
+",  
+	"//:arthur carabott */
+{a=99;Limiter.ar(FreeVerb.ar(Mix.fill(a, {|i|Saw.ar(55*i, Lag.kr(Impulse.kr(i*0.04), 1.0.rand))}),SinOsc.kr(6), FSinOsc.kr(0.01,0.5)))}.play
+
+",  "//:scott wilson */
+{Formant.ar(Duty.kr({Drand([0.01,0.3],inf)},0,[\"SCBerlin10!\",\"Vielen Dank,Andre!\"].collect({|t|Dseq(t.ascii/Drand([2,9]),inf)})))*0.4}.play
+
+",  "//:marcus wrangoe */
+play{GVerb.ar(CombC.ar(Gendy1.ar(6,6,3,Dust.ar([100,101],1),20,400),1,0.01,0.02),9,9,mul:0.1)}
+
+",  "//:alexandra cardenas */
+play{d=Dust;r=TRand.kr(50,800,d.kr(15));t=TRand.kr(100,700,d.kr(0.2));Splay.ar(SinOsc.ar({|i|LFNoise2.kr(rrand(10,200),r,t)}!9),1,0.3,0)}
+
+",  
+	"//:lfsaw */
+{Splay.ar({RHPF.ar(Saw.ar(Rand(0.5,9),LFSaw.ar(BrownNoise.ar(1299,500))),LFNoise2.ar(f=LFNoise2.ar(9,9,1),999,0))*((f)**10).clip2}!9)}.play;
+
+",  "//:minkepatt */
+(play{var a,f,t;a=Dseq([1,8]*[2,0,0.5],inf);t=(Saw.kr([5,4]));f=Demand.kr(t,0,a)*[13,89];LFTri.ar(f)*0.2**Dust.ar(2)};)
+
+",  "//:josh parmenter */
+3.do({{b=Decay2.kr(Dust.kr(0.1),5,7);Pan2.ar(HPF.ar(LPF.ar(WhiteNoise.ar(b+0.4),b*1500+200),b*100+100)*5,1.0.rand2)}.play})//surf's up
+
+",  "//:pyoungryang ko */
+Routine({inf.do{|i|{SinOsc.ar(263.rand-i%97.nthPrime*7,0,EnvGen.kr(Env.sine(9.9.rand,0.01.rand),doneAction:2))}.play;(i%0.13).wait}}).play
+
+",  
+	"//:batuhan bozkurt */
+play{LocalOut.ar(k=LeakDC.ar(Integrator.ar(Pulse.ar(pi/[1,2.57],[0.54,0.46]),(1-LocalIn.ar(2)).fold(0,[0.9,0.85])).wrap2(pi).sin));k.mean!2}
+
+",  "//:batuhan bozkurt */
+play{a=BPF.ar(Saw.ar([40,40.001]),LFNoise0.kr(128)+1*4e3+146,LFNoise1.kr(1)+1*5e-2+0.01).tanh;CombC.ar(a,9,a.abs.lag(2)*9,a.abs.lag(1)*100)}
+
+",  "//:johannes quint */
+{z=300;e=EnvGen.kr(Env([20,16000],[z],8),doneAction:2);Pan2.ar(RLPF.ar(RHPF.ar(BrownNoise.ar(0.5),e),e),Line.kr(-1,1,z))}.play
+
+",  "//:redfrik */
+{CombL.ar(In.ar(8).tanh/8,1,1,8)!2}.play;Pbind(\\amp,8,\\dur,1/4,\\degree,Pseq(List.fib(32)%(List.fib(64)%12),inf),\\out,8).play//#SuperCollider
+
+",  
+	"//:jonatan liljedahl */
+play{GVerb.ar(Mix.fill(10,{|i|Ringz.ar(Impulse.ar(i*0.05+0.5),300*i+40,0.12,3+PinkNoise.ar(3)).sin/(i+1)*0.6}),3.4,7).tanh}
+
+",  "//:batuhan bozkurt */
+play{f={LocalBuf(512)};r={|k,m|RecordBuf.ar(Pulse.ar(8,m,6e3),k)};r.(a=f.(),0.99);r.(b=f.(),0.99001);Out.ar(0,IFFT([a,b]).tanh)};//44.1kHz:)
+
+",  "//:redfrik */
+play{b=LocalBuf(5e3,2).clear;i=Sweep.ar(BufRd.ar(2,b,Saw.ar(50,2e3,5e3)),6e4);BufWr.ar(Saw.ar([4,3]),b,i);BufRd.ar(2,b,i)/6}//#SuperCollider
+
+",  "//:scott wilson */
+{f=Duty.kr({Drand([0.1,0.11],inf)}!2,0,Dseq(\"AllWorkAndNoPlayMakesPAaDullBoy\".ascii/2,inf));Formant.ar(f,f*19,LFNoise2.kr(1!2,f*70))/4}.play
+
+",  
+	"//:mstep */
+{LeakDC.ar((GVerb.ar(GrainIn.ar(2,LFSaw.ar(LFSaw.ar(10)),Trig.ar(SinOsc.ar(4),1)*200,SinOsc.ar([60, 70]),0,-1),15)).tanh*0.2) }.play
+
+",  "//:alexandra cardenas */
+{p=Pan2;n=LFNoise2;p.ar({Blip.ar(n.kr(0.1).range(12),n.kr(0.1).range(10,1200))}!8,0,0.2)}.play 
+
+",  "//:tristan strange */
+play{GVerb.ar(Saw.ar(GbmanN.ar([4,9])*XLine.kr(30,1600,120))/3,10).tanh};// robotic guitarists and violinists were never likely to get on
+
+",  "//:redfrik */
+play{a=LFPar;GVerb.ar(VarSaw.ar(a.ar(1,0,5,a.ar([0.05,0.04],0,50,160).round(50)),0,a.ar(0.2,0,0.5,a.ar(3,0,0.2,0.5)))/8,80)}//#SuperCollider
+
+",  
+	"//:nathaniel virgo */
+Ndef(\\x,{DelayN.ar(BRF.ar(Saw.ar(20!2)*0.01+Rotate2.ar(*(Ndef(\\x).ar*2).tanh++0.1),20**LFNoise1.kr(0.6)*500,1),1,1)}).play//#supercollider
+
+",  "//:batuhan bozkurt */
+play{Splay.ar(Integrator.ar(LFNoise0.ar(5!3,k=Duty.ar(6.4,0,Dseq([0.05,Drand([0.04,0.08],1)],inf))).round(k/10)).sin.sqrt.tanh,0.3)}//#sc...
+
+",  "//:juan alzate romero */
+l=Line;fork{loop{play{Splay.ar(SinOsc.ar({x=rrand(1,7)*99;l.kr(x,x/(0.25,0.5..4).choose,9)}!9,0,1/9)*l.ar(1,0,9,0.5,0.5,2))};1.wait}}
+
+",  "//:alexandra cardenas */
+{d=Dust;r=TRand.kr(1,2,d.kr(1));z=TRand.kr(1,2,d.kr(2));l=LFClipNoise;Crackle.ar([z,r], 0.6)+SinOsc.ar([l.ar(r,60,90),l.ar(z,40,100)])}.play
+
+",  
+	"//:matt barber */
+{g=LFNoise2.ar(3,11,12);f=LFNoise0.ar(g,4,6).octcps;x=Resonz.ar(LFNoise0.ar(f),f/6,(g**2.3)/f).clip;AllpassC.ar([x,0-x],1,g/230,g/9)}.play
+
+",  "//:alexandra cardenas */
+play{l=LFDNoise3.kr(0.5);Splay.ar(MoogFF.ar(SinOsc.ar([150,200]*BrownNoise.ar(1)*LFPulse.ar([10,20])),l.range(10,5000),l.range(0,4)),1,1,0)}
+
+",  "//:redfrik */
+play{f=LFPar.ar(1/14).round*20+80;Splay.ar(LFPar.ar({|i|[i+1*f,i*f+(i+1/3)]}!4)>BrownNoise.ar(Pulse.ar({|i|i+1}!4,0.35))/3)}//#SuperCollider
+
+",  "//:nathaniel virgo */
+play{Splay.ar({|i|f=1.9**i/128;BPF.ar(PinkNoise.ar(1!2),4**LFNoise2.kr(1.2**i/16)*300,0.15)*(5**LFNoise2.ar(f)/(i+8)*20)}!15)}
+
+",  
+	"//:nathaniel virgo */
+p=Impulse;play{mean({|i|Pluck.ar(LFSaw.ar([102,101]),x=p.ar(1,i/10)+p.ar(0),1,1/Latch.ar(1.015**Sweep.ar(0,1)*64%1+1*200,x),4,0.2)}!10)}
+
+",  "//:tedthetrumpet */
+Ndef(\\x,Pbind(\\midinote,Prand((20..60),inf),\\amp,20,\\dur,0.2));Ndef(\\y,{Ndef.ar(\\x).clip2(0.1)}).play;
+
+",  "//:batuhan bozkurt */
+play{n=LFNoise0.kr(*_);v=Blip.ar([60,61],5,n.(4)**8);12.do{v=LeakDC.ar(CombC.ar(v,1,n.([1,0.05,0.06]).lag(5e3),9))};Limiter.ar(v,0.9,1)}
+
+",  "//:redfrik */
+play{b=LocalBuf(9e4,2).clear;i=Sweep.ar(BufRd.ar(2,b,Saw.ar(12,3e4,4e4)),9e4);BufWr.ar(Saw.ar([8,9]),b,i);BufRd.ar(2,b,i)/2}//#SuperCollider
+
+",  
+	"//:julian rohrhuber */
+Ppar({|i| Pbind(\\dur, 0.01, \\note, sin(i+1*0.002.rand*Pseries()+2.0.rand)*40.rand-10) } ! 5).play;
+
+",  "//:nathaniel virgo */
+x=0;Pbind(*[type:\\set,id:{|freq=10|f=freq;LPF.ar(Saw.ar(f),f.lag(1)*3)!2}.play.nodeID,freq:Pfunc{x=x+32%35;x%12+1*40},dur:1/6]).play
+
+",  "//:tim walters */
+play{GVerb.ar(({|i|Blip.ar(i+1/99,i+1).exprange(1/9999,0.008)*Gendy1.ar(6,6,1,Blip.ar(i+1*[2,3],3).abs,i+2*50,i+3*50)}!16).sum,3,9,0.3)}
+
+",  "//:batuhan bozkurt */
+play{q=[0,3,5,7,10];t=Impulse.kr(4)*LFNoise0.kr>0;PitchShift.ar(Saw.ar(Demand.kr(t,0,Drand((q+12++q+33).midicps,inf)),Decay.kr(t,3)),7,2)!2}
+
+",  
+	"//:nathaniel virgo */
+n={|r,f,d=1|2**LFNoise0.kr(1!d,r)*f};{p=n.(4,1e3);CombN.ar(Ringz.ar(LFPulse.ar(1,0,0.01),n.(2,p,80),0.6).sum,8/5,8/5,60)*4e-4!2}.play
+
+",  "//:minkepatt */
+(play{x=SinOsc.ar(gcd (441*SinOsc.ar(5),882*SinOsc.ar(3))); (x.distort % x)};)
+
+",  "//:jonatan liljedahl */
+play{GVerb.ar(GVerb.ar(Impulse.ar([8,6,4]/100,[0,0.2,0.6])*8,[2,3,1.5],90,drylevel:0).sum.sin.sum*0.5,62,24).tanh}
+
+",  "//:juan alzate romero */
+play{e=ExpRand;Splay.ar(Decay2.ar(Impulse.ar({e.new(1,8).round/3}!9),5e-3,{e.new(0.1,1)}!9,LFCub.ar({e.new(66,666).round(20)}!9)))}
+
+",  
+	"//:redfrik */
+play{o=SinOsc.ar(1/RunningMax.ar(Sweep.ar(LocalIn.ar(6)),Impulse.ar([1,0.749,6,12,3,4])));LocalOut.ar(o);Splay.ar(o).tanh/2}//#SuperCollider
+
+",  "//:redfrik */
+play{x=LFNoise1.ar(0.5!2);Formlet.ar(Crackle.ar(x.range(1.8,1.98)),TExpRand.ar(200,2e3,x).lag(2),x.range(5e-4,1e-3),0.0012)}//#SuperCollider
+
+",  "//:juan alzate romero */
+play{o=LFCub.kr(1/[24,8,12,16]);PitchShift.ar(LFPulse.ar(o[0]*50+100,0,0.1).lag(1/1000),o[3]*0.299+0.3,o[2]*8+8,o[1],o[0]*0.1+0.1)!2} 
+
+",  "//:jonatan liljedahl */
+play{a=ar(PinkNoise,5e-4);ar(GVerb,({ar(Ringz,a*LFNoise1.kr(0.2),exprand(60,8000),3)}!40).sum,50,99).tanh}
+
+",  
+	"//:batuhan bozkurt */
+{a=LocalIn.ar;LocalOut.ar(Mix.ar(x=SinOsc.ar((Decay.ar(Impulse.ar([4,4.005]),1e3*a.abs)*50), a).distort));x;}.play;//tryingharder_to_noavail
+
+",  "//:jonatan liljedahl */
+play{v=Saw.ar([40,41])*4;6.do{|n|v=LeakDC.ar(AllpassL.ar(v,0.2,n*0.004+0.014+Saw.ar(0.25+n*0.25,0.01),1))};v.clip2(1)}
+
+",  "//:jonatan liljedahl */
+play{i=Impulse;LocalOut.ar(b=DelayL.ar(HPF.ar(LocalIn.ar(2),2e2)+Ringz.ar(i.ar(1/2),TExpRand.kr(50,99,i.kr(1/2)),2,4).sin,7/6,7/6).tanh);b}
+
+",  "//:marcus wrangoe */
+play{Klank.ar(`[[99,98,953,923],nil,[1,1,1,1]],GVerb.ar(CombC.ar(Gendy1.ar(6,6,3,Dust.ar([99,98],1),20,400),1,0.01,0.02),9,9,mul:0.005))}
+
+",  
+	"//:batuhan bozkurt */
+play{LocalOut.ar(x=LFNoise1.ar(0.5*LocalIn.ar(1)+0.1,0.5,0.5));PitchShift.ar(PitchShift.ar(Pulse.ar([90,90.01],x),10,x*4,x),10,4-(x*4),1-x)}
+
+",  "//:batuhan bozkurt */
+play{n=LFNoise0.kr(_);v=Blip.ar([2e4,2e4-9],1,n.(16)*0.5+0.5**9);42.do{v=LeakDC.ar(AllpassC.ar(v,1,n.(5)*5e-2+(5e-2+1e-3),100))};tanh(v*99)}
+
+",  "//:juan alzate romero */
+play{d=Duty;t=d.kr(1,0,Dseq(0-[0,7,5,2],inf));f=d.kr(1/3,0,Dseq([0,3,7,12,8]+60,inf));GVerb.ar(Blip.ar(f.midicps*t.midiratio,4),99,4)} //#sc
+
+",  "//:juan alzate romero */
+play{a=LFNoise0;b=FBSineC.ar(a.kr(4,2e4,2e4),a.kr(10,16,17),1,1.005,0.7)!2;Latch.ar(b,Impulse.ar(a.kr(0.5,5e3,4e3)))*a.kr(5,0.4,0.5)}
+
+",  
+	"//:alexandra cardenas */
+play{n=LFDNoise3;Limiter.ar(Splay.ar(VarSaw.ar([n.kr(1).range(60,180),80,n.kr(2).range(70,120)])*n.ar(50).wrap2(n.kr(1.7)),1,1,0),0.5,0.01)} 
+
+",  "//:nathaniel virgo */
+play{p=PinkNoise.ar(1!2);BRF.ar(p+Blip.ar(p+2,400),150,2,0.1)+LPF.ar(FreeVerb2.ar(*LPF.ar(p+0.2*Dust.ar(0.1),60)++[1,1,0.2,1e4]).tanh,2000)}
+
+",  "//:nathaniel virgo */
+{a=PinkNoise.ar(1!2);50.do{a=BBandStop.ar(a,LFNoise1.kr(0.05.rand).exprange(40,15000),exprand(0.1,2))};LPF.ar(a,1e5)}.play//#supercollider
+
+",  "//:redfrik */
+play{a=1/(2..5);GVerb.ar(Splay.ar(Ball.ar(LPF.ar(Impulse.ar(a),500),7-(1/a),1e-5,LFNoise2.kr(a/5,2e-4,12e-4))/2),5,0.5,0.9)}//#SuperCollider
+
+",  
+	"//:pyoungryang ko */
+Routine({inf.do{|i|{SinOsc.ar(57.rand+i%181.nthPrime*5,0,EnvGen.kr(Env.sine(9.rand,0.01.rand),doneAction:2))}.play;(i%0.17).wait}}).play
+
+",  "//:josh parmenter */
+{t=Dust.kr(1);FreeVerb.ar(GrainSin.ar(1,t,0.1,Select.kr(LFNoise1.kr(1,3,2),[[4,6,7,9,11,12],[0,4,4,7,7,7]].flop+84).midicps),1,1)*0.1}.play
+
+",  "//:redfrik */
+play{GVerb.ar(ceil(In ar:8*4+4)-4/10)};Pbind(\\dur,2,\\legato,Pgeom(0.5,1.1),\\degree,Pseq(List fib:8+[[1,4]]-9,9),\\out,8).play//#SuperCollider
+
+",  "//:nathaniel virgo */
+d={|l,h,f,p|({Ringz.ar(LFPulse.ar(f,p,0.01),exprand(l,h),0.5)}!20).sum};{d.(50,100,2,[0,1/4])+d.(3e3,1e4,4,0)+d.(2e2,3e3,1,0.5)*3e-4!2}.play
+
+",  
+	"//:micromoog */
+play{a=VarSaw.ar(SinOsc.ar(1/20,7/3,80,80),0,LFNoise1.kr(1,1/2,1/2))*Line.ar(0,1)!2;CombN.ar(a,2,2,20,1,a).softclip}//#supercollider
+
+",  "//:juan alzate romero */
+play{Splay.ar(SinOsc.ar(Latch.ar(SinOsc.ar(1.3,0,4e2,5e2),Impulse.ar([1,1.0001])*[1,2,3,4]).lag(0.05),0,0.9))}
+
+",  "//:micromoog */
+play{LFCub.ar(LFSaw.kr(LFPulse.kr(1/4,1/4,1/4)*2+2,1,-20,50))+(WhiteNoise.ar(LFPulse.kr(4,0,LFPulse.kr(1,3/4)/4+0.05))/8)!2}//#supercollider
+
+",  "//:alexandra cardenas */
+{d=Dust;r=TRand.kr(40,100,d.kr(1));Splay.ar(Ringz.ar(LFPulse.ar([0.1,0.2,1,1.2]),[r,r*1.2,r*3,r*7],[0.6,0.4,0.2,0.1]),1,0.03,0.0)}.play
+
+",  
+	"//:Monocular Sludgebath the 7th */
+{Mix.fill(99,{|i| var a=LFNoise2.kr(i*[0.001,0.01]); a*RLPF.ar(Saw.ar(40+(i*10).round(5.73),0.02),(a*2e3).max(100),(i+1)*0.001)})}.play
+
+",  "//:nathaniel virgo */
+{LocalOut.ar(a=CombN.ar(BPF.ar(LocalIn.ar(2)*7.5+Saw.ar([32,33],0.2),2**LFNoise0.kr(4/3,4)*300,0.1).distort,2,2,40));a}.play//#supercollider
+
+",  "//:batuhan bozkurt */
+{n=LFNoise0.ar(_);f=[60,61];tanh(BBandPass.ar(max(max(n.(4),l=n.(6)),SinOsc.ar(f*ceil(l*9).lag(0.1))*0.7),f,n.(1).abs/2)*700*l.lag(1))}.play
+
+",  "//:miquel parera jaques */
+{Pan2.ar(SinOsc.ar(Demand.kr(Impulse.kr(rrand(2,33)),0,Dseq([0.3.rand,0.3.rand]+rrand(99,200),inf)),0,SinOsc.ar(rrand(6,33))),0,0.08)}.play;
+
+",  
+	"//:batuhan bozkurt */
+play{LocalOut.ar(x=DelayC.ar(LPF.ar(LFNoise0.ar(8)**2+LocalIn.ar(2).tanh.round(0.05),6e3),1,LFNoise0.ar(8!2).range(1e-4,0.02)));x.tanh}//#sc
+
+",  "//:thor */
+play{x=SinOsc;y=LFNoise0;a=y.ar(8);(x.ar(Pulse.ar(1)*24)+x.ar(90+(a*90))+MoogFF.ar(Saw.ar(y.ar(4,333,666)),a*XLine.ar(1,39,99,99,0,2)))!2/3}
+
+",  "//:minkepatt */
+(f=Duty.kr(_,16,Dseq(\"berlin_calling\".ascii,inf));play{RHPF.ar(LFTri.ar(f.(5/34)*7),f.(1/13)*16,(LFSaw.ar(0.25,1)))};)
+
+",  "//:nathaniel virgo */
+Ndef(\\,{x=DelayN.ar(LeakDC.ar(Ndef(\\).ar),1,z=1e-2);LPF.ar(Trig1.ar(Amplitude.kr(x,5,120)*1.5+x+z-Dust.ar(2),4e-3)*0.1+x*0.99,1200)}).play
+
+",  
+	"//:batuhan bozkurt */
+play{t=[0,0,0,1,5,7,10,12,12,12]+30;a=Duty.kr(1/8,0,Dxrand(t+24++t++t,inf));(BHiPass.ar(LFNoise1.ar(8)**6,[a,a+7].midicps,a/3e3,67-a)).tanh}
+
+",  "//:Monocular Sludgebath the 7th */
+{a=99; Mix.fill(a,{|i| e=EnvGen.ar(Env({1.0.rand}!a,{rrand(1,7)}!98,i.neg,97,0));e*Blip.ar(LFNoise2.ar(7*e,7,e*[a,1e3]+8),e*a%7,0.1)})}.play
+
+",  "//:jonatan liljedahl */
+play{GVerb.ar({|i|Ringz.ar(LPF.ar(Impulse.ar(2/(1.2+i)),6e3),1e3/(i+1),0.3)}.dup(20).scramble.sum/2,18,5).tanh}
+
+",  "//:redfrik */
+play{f={|o,i|if(i>0,{SinOsc.ar([i,i+1e-4]**2*f.(o,i-1),f.(o,i-1)*1e-4,f.(o,i-1))},o)};f.(60,6)/60}//#SuperCollider
+
+",  
+	"//:redfrik */
+play{b=LocalBuf(1e4,2).clear;i=Sweep.ar(BufRd.ar(2,b,Saw.ar(1,2e3,5e3)),5e5);BufWr.ar(Saw.ar([8,50]),b,i);BufRd.ar(2,b,i)/3}//#SuperCollider
+
+",  "//:juan alzate romero */
+play{Splay.ar(LFCub.ar(LFTri.kr([1,1.1],0,LFPar.kr(1/7,0,10),{(100,150..500).choose}!5),0,LFSaw.kr(4/[1,3,4,6,8])**LFPar.kr(1/8,0,7,8)))}
+
+",  "//:batuhan bozkurt */
+play{AllpassC.ar(SinOsc.ar(55).tanh,0.4,TExpRand.ar(2e-4, 0.4,Impulse.ar(8)).round([2e-3,4e-3]),2)};// #supercollider with bass please...
+
+",  "//:dan stowell */
+d=(TChoose.kr(Impulse.kr(0.5),_));{([LPF,BPF,HPF].choose.ar(Saw.ar(d.((3..6)/3**2)*[44,45]),LFTri.ar(d.((1..8)))*9**3)*9).tanh}.play
+
+",  
+	"//:juan alzate romero */
+play{l=LFSaw;l.ar(l.kr(l.kr([1,3],0,4,[5,6]),l.kr(1/[4,8]),l.kr(1,0,99,100),l.kr(1/2,0,50,l.kr(1/4,1/3,50,100))))/2} // #sc LFSaw galore
+
+",  "//:lfsaw */
+{Splay.ar({SinOscFB.ar(LFSaw.ar(Sweep.ar(Impulse.ar(Rand()),2)).range(Rand(99,999), Rand()),Sweep.ar(Impulse.ar(Rand())))}!10)}.play
+
+",  "//:juan alzate romero */
+play{i=Impulse;a=Splay.ar((PulseCount.ar(i.ar((1..8)),i.ar(1/3))>4)*Blip.ar((40,44..62).midicps,2));a*0.1+GVerb.ar(HPF.ar(a,4e3),300,14)*4}
+
+",  "//:thor */
+play{x=Decay;d=Dust.ar(4);FreeVerb.ar(LPF.ar(x.ar(d,0.5,WhiteNoise.ar),2000)+x.ar(d,0.15,SinOsc.ar([40,47],pi,5)), 0.4,0.6,TRand.ar(0,1,d))}
+
+",  
+	"//:juan alzate romero */
+fork{loop{h=[100,800,3000].choose;play{Splay.ar({SinOsc.ar(exprand(60,h),0,0.1)}!40)*LFGauss.ar(19,1/4,0,0,2)};8.wait}}; 
+
+",  "//:batuhan bozkurt */
+play{i=Impulse.ar(_);SinOsc.ar(i.(2).lagud(0,0.4)*360,Integrator.ar(Integrator.ar(i.(64).lag(LFNoise1.ar(2!2,2,2))*99,0.9),0.99).fold2(pi))}
+
+",  "//:batuhan bozkurt */
+play{LeakDC.ar(BRF.ar(Saw.ar(8,Decay2.kr(x=Duty.kr(1/8,0,Drand([0,Drand((0.4,0.5..1))],inf)),0.01,0.3))**1.5,x*20+[45.1,45],0.1)).tanh}//#sc
+
+",  "//:nathaniel virgo */
+play{b=LocalBuf(4e5,2).clear;BufCombL.ar(b,LeakDC.ar(LPF.ar(PlayBuf.ar(2,b,16/15,0,0,1),300))+Blip.ar([20,21],1),2,40)/20}//#supercollider
+
+",  
+	"//:juan alzate romero */
+Buffer.allocConsecutive(8,s,1024,1,{|b,i|b.sine1Msg(1/(1..((i+1)*6)))},0);{f=[50,75,99];VOsc3.ar(LFNoise1.kr(1/4,3,4),*f).lag(3e-3)!2}.play
+
+",  "//:nathaniel virgo */
+b=Buffer.read(s,\"sounds/a11wlk01.wav\");play{t=Impulse.kr(5);PlayBuf.ar(1,b,1,t,Demand.kr(t,0,Dseq(1e3*[103,41,162,15,141,52,124,190],9)))!2}
+
+",  "//:redfrik */
+r{loop{z=20.rand+6;x={y=LFTri.ar(z).abs/9/z;RLPF.ar(TDuty.ar(y,0,y),z*600,0.06,9)!2}.play(s,0,z);wait(26-z);x.release}}.play//#SuperCollider
+
+",  "//:nathaniel virgo */
+Ndef(\\,{LPF.ar(x=DelayN.ar(LeakDC.ar(Ndef(\\).ar,1-2e-6)*0.99,1,0.01)+Dust.ar(0.5!2);x+(Trig1.ar(x<(x.mean.lag(30)),4e-3)*0.05),800)}).play
+
+",  
+	"//:minkepatt */
+({PanB2.ar(Gendy1.ar(3,4,2,2,305,500,0.33)*LFNoise2.kr(0.2,0.5),Saw.kr(0.2,3))}.play;) 
+
+",  "//:jonathan siemasko */
+{CombC.ar(Klang.ar(`[[100,101,1000,1001]],1,0)*0.1,0.33,LFTri.ar(0.1, 0, 0.1, 0.11)+LFTri.ar(0.17, 0, 0.1, 0.22),10)!2}.play;
+
+",  "//:micromoog */
+{BPF.ar(DynKlang.ar(`[[3,5,[4,6]]],Demand.kr(Impulse.kr(1/3),0,Dseq([9,8,6,4],inf))*7).floor,LFPar.ar(1,2,911,999))/3}.play;//#supercollider
+
+",  "//:marcus wrangoe */
+play{GVerb.ar(CombC.ar(Dust.ar(100)/Blip.ar(200,Line.kr(5,50,200),0.1),Dust.ar(1),0.01,0.02),9,9,mul:0.0001)}
+
+",  
+	"//:juan alzate romero */
+play{l=LFCub;Splay.ar(l.ar(l.kr(9.1,0,100,(200,300..500)),0,(l.kr(9,0,1,l.kr(1/[2,3,5,7],0,0.5,0))>(l.kr(1/2,0,0.4,0.5))).lag/2))} // #sc
+
+",  "//:minkepatt */
+(play{Ringz.ar((Impulse.kr(4))+(Dust.kr(9))*2/3*(HPF.ar(ClipNoise.ar(1/6),3300)),[34,21].squared)};)
+
+",  "//:alexandra cardenas */
+{Splay.ar({Integrator.ar(LFPulse.ar(rrand(0.1,42.0),0.3,4e-4),0.999,VarSaw.ar(LFDNoise3.kr(2.1).range(100, 3600)),0)}!22,1,0.7,0)}.play
+
+",  "//:aucotsi */
+play{b=SinOsc.kr(5);a=Line.kr(0.1,2pi,37);FreeVerb.ar(SinOsc.ar(a*341!2*Impulse.kr(b*680/pi),LFPulse.kr(2,0,pi/2),LFPulse.kr(3,0,1/pi*b)))}
+
+",  
+	"//:nathaniel virgo */
+x=LFPulse;d={|l,h,f,p,n|sum({Ringz.ar(x.ar(f,p,0.01),exprand(l,h).round(n),0.6)}!40)};{d.(30,150,2,[0,0.3],[1,x.kr(1/8)*10+40])*3e-4!2}.play
+
+",  "//:julian rohrhuber */
+Ndef(\\y, { a = {{ Drand([Dshuf({0.0001.rand}!rrand(2,11),SinOsc.kr(0.1)*40), 0.05], inf) }}; TDuty.ar(a!2!8,0,0.1).sum  }).play;
+
+",  "//:scott wilson */
+{GVerb.ar(Formant.ar(Duty.kr({Drand([0.1,0.17],inf)},0,[\"SCBerlin10!\",\"Vielen Dank,Andre!\"].collect({|t|Dseq(t.ascii/2,inf)})))/4).sum}.play
+
+",  "//:batuhan bozkurt */
+play{Mix({|k|k=k+1/2;2/k*Mix({|i|i=i+1;Blip.ar(i*XLine.kr(rand(2e2,4e2),87+LFNoise2.kr(2)*k,15),2,1/(i/a=XLine.kr(0.3,1,9))/9)}!9)}!40)!2*a}
+
+",  
+	"//:andre bartetzki */
+{SinOsc.ar([20,23.7]*3,0,0.4).sqrt.thresh(LFNoise0.ar(11.3)).scaleneg(WhiteNoise.ar(0.4)).ring2(Impulse.ar([12.7, 10.1]))}.play
+
+",  "//:taylan cihan */
+play{{Mix.fill(8,{a=LFDNoise0.kr(9);b=a.range(1e-4,0.2);c=a.abs*2e3;d=b.sqrt;RLPF.ar(CombL.ar(FBSineL.ar(c,a,a,a),b,b,d),c,d).tanh*0.2})}!2}
+
+",  "//:mr proxxxy */
+(q=10;q.do{|i|{SinOscFB.ar([75+i,85+i],LFPulse.kr([60/q,60.05/q],add:0,mul:LFTri.kr(20/q,mul:20/q)),mul:1/q)}.play})
+
+",  "//:aucotsi */
+play{b=SinOsc.kr(1);a=Line.kr(0.1,2*pi,37);FreeVerb.ar(SinOsc.ar(b*340!2*Impulse.kr(b*680),LFPulse.kr(2,0,pi/2),LFPulse.kr(3,0,1/pi*a)))}
+
+",  
+	"//:juan alzate romero */
+play{l=LFNoise2;FreeVerb2.ar(*XFade2.ar(SinOscFB.ar([80,81],l.kr(1)+1/2),SinOscFB.ar([121,160],l.kr(1)+1/2),l.kr(1)))}
+
+",  "//:batuhan bozkurt */
+play{t=[0,3,5,7,10,12]+40;p=Duty.ar(1/4,0,Drand((t+12++t).midicps,inf));Blip.ar([b=TRand.ar(1500,2e3,Impulse.ar(16)).lag,b+p],1).mean!2**2}
+
+",  "//:nathaniel virgo */
+x=0;Pbind(*[type:\\set,id:{|freq=10|LFTri.ar(freq.lag(0.1))!2}.play.nodeID,freq:Pfunc{x=x+32%355;x%12+1*40},dur:1/6]).play//#supercollider
+
+",  "//:jonatan liljedahl */
+play{tanh((z=Ringz).ar((i=Impulse).ar(1,[0,5.7/8,1.7/8],[4,1,0.2]).sum,[400,300],0.3)+z.ar(i.ar(1/2,3/4),50,0.7,1+PinkNoise.ar))}
+
+",  
+	"//:redfrik */
+play{a=SinOscFB;sum({|i|a.ar(a.ar(a.ar(a.ar(i+1,1/9,999),1/9,a.ar(1/9,1,1/9)),a.ar(0.1,3),i+2*999),a.ar(1/9,1/9),1/9)}!9)!2}//#SuperCollider
+
+",  "//:juan alzate romero */
+play{l=LocalIn.ar+Decay2.ar(Impulse.ar(3),3e-2,0.05,LFCub.ar(LFNoise2.kr(19,500,600)));l=DelayN.ar(l,1,1/2);LocalOut.ar(l/3);l!2}
+
+",  "//:jonatan liljedahl */
+play{GVerb.ar(Mix.fill(14,{|i|BPF.ar(Decay.ar(Impulse.ar(i*0.1+0.5),0.5,1.2),800*i+40)/(i+1)}),2.7,9).tanh}
+
+",  "//:scacinto */
+{var w,x,z;x=LFNoise0.kr(5,0.3,0.3);w=Mix(SinOsc.ar(x*99%50)!4);z=SinOsc.ar(x*500*w,w%pi+pi).clip(x,x*3)*w.clip;z!2}.play
+
+",  
+	"//:batuhan bozkurt */
+play{f=LocalIn.ar(2).tanh;k=Latch.kr(f[0].abs,Impulse.kr(1/4));LocalOut.ar(f+CombC.ar(Blip.ar([4,6],100*k+50,0.9),1,k*0.3,50*f));f}//44.1kHz
+
+",  "//:batuhan bozkurt */
+play{i=Impulse.ar(8).lag(0.3)!2;10.do{i=LeakDC.ar(AllpassC.ar(i,1,LFNoise0.ar(8).range(1e-5,0.2),-0.15,LFNoise0.ar(8).range(1,3))).tanh};i}
+
+",  "//:juan alzate romero */
+play{l=LFTri;l.ar(l.kr(1/4,1/1.5,l.kr(1,0,10,10),{|i|50+i}!8+l.kr(1/3,0,3,40)),0,l.kr((1..8),0,0.2).excess(0.01)*({|i|16-i/20}!16)).sum!2}
+
+",  "//:aucotsi */
+play{c=LFPulse.kr(0.5);b=SinOsc.kr(0.0034);a=Line.kr(0.1,2pi,37);FreeVerb.ar(Blip.ar(a*340!2*Impulse.kr(b*34/pi),c*TIRand.kr(0,113,c),c))}
+
+",  
+	"//:redfrik */
+play{a=SinOsc;Limiter.ar(LeakDC.ar(a.ar(0.11,BRF.ar(a.ar(a.ar(0.12).exprange(1,1e4),2pi),1/a.ar(0.13).range(1,[99,100])))))}//#SuperCollider",  "//:nathaniel virgo */
+x=Ndef(\\x,Pbind(\\freq,Pseq(a=(3..5);a/.x a*.x[40,80],8)));Ndef(\\,{Limiter ar:GVerb.ar(PitchShift.ar(Ndef ar:\\,1,2,0,0.1),30,9)/4+x.ar}).play
+
+",  "//:juan alzate romero */
+play{f=FreeVerb;x=Decay2.ar(Impulse.ar([3,4]),1/99,1/9,LFCub.ar({rrand(40,400)}!4,0,0.1)).sum;5.do{x=f.ar(x,LFTri.kr(1/16,0,1/4,0.3))};x!2}
+
+",  "//:juan alzate romero */
+play{e=ExpRand;Splay.ar(Decay2.ar(Impulse.ar({e.new(1,8).round/3}!9),5e-3,{e.new(0.1,1)}!9,LFCub.ar({e.new(66,666).round(20)}!9)))}
+
+",  
+	"//:david granstroem */
+play{z=LFDNoise0;x=Blip.ar(Duty.kr(8,0,Dseq([220,174],inf)).lag,4);5.do{x=BPF.ar(x,z.kr(8!2,400,700).abs,z.kr(0.8!2).range(0.1,1).abs)};x*2}
+
+",  "//:micromoog */
+play{VarSaw.ar((Hasher.ar(Latch.ar(SinOsc.ar((1..4)!2),Impulse.ar([5/2,5])))*300+300).round(60),0,LFNoise2.ar(2,1/3,1/2))/5}//#supercollider
+
+",  "//:nathaniel virgo */
+play{b=LocalBuf(1e5,2).clear;x=BufRd.ar(2,b,Phasor.ar(0,1,0,1e5))*0.6;BufWr.ar(Blip.ar([1,1.01],10)/5+x,b,LFNoise1.ar(0.2)+1*5e4);x}//#sc
+
+",  "//:batuhan bozkurt */
+play{t=Impulse.ar(8)*LFNoise1.ar(2);CombL.ar(Saw.ar([3,4],Decay.ar(t,0.1)).tanh,1,TRand.ar(0,0.01,t).round(15e-4),TRand.ar(-30,30,t))};//#sc
+
+",  
+	"//:redfrik */
+play{MoogFF.ar(LFTri.ar(CombN.ar(Duty.ar(1/8,0,Dseq(Dshuf(List.fib(16)%8*99,8),inf)),4,4,16))/4,LFTri.kr(1/16,0,2e3,3e3))!2}//#SuperCollider
+
+",  "//:matt barber */
+{g=LFNoise2.ar(3,11,12);f=LFNoise0.ar(g,4,6).octcps;x=Resonz.ar(LFNoise0.ar(f),f/6,(g**2.3)/f).clip;AllpassC.ar([x,0-x],1,g/230,g)}.play
+
+",  "//:josh parmenter */
+{r={|y,z|50.collect{Rand(y,z)}};Pluck.ar(Crackle.ar*0.01,Dust.kr(r.(9,12)),0.01,SinOsc.kr(1/r.(50,20),r.(0,6),4e-4,5e-4),2,0.01).sum}.play
+
+",  "//:david granstroem */
+play{x=if(LFPulse.kr(2,0,LFNoise0.kr(1).range(0,1)),SinOsc.ar(1.5)*200,Saw.ar(4,Duty.kr(8,0,Dseq([400,800],inf))));LFTri.ar([120+x,480+x])}
+
+",  
+	"//:nathaniel virgo */
+play{x=Splay.ar({|i|RLPF.ar(0.6**i*40*Impulse.ar(2**i/32,1/2),4**LFNoise0.kr(1/16)*300,5e-3).sin}!8);2.do{x=FreeVerb2.ar(*x++[0.1,1,1])};x}
+
+",  "//:mr proxxxy */
+(q=4;q.do{|i|{BPF.ar(PinkNoise.ar(Impulse.kr([2*q,2*q+(0.01*q)])), 400*q,0.4/q)}.play;}; {SinOsc.ar([60,61],mul:0.25)}.play)
+
+",  "//:juan alzate romero */
+play{a=Blip.ar(60,4,LFGauss.ar(4,1/8));a=a/4+LocalIn.ar(2);a=FreqShift.ar(a,LFNoise0.kr(1/4,90));LocalOut.ar(DelayC.ar(a,1,0.1,0.9));a}
+
+",  "//:juan alzate romero */
+play{GVerb.ar(Blip.ar((Duty.kr(1/[1,2,4],0,Dseq([0,3,7,12,17]+24,inf))).midicps*[1,4,8],LFNoise1.kr(1/4,3,4)).sum,200,8)} // #sc
+
+",  
+	"//:thor */
+b=Buffer.read(s,\"sounds/a11wlk01.wav\");play{t=Dust.kr(99);r=TRand;o=Warp1.ar(1,b,r.kr(0,4e4,t),r.kr(0.5,1,t),1)*Linen.kr(t,1);GVerb.ar(o)}
+
+",  "//:redfrik */
+r{loop{z=60.rand+1;x={y=LFTri.ar(z).abs/z;RLPF.ar(TDuty.ar(y,0,y),z*99+y,0.01,6+y)!2}.play(s,0,z);wait(z/3);x.release}}.play//#SuperCollider
+
+",  "//:xe kondo */
+play{LPF.ar(SelectX.ar(LFNoise0.kr(0.2,20,20)lag:5,{Ringz.ar(TDuty.ar(Dseq([2,3,5].scramble*0.1,120)),Rand(110,440))*0.5}!40),999)!2}
+
+",  "//:redfrik */
+play{a=SinOsc;Splay.ar({|i|i=i+1;a.ar(a.ar(i)+1**a.ar(2**a.ar(i/500)*(9-i))*a.ar(9*i).exprange(90,2**a.ar(i/20)*800))}!5)/4}//#SuperCollider
+
+",  
+	"//:juan alzate romero */
+play{r=LFNoise0.kr(1/4,6,6).round.midiratio;Splay.ar({ToggleFF.ar(Impulse.ar(8.rand+1)).lag(1/99)*SinOsc.ar((50,100..800).choose*r)}!40)}
+
+",  "//:batuhan bozkurt */
+{f=LocalIn.ar(2).tanh;k=Latch.kr(f[0].abs,Impulse.kr(0.5));LocalOut.ar(f+AllpassN.ar(Pulse.ar([2,3],k*0.01+1e-6,0.9),1,k*0.3,100*k));f}.play
+
+",  "//:minkepatt */
+({PanB2.ar(Gendy1.ar(6,2,3,4,rrand(15,250),5000,0.1)*LFNoise2.kr(0.2,2),LFNoise0.kr(0.2))}.play;)
+
+",  "//:stefan nussbaumer */
+play{e=Drand((3..65),inf);d={|i|p=Impulse.ar(i+1*2)}!2;GVerb.ar(Blip.ar(Demand.kr(A2K.kr(p),0,e),TExpRand.ar(2e4,20,d*10)),100,0.02,0.02)}
+
+",  
+	"//:nathaniel virgo */
+play{({|i|x=Dbufrd(b=LocalBuf(5).clear,i);x=x**x-LFNoise0.ar(1/(2**i),50).floor%16;Pulse.ar(Duty.ar(1/8,0,Dbufwr(x,b,i))*20)}!5).mean!2}
+
+",  "//:nathaniel virgo */
+d={|l,h,f,p,n|sum({Ringz.ar(LFPulse.ar(f,p,0.01),exprand(l,h).round(n),0.5)}!20)};{d.(50,150,[2,1,1],[0,1/4,3/4],[1,40,50])*3e-4!2}.play
+
+",  "//:mark hadman */
+play{o=SinOsc;a=[2,3,5,7,11,13,17];Splay.ar(o.ar(o.ar(a,0,50,o.ar(0.119,0,5,32))*a,0,o.ar(0.027,-pi/2,9,9).dbamp/(1,2..7))).tanh}//#sc140
+
+",  "//:chad mckinney */
+play{b=LocalBuf(8192,4);d=Dust.kr(9)+Dust2.kr([4,4]);r=PlayBuf.ar(2,b,TExpRand.kr(0.01,19,d),d,0,1)/4;FFT(b,d+(d*r));Out.ar(0,r.clip2(1))};
+
+",  
+	"//:redfrik */
+r{loop{x={BPF.ar(Pluck.ar(Crackle.ar([1.9,1.8]),Impulse.ar(5.rand+1),0.05,0.05.linrand),1200.rand)}.play(s,0,9);wait(9);x.release(69)}}.play
+
+",  "//:redfrik */
+play{{|i|CombC.ar(In.ar(8),3+i,LFTri.ar(0.5,0,1,2+i),99)}!2};Pbind(\\out,8,\\note,Pstutter(8,Pseq(List.fib(32)%9/3,inf))).play//#SuperCollider
+
+",  "//:juan alzate romero */
+play{f=LFPar.kr(0.22,0,100,150).round(50).lag;Gendy2.ar(6,6,0.5,0.01,f,f+[1,2],1/2,1/2,19,f/4)*SetResetFF.ar(Impulse.ar(4),Dust.ar(4)).lag}
+
+",  "//:redfrik */
+play{a=SinOsc;LeakDC.ar(a.ar(a.ar(0.31),a.ar(a.ar(0.21),a.ar(a.ar(0.11,a.ar(0.01)),0,a.ar([2,3],0,400))),a.ar([0.3,0.21])))}//#SuperCollider
+
+",  
+	"//:matt barber */
+{g=LFNoise2.ar(3,11,12);f=LFNoise0.ar(g,4,6).octcps;x=Resonz.ar(LFNoise0.ar(f),f/6,(g**2.3)/f).clip;AllpassC.ar([x,0-x],1,g/23,99)}.play
+
+",  "//:alexandra cardenas */
+{a=Dust;b=TRand;Splay.ar(Blip.ar(b.kr(1,40,a.kr(2.5)),b.kr(1,150,a.kr(0.5))!3),1,b.kr(0,1,a.kr(2)),b.kr(-1,1,a.kr(0.7)))}.play
+
+",  "//:nathaniel virgo */
+n={|r,f,n=0,d=1|round(r**LFNoise0.ar([4,1,8,2]!d)*f,n)};play{Splay.ar(d=n.(3,0.6);Ringz.ar(d*0.01,n.(2,n.(20,400),40,20),d).mean.tanh)}
+
+",  "//:andrea valle */
+{\"|i|{Saw.ar(i.ascii.midicps,Line.kr(1,0,1,1,0,2))}.play;0.1.wait\".do{|i|{Saw.ar(i.ascii.midicps,Line.kr(1,0,1,1,0,2))}.play;0.1.wait}}.fork
+
+",  
+	"//:batuhan bozkurt */
+play{Mix({a=LFNoise1.ar(0.2.rand);DelayC.ar(BPF.ar(WhiteNoise.ar(Dust2.ar(a*a*4**2).lag(8e-3)),10e3.rand+300,0.09),3,a*1.5+1.5,45)}!80).dup}
+
+",  "//:adina izarra */
+({(Mix.fill(98,{SinOsc.ar(5000*rrand(1.0,1.9),0,1/18)}))*EnvGen.ar(Env.perc(0.01 * 0.5, 0.01 * 0.9),Dust.ar(6))!2}.play)
+
+",  "//:juan alzate romero */
+fork{loop{a=play{p=Pulse;p.ar(p.ar([p.kr(1)*3+4,4.01]*10,1/[3,4],[98,99],199),p.kr(1/4,1/2,1/2,1/2).lag)*p.kr([2,3],0.9)};4.wait;a.free;}}
+
+",  "//:redfrik */
+r{99.do{x={Pan2.ar(BPF.ar(Impulse.ar(18.linrand+0.5),9999.linrand,0.3.linrand,5),1.0.rand2)}.play;3.wait;x.release(9)}}.play//#SuperCollider
+
+",  
+	"//:aucotsi */
+Array.fib(7,0,4)!2.do({|i|{SinOsc.kr(i)*Line.ar(0.3,0,36,1,0,2)*Blip.ar(340!2*LFPulse.kr(2,0,1/i),TRand.kr(-2pi,2pi,Impulse.kr(9)))}.play})
+
+",  "//:jonatan liljedahl */
+play{p=LFPulse;tanh(p.ar(40)*p.kr([0.5,1])+mean({|n|(p.ar(n*2e2+50*p.kr(2-n/[1,3,5],(1..3)/10).sum+4e2)*p.kr(n+1*6,0,0.8).lag)}!2)/2)}
+
+",  "//:juan alzate romero */
+9.do{|i|Pbind(\\scale,#[0,3,5,7,10],\\octave,3.rand+3,\\dur,(12.rand+1)/5,\\degree,Pn(Plazy{Pseq(18.partition(8.rand+2)-1,4)})).play}
+
+",  "//:micromoog */
+play{a=LFNoise1;SinOsc.ar(round(VarSaw.ar(a.kr(10,0.1),0,1)*a.kr(1!2!2,400),a.kr(1/50,32,76))).tanh}//#supercollider
+
+",  
+	"//:nathaniel virgo */
+Ndef('x',{x=(Ndef('x').ar*1.8).tanh;BPF.ar(x+[0.01,0.1],12**Latch.ar(x.mean,Impulse.ar(3)).lag(0.1)*200)}).play//#supercollider
+
+",  "//:nathaniel virgo */
+x=Ndef(\\x,Pbind(\\freq,Pseq(a=(3..5);a*.x a*.x[4,8],8)));Ndef(\\,{Limiter ar:GVerb.ar(PitchShift.ar(Ndef ar:\\,1,2,0,0.1),20,20)/4+x.ar}).play
+
+",  "//:minkepatt */
+(play{Schmidt.ar(Saw.ar([48,50,60].midicps), (LFPar.kr(0.87.rand)), (LFPar.ar(CuspL.ar(0.45.rand))))};)
+
+",  "//:nathaniel virgo */
+Ndef(\\,{x=DelayL.ar(n=Ndef(\\);n.ar,2,LFNoise0.kr(0.03*_!20)+1)+Blip.ar(0.5);LeakDC.ar(LPF.ar(x+x.mean*0.15,4e3)).sin});play{Splay.ar(n.ar)}
+
+",  
+	"//:minkepatt */
+(play{var a,f,t;a=Dseq([1,3,5,8,2,5]*[2,0,0.5],inf);t=(Impulse.kr([5,4,7]));f=Demand.kr(t,0,a)*[13,89];LFTri.ar(f)*0.2**Dust.ar(2)};)
+
+",  "//:pyoungryang ko */
+play{Mix.fill(64,{Resonz.ar(Impulse.ar(0.1.rand,0.8,9.9.rand),9+99.rand.nthPrime*SinOsc.kr([1,1.7]*0.001).range([59,2],[2,11]),0.0004,33)})}
+
+",  "//:marcus wrangoe */
+play{x=6666;b=SinOsc;d=Dust;t=Trig.ar(d.ar(x),b.ar(0.001));f=t*b.ar(x+b.ar*t);Limiter.ar(GVerb.ar(GrainIn.ar(2,t,f,f,b.ar(x)),9,9)*0.2,0.6)}
+
+",  "//:juan alzate romero */
+fork{loop{r=rrand(-9,9);9.do{play{Pan2.ar(SinOsc.ar(LinRand(40,900,r))*EnvGen.ar(Env.sine(9),1,0.1,0,1,2),rrand(-1,1.0))}};rrand(6,8).wait}}
+
+",  
+	"//:batuhan bozkurt */
+play{t=Impulse.kr(1/4);k=Duty.kr(2,0,Dxrand((50,52..90),inf));r={|a|Saw.ar(TIRand.kr(1,6,t),a+1*3)}!3;BPF.ar(r.sum,[k,k+0.5],1/9,50).tanh}
+
+",  "//:andre bartetzki */
+{FSinOsc.ar([11,11.3],0,100).sqrt.thresh(LFNoise0.ar(1.3,70)).scaleneg(Pulse.ar([7,8]*1000)).distort.ring4(LFNoise2.ar([0.3,0.3]))}.play
+
+",  "//:thor */
+play{a=SinOsc.ar(0.15).clip(0,1);(Decay2.ar(LFSaw.ar(13)*a, 0.1)+DelayC.ar(RLPF.ar(PinkNoise.ar(0.3)*a,2300,0.1),3,3))!2}
+
+",  "//:miquel parera jaques */
+{Pan2.ar(FreeVerb.ar(SinOsc.ar(Demand.kr(Impulse.kr(Rand(10,100)),0,Dseq([Rand(100,333),Rand(100,333)],inf)),0,0.08),1,1,1),0)}.play;
+
+",  
+	"//:batuhan bozkurt */
+play{(HPF.ar(LFNoise1.ar(2),[10,10.1])*100).tanh}// #supercollider yay! (be very careful with this one, very loud)
+
+",  "//:micromoog */
+play{BPF.ar(VarSaw.ar(LFNoise1.kr(3,40,200),0,0.25)+PinkNoise.ar(0.1),LFNoise2.kr(12,700,1000),0.3)!2};//#supercollider
+
+",  "//:jonatan liljedahl */
+n=LFNoise1;Ndef('x',{a=SinOsc.ar(65,Ndef('x').ar*n.ar(0.1,3),n.ar(3,6)).tanh;9.do{a=AllpassL.ar(a,0.3,{0.2.rand+0.1}!2,5)};a.tanh}).play
+
+",  "//:david granstroem */
+play{z=SinOsc;y=222;GVerb.ar(z.ar(y+z.kr([27,81],0,y*LFDNoise1.kr(0.4,1.4).abs))*0.03+GVerb.ar(PinkNoise.ar(Decay2.kr(Dust.kr(1!2))*0.02)))}
+
+",  
+	"//:dan stowell */
+{ Klank.ar(`[(33,44..77).midicps,nil,0.1], SinOsc.ar(LFSaw.kr(1/60).exprange(0.01, 200)).exprange(100,1000)).dup/9 }.play //#supercollider
+
+",  "//:juan alzate romero */
+play{RandSeed.kr(1,5);e=ExpRand;Splay.ar(Decay2.ar(Impulse.ar({e.new(1,8).round/3}!9),5e-3,{e.new(0.1,1)}!9,LFCub.ar({e.new(66,666)}!9)))}
+
+",  "//:juan alzate romero */
+play{Splay.ar(SinOsc.ar(LastValue.kr(LFNoise0.kr(3!4,250,220),200).round(50)*LFPar.kr((1..4)/8,0,{0.02.rand}!4,1),0,1/2))}
+
+",  "//:juan alzate romero */
+play{Splay.ar(Logistic.ar(LFCub.kr([1,2,4,8],0,1.9,2),LFNoise0.kr(1/[16,12,8,4],400,999).round(150)))}
+
+",  
+	"//:redfrik */
+{|i|x=i+6.rand;Pbind(\\dur,0.06,\\sustain,1,\\amp,0.01,\\degree,Pgauss(x,sin(x+Ptime()%6/6e3)*9),\\pan,Pkey(\\degree)-x*9).play}!6//#SuperCollider
+
+",  "//:nathaniel virgo */
+f=0;Routine({inf.do{|i|f=i/12+f%[4,3];{Formant.ar(2**f*100,2**(i%8*f*0.2)*100,100)*Line.kr(0.1,0,1)}.play;0.25.wait;}}).play//#supercollider
+
+",  "//:julian rohrhuber */
+play { [0,0.08] * Pulse.ar(2020) * product(LFPulse.ar([8,1])) + Dust.ar(XLine.kr(10000, 10, 20) ! 2, 2) };
+
+",  "//:taylan cihan */
+play{Mix.fill(8,{a=LFDNoise1.kr(18);b=a.range(1e-4,0.1);AllpassC.ar(CombC.ar(FBSineC.ar(a.abs*2e4,a,a,a),b,b,b**a),b,b,a).distort*0.2}!2)}
+
+",  
+	"//:sciss */
+play{{|i|b=LocalBuf(64);d=HPZ1.ar(Dust.ar(99));x=CombN.ar(IFFT(FFT(b,PlayBuf.ar(1,b)+d,1,0,1-d)))%1;RecordBuf.ar(InFeedback.ar(i),b);x}!2}
+
+",  "//:marcus wrangoe */
+play{x=1500;b=SinOsc;d=Dust;t=Trig.ar(d.ar(x),b.ar(0.01));f=t*b.ar(x+b.ar*t);Limiter.ar(GVerb.ar(GrainIn.ar(2,t,f,f,b.ar(x)),9,9)*0.2,0.4)}
+
+",  "//:minkepatt */
+(f=Duty.kr(_,3,Dseq(\"berlin_calling\".ascii.mirror,inf));play{RLPF.ar(LFTri.ar(f.(5/34)*7),f.(1/13)*16,(LFSaw.ar(0.5,1)))};)
+
+",  "//:julian rohrhuber */
+Ndef(\\y, { a = { Drand([Dshuf({0.005.rand}!rrand(2,12),SinOsc.kr(0.1)*40), 0.1], inf)}; TDuty.ar(a!2,0,0.1)  }).play;
+
+",  
+	"//:jonatan liljedahl */
+play{a=PinkNoise.ar(LFNoise1.ar(9,0.05));9.do{a=LeakDC.ar(CombN.ar(a,0.3,{0.3.rand+0.03}!2,7))};LPF.ar(tanh(LPF.ar(a+a.mean,777)),7777)}
+
+",  "//:aucotsi */
+play{#a,b=[SinOsc,TIRand];FreeVerb.ar(a.kr(1.1)*Formant.ar(44!2*Stepper.kr(LFTri.kr(2.9),0,b.kr(-4,12,a.kr(0.61).ceil)/4),a.kr(0.1),99,8))}
+
+",  "//:steel stylianou */
+play{x=SinOsc;y=LFNoise1;a=y.ar(4);(MoogFF.ar(LFPulse.ar(y.ar(1,96,768))+x.ar(Pulse.ar(6)*64)+x.ar(8+(a*96)),a*XLine.ar(1,8,9,96,9,0)))!2/3}
+
+",  "//:scott wilson */
+{f=Duty.kr({Drand([0.1,0.13],inf)},0,[\"SCBerlin10!\",\"Vielen Dank,Andre!\"].collect({|t|Dseq(t.ascii/2,inf)}));Formant.ar(f,f*19,f*50)/4}.play
+
+",  
+	"//:juan alzate romero */
+play{o=LFPulse.kr(1/[4,7,13,19]);PitchShift.ar(LFPar.ar(o@0*1e3+1e3,0,0.1).lag(1/1000),o@3*0.299+0.3,o@2*2+2,o@1,o[0]*0.1+0.1)!2}
+
+",  "//:redfrik */
+play{x=CombC.ar(Phasor.ar(0,{|i|i+1/4}!5),0.2,LFPar.ar(0.09,0,0.05,0.1).round(0.022));Splay.ar(Phasor.ar(BPF.ar(x,50),x)/4)}//#SuperCollider
+
+",  "//:redfrik */
+x=0;{|i|Pbind(\\dur,i+1/4,\\lag,i/6/6,\\octave,i+3,\\legato,i+1/6,\\degree,Pn(Plazy{x=x+1%6;Pseq(asDigits(x+1*142857))})).play}!6//#SuperCollider
+
+",  "//:jonatan liljedahl */
+play{LeakDC.ar(GVerb.ar(Mix.fill(14,{|i|BPF.ar(Decay.ar(Impulse.ar(i*0.1+0.5),0.5,1.5),1000*i+40)/(i+1)}),2.7,7)).tanh}
+
+",  
+	"//:redfrik */
+play{Splay.ar({|i|f=i+5*99;RHPF.ar(Ringz.ar(Ball.ar(Saw.ar(i+1)>0,SinOsc.kr(0.1,0,1/5,0.3),0.05,0.02)/99,f,0.05),f,0.1)}!5)}//#SuperCollider
+
+",  "//:redfrik */
+r{{|j|a=play{sin(Decay.ar(Duty.ar(1/50,0,Dseq(flat({|i|asBinaryDigits(j+1*i)}!8),4),2),j+1*0.008))/2!2};5.12.wait}!256}.play//#SuperCollider
+
+",  "//:jonatan liljedahl */
+play{GVerb.ar(Mix.fill(10,{|i|Ringz.ar(Impulse.ar(i*0.05+0.5),300*i+40,0.12,3+PinkNoise.ar(3)).sin/(i+1)*0.6}),3.4,7).tanh}
+
+",  "//:juan alzate romero */
+play{x=LFDNoise3;Blip.ar(x.kr(1,[400,100],500),x.kr([1,2],6,5))*Gendy3.ar(1,1,1,1,x.kr(1,99,91),1,0.1)*x.ar(0.5,0.5,0.5)}
+
+",  
+	"//:nathaniel virgo */
+play{b=LocalBuf(4e5,2).clear;BufCombL.ar(b,LeakDC.ar(BufRd.ar(2,b,LFNoise1.ar(0.25)+1*2e5)*0.98)+Blip.ar(2!2,10),2,20)/10}//#supercollider
+
+",  "//:juan alzate romero */
+play{l=LFNoise2;RLPF.ar(Crackle.ar,SpecPcile.kr(FFT(LocalBuf(1024),LFGauss.ar(1/[6,8,20].choose,0.01)),0.5),l.kr(1/8,0.1,0.15),2).fold2!2}
+
+",  "//:jonathan siemasko */
+{CombC.ar(Klang.ar(`[[100,101,1000,1001]],1,0)*0.1,1.33,LFTri.ar(0.3, 0, 0.1, 0.71)+LFTri.ar(0.7, 0, 0.1, 0.52),10)!2}.play;
+
+",  "//:nathaniel virgo */
+play{x=Saw.ar([50,50.1]);8.do{|i|f=2**(8-i);x=BRF.ar(AllpassN.ar(x,1,0.1/(12-i),2),80**TRand.ar(0,1,Impulse.ar(f/32,1/2)).lag(1/f)*80,2)};x}
+
+",  
+	"//:lucas samaruga */
+q=play{SinOsc.ar({\\freq.kr.lag(0.9.rand)}!2)*0.1};fork{20.do{5.do{fork{(1800.rand!10).do{|i|q.set(\\freq,i);0.9.rand.wait}}};7.wait};q.release}
+
+",  "//:nathaniel virgo */
+Ndef('x',{x=Ndef('x').ar+0.01;a=BPF.ar(x,6**Latch.ar(x,Dust.ar(x))*200,0.1).sin;9.do{a=AllpassN.ar(a,0.2,{0.2.rand}!2,9)};a+a.mean}).play;
+
+",  "//:tedthetrumpet */
+Pbind(\\freq,Pseq((40,43..400).pyramid(3)),\\dur,0.01).play;
+
+",  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(1024),  "//:lucas samaruga */
+q=play{SinOsc.ar({\\freq.kr.lag(0.9.rand)}!2)*0.1};fork{inf.do{5.do{fork{var x=1.7.rand;(1800.rand!10).do{|i|q.set(\\freq,i);x.wait}}};7.wait}}
+
+",  
+	"//:tim walters */
+{HPF.ar(GVerb.ar(({|k|({|i|y=SinOsc;y.ar(i,y.ar(i+k**i)/Decay.kr(Impulse.kr(0.5**i/k),[1,2]+i,k))}!6).sum}!16).sum,1,1)/180,40)}
+
+",  "//:nathaniel virgo */
+Ndef('x',{Normalizer.ar(FreqShift.ar(Rotate2.ar(*Ndef('x').ar++1/8).tanh,20*[-3,0.995])+Dust.ar(1!2,0.005),1,0.5)})
+
+",  "//:Monocular Sludgebath the 7th */
+{b=99;GVerb.ar(Mix.fill(b,{|i|a=Saw.ar([b.rand+i,LFNoise0.ar(i*0.5.rand,b,rrand(b,2e3))]);RLPF.ar(Saw.ar(a,a)*0.05,(1000*a).max(b))}))}
+
+",  "//:jonatan liljedahl */
+{sum({|i|GrainSin.ar(1,Impulse.ar(LFTri.kr(0.05*i+[0.2,0.201]).range(1,30)),0.02, 200*i+50)}!9).tanh}
+
+",  
+	"//:nathaniel virgo */
+play{PitchShift.ar(CombN.ar(Formant.ar(101,4**LFNoise1.kr(0.5)*450,200),1,0.5,99),1,Duty.kr(4,0,Dseq([[6,8,10],[6,7.2,7]]/8,inf))).sum/25!2}
+
+",  "//:redfrik */
+{a=LFPulse;b=(1..4);Mix(a.ar(a.ar(a.ar(a.ar(b/32)+1/8)+1*b)+(Mix(a.ar(b/64))+a.ar(4/b)*(a.ar(a.ar(b/8))*2+b))*100))/8!2}//#SuperCollider
+
+",  "//:juan alzate romero */
+{a=Decay2.ar(Impulse.ar(2),1e-4)*SinOsc.ar(40);Compander.ar(Blip.ar([40,40.5]*TChoose.kr(a>0.6,(1..8)),4),a,8e-3,1,0.001,0.1,1/3)+a}
+
+",  "//:nathaniel virgo */
+p={|x,a,f|9.do{x=BAllPass.ar(x*a,f).tanh};x};play{i=Dust.ar(2);p.(Dust.ar(EnvGen.ar(Env.perc,i,1e3,0,1).poll),1.4,50)/9+p.(i,1.8,40)!2}
+
+",  
+	"//:nathaniel virgo */
+play{w=LFSaw;a=w.ar(-3,1)+1/2;f=Sweep.ar(0,3).floor;f=(f**3+f%8+4)*(f%3+3)%49*3;CombN.ar(RLPF.ar(w.ar(f)*a,f**a*30,0.3).tanh,5/6,5/6,6)!2}
+
+",  "//:jonatan liljedahl */
+{x=0;(100..110).do{|f|f=f/2;x=SinOsc.ar(f+[0,1],x*LFTri.kr(0.4,2).range(1.2,1.6))};x}
+
+",  "//:redfrik */
+{|j|r{{|i|x=sin(i/5+(j*5));Ndef(i%5+(j*5),{Pan2.ar(LFCub.ar(j*2+x*40+400+i)/15,i%5/2-1)}).play;wait(x.abs+0.5)}!500}.play}!5//#SuperCollider
+
+",  "//:juan alzate romero */
+fork{loop{d=rrand(1,9.0);play{f=500.rand+60;Splay.ar(SinOsc.ar(XLine.kr(f,(f,f+1..f+f),d,1,0,2),0,0.1))};d.wait}}
+
+",  
+	"//:juan alzate romero */
+{a=Decay2.ar(Impulse.ar(2),1e-4)*SinOsc.ar(40);Compander.ar(Blip.ar([40,40.5]*TChoose.kr(a>0.6,(1..8)),4),a,8e-3,1,0.001,0.1,1/3)+a}
+
+",  "//:aliaksandr tsurko */
+{Mix.fill(100, {arg a = 1 + a; Pan2.ar(SinOsc.ar(70 * a, 0, Dust.kr(0.01 + (a * 0.009), 0.5)), {rrand(-0.2, 0.2)})})}
+
+",  "//:redfrik */
+{b=LocalBuf(8e4,2).clear;i=Sweep.ar(BufRd.ar(2,b,Saw.ar(3.1,4e4,4e4)),8e4);BufWr.ar(Blip.ar([2,3]),b,i);BufRd.ar(2,b,i)}//#SuperCollider
+
+",  "//:batuhan bozkurt */
+{k=Pulse.ar([3,3.01,2,2.01]/2,[0.4,0.6]).lag(0.8,0);k=[k[0],k[1]]*[k[2],k[3]];Splay.ar((k*Blip.ar([80,81],2)*6.5).tanh,0.5)}
+
+",  
+	"//:miquel parera jaques */
+{a=rrand(25,50);Pan2.ar(SinOsc.ar(Demand.ar(Impulse.ar(1/a),0,Dwhite(100,333)))*EnvGen.ar(Env.perc(a/2,a/2,0.1),Impulse.ar(1/a)),0)}
+
+",  "//:juan alzate romero */
+{t=Impulse.kr(6);f=lag(Demand.kr(t,0,Drand(midicps((10,13..40)),inf)));RLPF.ar(Pulse.ar(f),1+Decay2.kr(t)*LFNoise2.kr(2,8,9)*f,1/9)!2}
+
+",  "//:juan alzate romero */
+{GVerb.ar(Mix(9.collect{SetResetFF.ar(Dust.ar(8.rand+1),Dust.ar(8.rand+1)).lag*SinOsc.ar(LFNoise2.kr(0.1,25,exprand(40,1500)))/9}))}
+
+",  "//:batuhan bozkurt */
+{t=Impulse.ar(75);Sweep.ar(t,150).fold(0,1)*PlayBuf.ar(1,Buffer.read(s,\"s*/*\".pathMatch[2]),1,t,Demand.ar(t,0,Dbrown(0,2e5,2e3,inf)))!2}
+
+",  
+	"//:juan alzate romero */
+{t=TDuty.kr(Dshuf([4,2,1]/8,inf));c=TChoose;Pan2.ar(SinOscFB.ar(c.kr(t,(50,75..300)),Decay2.kr(t)+0.8),c.kr(t,[-0.5,0,0.5]).lag)}
+
+",  "//:andrea valle */
+{t=\"With my prayers\";999.do{|i|{MoogFF.ar(Saw.ar(t[i.postln%15].ascii),i%99*99)*EnvGen.kr(Env.perc)}.play;0.2.wait}}.fork
+
+",  "//:minkepatt */
+9.rand.do{{LFCub.ar(441/3+441*5.rand)*LFGauss.kr(0.25+2.25.rand.round(0.125));}.play}
+
+",  "//:redfrik */
+{c=[97,99];l=3**9;a=LocalBuf(l,2).clear;BufWr.ar(Saw.ar(c/5),a,BPF.ar(VarSaw.ar(c),98,0.1)*l);PlayBuf.ar(2,a,1/4,1,0,1)}//#SuperCollider
+
+",  
+	"//:chad mckinney */
+{{|i|r=LFNoise2.ar(0.3,0.5,0.5);n=DelayC.ar(In.ar(i*r),1,i);Out.ar(i*r,Ringz.ar(n+Impulse.ar(),Pitch.kr(n)[0]*i,200).softclip)}!30};
+
+",  "//:minkepatt */
+{LFTri.ar(CombL.ar(Dust.kr(GrayNoise.ar)*44.1,1e-17,1e-6).round(441/3.5))};
+
+",  "//:tim walters */
+{({|i|Resonz.ar({Gendy1.ar}!2,i*2+1*50,Blip.ar(i+1/99,i+8).squared*0.005*LFTri.kr(i+1*0.001).abs*25)*(i+1).sqrt}!15).sum/4}
+
+",  "//:tim walters */
+{HPF.ar(({|k|({|i|SinOsc.ar(i/96,Saw.ar(2**(i+k))/Decay.ar(Impulse.ar(0.5**i/k),[k*i+1,k*i+1*2],3**k))}!6).product}!32).sum/2,40)}
+
+",  
+	"//:redfrik */
+r{99.do{|i|x={Pan2.ar(SinOsc.ar(i+1,SinOsc.ar((i%9).div(3)*100+(i%9)+500),0.03),1.0.rand2)}.play;2.wait;x.release(25)}}
+
+",  "//:jonatan liljedahl */
+{p=LFPulse;tanh(p.ar([50,52])*p.kr([2,1]/4)+mean({|n|(p.ar(n*3e2+100*p.kr(2-n/[1,5,7],(0..2)/10).sum+2e2)*p.kr(n+1*6,0,0.8).lag)}!2)/2)}
+
+",  "//:redfrik */
+{x=CombN.ar(Phasor.ar(0,{|i|i+1/20}!22),0.042,0.042);y=Phasor.ar(LPF.ar(x,LFPar.ar(1/99,0,400,500)),x);Splay.ar(y)*0.25}//#SuperCollider
+
+",  "//:redfrik */
+r{loop{x={GVerb.ar(MoogFF.ar(ClipNoise.ar*0.4,LFPar.kr({0.3.rand}!2,0,600,990)),9,9,1)}.play(s,0,19);3.wait;x.release}}
+
+",  
+	"//:tweety on a power cord */
+{SinOsc.ar(SinOsc.ar([0.1, 0.2],0.5,{LFNoise2.kr(25, 0.5, 2.5)}!2)/SampleDur.ir)}
+
+",  "//:matt barber */
+{g=LFNoise2.ar(3,11,12);f=LFNoise0.ar(g,4,6).octcps;x=Resonz.ar(LFNoise0.ar(f),f/6,(g**2.3)/f).clip;AllpassC.ar([x,0-x],1,g/230,99)}
+
+",  "//:aucotsi */
+{#a,b,c=[LFSaw,TRand,SinOsc];a.ar(c.kr(5),b.kr(-2pi,2pi),b.kr(0.1,1.0,c.kr(340)))*c.ar(680!2*c.kr(b.kr(87,393,c.kr(7))),0,c.kr(pi/13))}
+
+",  "//:juan alzate romero */
+{Resonz.ar(Crackle.ar!2,Duty.kr(Dseq([1,1,4,2,2]/8,inf),0,Dseq([99,Dwhite(99,9e3,1)],inf)),TExpRand.kr(0.001,1,Impulse.kr(8)))*4}
+
+",  
+	"//:micromoog */
+4.do({{PanB2.ar(Gendy1.ar(1,1,1,1,rrand(150,250),500,0.1)*LFNoise1.kr(1,0.25,0.75),LFNoise1.kr(1))}.play})
+
+",  "//:aucotsi */
+{c=LFPulse.kr(50);a=Line.kr(0.1,2pi,37000);b=SinOsc.kr(a/pi);FreeVerb.ar(Blip.ar(a*340!2*Impulse.kr(b*340/pi),c*TIRand.kr(0,999,c),c))}
+
+",  "//:julian rohrhuber */
+{ [0,0.08] * Pulse.ar(2020) * product(LFPulse.ar([8,1])) + [PinkNoise,WhiteNoise].sum(_.ar(XLine.kr(0.4, 0.02, 20) ! 2)) };
+
+",  "//:jonatan liljedahl */
+{v=Dust2.ar(4!2);7.do{|n|v=LeakDC.ar(CombL.ar(v,0.2,n*0.001+0.03+LFNoise1.kr(10,0.001),3))};v.clip2(1)}
+
+",  
+	"//:nathaniel virgo */
+{a=LFTri.ar(1);20.do{a=BAllPass.ar(a,80,1);a=((a+0.02)*LFNoise0.kr(1/2)*8).tanh;a=LeakDC.ar(a,0.995)};a*0.1!2}
+
+",  "//:juan alzate romero */
+{d=Duty;f=d.kr(1/[1,2,3],0,Dseq([0,3,7,12,8]+36,inf));GVerb.ar(Blip.ar(f.midicps*[1,2,3],LFNoise1.kr(1,8,8)).sum,99,4)} // #sc
+
+",  "//:jonatan liljedahl */
+{sum({|i|GrainSin.ar(1,Impulse.ar(LFNoise1.kr(0.5!2).range(1,30)),0.025, 200*i+100)}!7).tanh}
+
+",  "//:nathaniel virgo */
+p={|f,a=5|GVerb.ar(LFPulse.ar(f)*a)+f};play{tanh(HPF.ar(p.(99-p.(1/2,20)*(1+p.(2,1/5))+p.(4+p.(1/2)),0.5),80,XLine.kr(4e-4,1/8,61,1,0,2)))}
+
+",  
+	"//:juan alzate romero */
+{a={rrand(-1,1.0)}!1e3;e=InterplEnv(a,[1e-3],a*3);IEnvGen.ar(e,LFSaw.kr(LFCub.kr(8,0,300,300),0,e.times.sum)*LFNoise2.kr(99,1,10))!2}
+
+",  "//:redfrik */
+r{loop{x=play{t=SinOsc.ar(999.rand).abs;Formlet.ar(TDuty.ar(t,0,t),4e3.linrand,t,1-t)!2};wait(9.rand+1);x.release(39)}}
+
+",  "//:batuhan bozkurt */
+{LocalOut.ar(k=tanh(500*(PinkNoise.ar(1!2)**(8/(LagUD.ar(y=LocalIn.ar(2).range(0, 0.9)+0.1,0,0.2))))));Splay.ar(k,1-y)}
+
+",  "//:redfrik */
+{a=LFCub;n=8;Splay.ar(a.ar({|i|pow(i+1,a.kr(1/n,i/n,1/n,1))}!n*150,0,a.kr({|i|pow(i+1,a.kr(i+0.5/n,i/n))}!n).max(0))/4)}//#SuperCollider
+
+",  
+	"//:nathaniel virgo */
+f=g=0;Routine({loop{g=g+1e-3;f=f+g%1;play{l=Line.kr(1,0,3,doneAction:2);h=2**f*100;e=Pluck.ar(CuspL.ar,1,i=1/h,i,2,0.3)!2};0.15.wait}}).play
+
+",  "//:juan alzate romero */
+fork{loop{x=play{l=LFPar;Splay.ar(l.ar(l.kr(rrand(1,8)).wrap(l.kr(12/{rrand(1,9)}!9))*100+{(40,80..400).choose}!9))/9};16.wait;x.free}}//#sc
+
+",  "//:aucotsi */
+{#a,b=[SinOsc,TIRand];FreeVerb.ar(a.kr(2)*Formant.ar(68!2*Stepper.kr(LFTri.kr(3),0,4*b.kr(-4,12,a.kr(3).ceil)),a.kr(8*11),222,16))}
+
+",  "//:juan alzate romero */
+{o=LFCub.kr(1/[24,8,12,16]);PitchShift.ar(LFPulse.ar(o[0]*50+100,0,0.1).lag(1/1000),o[3]*0.299+0.3,o[2]*8+8,o[1],o[0]*0.1+0.1)!2} 
+
+",  
+	"//:matt rogalsky */
+{Splay.ar(Array.fill(100, { Pulse.ar(LFNoise2.kr(1,2500,10000)) + BPF.ar(Dust.ar(rrand(0.001,0.009)),LFNoise2.kr(0.01,50,5000),0.01,500) }))}
+
+",  "//:sciss */
+{{|i|b=LocalBuf(512);d=HPZ1.ar(Dust.ar(99));x=(IFFT(FFT(b,PlayBuf.ar(1,b)+d,0.5,0,1-d))).wrap;RecordBuf.ar(InFeedback.ar(i),b);x}!2}
+
+",  "//:juan alzate romero */
+{a=0;6.do{x=Sweep.ar(Dust2.kr(0.1+2.0.rand),9.rand+9)+LFNoise1.kr(0.1,60,80);a=a+Pan2.ar(Gendy1.ar(1,1,1,1,x,x+9),LFNoise2.kr(1))};a}
+
+",  "//:batuhan bozkurt */
+{Mix(HPF.ar(MidEQ.ar(Limiter.ar(GVerb.ar(HPF.ar(Pulse.ar([[0.1,0.11],[0.12,0.13]],0.6,5e-3),99),[[1,5/4],[1.5,2]],99)),9e3,0.9,9),200))}
+
+",  
+	"//:batuhan bozkurt */
+{t=[0,3,5,7,10,12]+30;a=Demand.kr(Impulse.kr(8),0,Drand(t+24++t,inf));(BHiPass.ar(LFNoise1.ar(8)**3,[a,a+0.2].midicps,a/2e3,67-a)).tanh}
+
+",  "//:batuhan bozkurt */
+{r=44100;BufRd.ar(1,Buffer.read(s,\"s*/*\".pathMatch[2]),[r,r+500]*LFNoise0.ar(8,9,9)+(Sweep.ar(t=Impulse.ar(8),r)%TRand.ar(100,r/2,t)))}
+
+",  "//:nathaniel virgo */
+p={|f,a=1|LFPulse.ar(f)*a*[1,1.01]};{p.(p.(100-p.(1/16,20))+p.(2,1+p.(1/4))-0.5*200)+p.(100-p.(1/8,20),p.(8))*0.1}
+
+",  "//:arthur carabott */
+{a=99;Limiter.ar(FreeVerb.ar(Mix.fill(a, {|i|Saw.ar(55*i, Lag.kr(Impulse.kr(i*0.04), 1.0.rand))}),SinOsc.kr(6), FSinOsc.kr(0.01,0.5)))}
+
+",  
+	"//:scott wilson */
+{Formant.ar(Duty.kr({Drand([0.01,0.3],inf)},0,[\"SCBerlin10!\",\"Vielen Dank,Andre!\"].collect({|t|Dseq(t.ascii/Drand([2,9]),inf)})))*0.4}
+
+",  "//:marcus wrangoe */
+{GVerb.ar(CombC.ar(Gendy1.ar(6,6,3,Dust.ar([100,101],1),20,400),1,0.01,0.02),9,9,mul:0.1)}
+
+",  "//:alexandra cardenas */
+{d=Dust;r=TRand.kr(50,800,d.kr(15));t=TRand.kr(100,700,d.kr(0.2));Splay.ar(SinOsc.ar({|i|LFNoise2.kr(rrand(10,200),r,t)}!9),1,0.3,0)}
+
+",  "//:lfsaw */
+{Splay.ar({RHPF.ar(Saw.ar(Rand(0.5,9),LFSaw.ar(BrownNoise.ar(1299,500))),LFNoise2.ar(f=LFNoise2.ar(9,9,1),999,0))*((f)**10).clip2}!9)};
+
+",  
+	"//:minkepatt */
+{var a,f,t;a=Dseq([1,8]*[2,0,0.5],inf);t=(Saw.kr([5,4]));f=Demand.kr(t,0,a)*[13,89];LFTri.ar(f)*0.2**Dust.ar(2)};
+
+",  "//:josh parmenter */
+3.do({{b=Decay2.kr(Dust.kr(0.1),5,7);Pan2.ar(HPF.ar(LPF.ar(WhiteNoise.ar(b+0.4),b*1500+200),b*100+100)*5,1.0.rand2)}.play})//surf's up
+
+",  "//:pyoungryang ko */
+Routine({inf.do{|i|{SinOsc.ar(263.rand-i%97.nthPrime*7,0,EnvGen.kr(Env.sine(9.9.rand,0.01.rand),doneAction:2))}.play;(i%0.13).wait}})
+
+",  "//:batuhan bozkurt */
+{LocalOut.ar(k=LeakDC.ar(Integrator.ar(Pulse.ar(pi/[1,2.57],[0.54,0.46]),(1-LocalIn.ar(2)).fold(0,[0.9,0.85])).wrap2(pi).sin));k.mean!2}
+
+",  
+	"//:batuhan bozkurt */
+{a=BPF.ar(Saw.ar([40,40.001]),LFNoise0.kr(128)+1*4e3+146,LFNoise1.kr(1)+1*5e-2+0.01).tanh;CombC.ar(a,9,a.abs.lag(2)*9,a.abs.lag(1)*100)}
+
+",  "//:johannes quint */
+{z=300;e=EnvGen.kr(Env([20,16000],[z],8),doneAction:2);Pan2.ar(RLPF.ar(RHPF.ar(BrownNoise.ar(0.5),e),e),Line.kr(-1,1,z))}
+
+",  "//:redfrik */
+{CombL.ar(In.ar(8).tanh/8,1,1,8)!2}.play;Pbind(\\amp,8,\\dur,1/4,\\degree,Pseq(List.fib(32)%(List.fib(64)%12),inf),\\out,8).play//#SuperCollider
+
+",  "//:jonatan liljedahl */
+{GVerb.ar(Mix.fill(10,{|i|Ringz.ar(Impulse.ar(i*0.05+0.5),300*i+40,0.12,3+PinkNoise.ar(3)).sin/(i+1)*0.6}),3.4,7).tanh}
+
+",  
+	"//:batuhan bozkurt */
+{f={LocalBuf(512)};r={|k,m|RecordBuf.ar(Pulse.ar(8,m,6e3),k)};r.(a=f.(),0.99);r.(b=f.(),0.99001);Out.ar(0,IFFT([a,b]).tanh)};//44.1kHz:)
+
+",  "//:redfrik */
+{b=LocalBuf(5e3,2).clear;i=Sweep.ar(BufRd.ar(2,b,Saw.ar(50,2e3,5e3)),6e4);BufWr.ar(Saw.ar([4,3]),b,i);BufRd.ar(2,b,i)/6}//#SuperCollider
+
+",  "//:scott wilson */
+{f=Duty.kr({Drand([0.1,0.11],inf)}!2,0,Dseq(\"AllWorkAndNoPlayMakesPAaDullBoy\".ascii/2,inf));Formant.ar(f,f*19,LFNoise2.kr(1!2,f*70))/4}
+
+",  "//:mstep */
+{LeakDC.ar((GVerb.ar(GrainIn.ar(2,LFSaw.ar(LFSaw.ar(10)),Trig.ar(SinOsc.ar(4),1)*200,SinOsc.ar([60, 70]),0,-1),15)).tanh*0.2) }
+
+",  
+	"//:alexandra cardenas */
+{p=Pan2;n=LFNoise2;p.ar({Blip.ar(n.kr(0.1).range(12),n.kr(0.1).range(10,1200))}!8,0,0.2)}
+
+",  "//:tristan strange */
+{GVerb.ar(Saw.ar(GbmanN.ar([4,9])*XLine.kr(30,1600,120))/3,10).tanh};// robotic guitarists and violinists were never likely to get on
+
+",  "//:redfrik */
+{a=LFPar;GVerb.ar(VarSaw.ar(a.ar(1,0,5,a.ar([0.05,0.04],0,50,160).round(50)),0,a.ar(0.2,0,0.5,a.ar(3,0,0.2,0.5)))/8,80)}//#SuperCollider
+
+",  "//:nathaniel virgo */
+Ndef(\\x,{DelayN.ar(BRF.ar(Saw.ar(20!2)*0.01+Rotate2.ar(*(Ndef(\\x).ar*2).tanh++0.1),20**LFNoise1.kr(0.6)*500,1),1,1)})
+
+",  
+	"//:batuhan bozkurt */
+{Splay.ar(Integrator.ar(LFNoise0.ar(5!3,k=Duty.ar(6.4,0,Dseq([0.05,Drand([0.04,0.08],1)],inf))).round(k/10)).sin.sqrt.tanh,0.3)}//#sc...
+
+",  "//:juan alzate romero */
+l=Line;fork{loop{play{Splay.ar(SinOsc.ar({x=rrand(1,7)*99;l.kr(x,x/(0.25,0.5..4).choose,9)}!9,0,1/9)*l.ar(1,0,9,0.5,0.5,2))};1.wait}}
+
+",  "//:alexandra cardenas */
+{d=Dust;r=TRand.kr(1,2,d.kr(1));z=TRand.kr(1,2,d.kr(2));l=LFClipNoise;Crackle.ar([z,r], 0.6)+SinOsc.ar([l.ar(r,60,90),l.ar(z,40,100)])}
+
+",  "//:matt barber */
+{g=LFNoise2.ar(3,11,12);f=LFNoise0.ar(g,4,6).octcps;x=Resonz.ar(LFNoise0.ar(f),f/6,(g**2.3)/f).clip;AllpassC.ar([x,0-x],1,g/230,g/9)}
+
+",  
+	"//:alexandra cardenas */
+{l=LFDNoise3.kr(0.5);Splay.ar(MoogFF.ar(SinOsc.ar([150,200]*BrownNoise.ar(1)*LFPulse.ar([10,20])),l.range(10,5000),l.range(0,4)),1,1,0)}
+
+",  "//:redfrik */
+{f=LFPar.ar(1/14).round*20+80;Splay.ar(LFPar.ar({|i|[i+1*f,i*f+(i+1/3)]}!4)>BrownNoise.ar(Pulse.ar({|i|i+1}!4,0.35))/3)}//#SuperCollider
+
+",  "//:nathaniel virgo */
+play{Splay.ar({|i|f=1.9**i/128;BPF.ar(PinkNoise.ar(1!2),4**LFNoise2.kr(1.2**i/16)*300,0.15)*(5**LFNoise2.ar(f)/(i+8)*20)}!15)}
+
+",  "//:nathaniel virgo */
+p=Impulse;play{mean({|i|Pluck.ar(LFSaw.ar([102,101]),x=p.ar(1,i/10)+p.ar(0),1,1/Latch.ar(1.015**Sweep.ar(0,1)*64%1+1*200,x),4,0.2)}!10)}
+
+",  
+	"//:tedthetrumpet */
+// NOTE: DOES NOT PLAY AS SOURCE OF PROXY
+Ndef(\\x,Pbind(\\midinote,Prand((20..60),inf),\\amp,20,\\dur,0.2));Ndef(\\y,{Ndef.ar(\\x).clip2(0.1)}).play;
+
+",  "//:batuhan bozkurt */
+{n=LFNoise0.kr(*_);v=Blip.ar([60,61],5,n.(4)**8);12.do{v=LeakDC.ar(CombC.ar(v,1,n.([1,0.05,0.06]).lag(5e3),9))};Limiter.ar(v,0.9,1)}
+
+",  "//:redfrik */
+{b=LocalBuf(9e4,2).clear;i=Sweep.ar(BufRd.ar(2,b,Saw.ar(12,3e4,4e4)),9e4);BufWr.ar(Saw.ar([8,9]),b,i);BufRd.ar(2,b,i)/2}//#SuperCollider
+
+",  "//:julian rohrhuber */
+Ppar({|i| Pbind(\\dur, 0.01, \\note, sin(i+1*0.002.rand*Pseries()+2.0.rand)*40.rand-10) } ! 5);
+
+",  
+	"//:nathaniel virgo */
+x=0;Pbind(*[type:\\set,id:{|freq=10|f=freq;LPF.ar(Saw.ar(f),f.lag(1)*3)!2}.play.nodeID,freq:Pfunc{x=x+32%35;x%12+1*40},dur:1/6])
+
+",  "//:tim walters */
+{GVerb.ar(({|i|Blip.ar(i+1/99,i+1).exprange(1/9999,0.008)*Gendy1.ar(6,6,1,Blip.ar(i+1*[2,3],3).abs,i+2*50,i+3*50)}!16).sum,3,9,0.3)}
+
+",  "//:batuhan bozkurt */
+{q=[0,3,5,7,10];t=Impulse.kr(4)*LFNoise0.kr>0;PitchShift.ar(Saw.ar(Demand.kr(t,0,Drand((q+12++q+33).midicps,inf)),Decay.kr(t,3)),7,2)!2}
+
+",  "//:nathaniel virgo */
+n={|r,f,d=1|2**LFNoise0.kr(1!d,r)*f};{p=n.(4,1e3);CombN.ar(Ringz.ar(LFPulse.ar(1,0,0.01),n.(2,p,80),0.6).sum,8/5,8/5,60)*4e-4!2}
+
+",  
+	"//:minkepatt */
+{x=SinOsc.ar(gcd (441*SinOsc.ar(5),882*SinOsc.ar(3))); (x.distort % x)};
+
+",  "//:jonatan liljedahl */
+{GVerb.ar(GVerb.ar(Impulse.ar([8,6,4]/100,[0,0.2,0.6])*8,[2,3,1.5],90,drylevel:0).sum.sin.sum*0.5,62,24).tanh}
+
+",  "//:juan alzate romero */
+{e=ExpRand;Splay.ar(Decay2.ar(Impulse.ar({e.new(1,8).round/3}!9),5e-3,{e.new(0.1,1)}!9,LFCub.ar({e.new(66,666).round(20)}!9)))}
+
+",  "//:redfrik */
+{o=SinOsc.ar(1/RunningMax.ar(Sweep.ar(LocalIn.ar(6)),Impulse.ar([1,0.749,6,12,3,4])));LocalOut.ar(o);Splay.ar(o).tanh/2}//#SuperCollider
+
+",  
+	"//:redfrik */
+{x=LFNoise1.ar(0.5!2);Formlet.ar(Crackle.ar(x.range(1.8,1.98)),TExpRand.ar(200,2e3,x).lag(2),x.range(5e-4,1e-3),0.0012)}
+
+",  "//:juan alzate romero */
+{o=LFCub.kr(1/[24,8,12,16]);PitchShift.ar(LFPulse.ar(o[0]*50+100,0,0.1).lag(1/1000),o[3]*0.299+0.3,o[2]*8+8,o[1],o[0]*0.1+0.1)!2} 
+
+",  "//:jonatan liljedahl */
+{a=ar(PinkNoise,5e-4);ar(GVerb,({ar(Ringz,a*LFNoise1.kr(0.2),exprand(60,8000),3)}!40).sum,50,99).tanh}
+
+",  "//:batuhan bozkurt */
+{a=LocalIn.ar;LocalOut.ar(Mix.ar(x=SinOsc.ar((Decay.ar(Impulse.ar([4,4.005]),1e3*a.abs)*50), a).distort));x;}
+
+",  
+	"//:jonatan liljedahl */
+{v=Saw.ar([40,41])*4;6.do{|n|v=LeakDC.ar(AllpassL.ar(v,0.2,n*0.004+0.014+Saw.ar(0.25+n*0.25,0.01),1))};v.clip2(1)}
+
+",  "//:jonatan liljedahl */
+{i=Impulse;LocalOut.ar(b=DelayL.ar(HPF.ar(LocalIn.ar(2),2e2)+Ringz.ar(i.ar(1/2),TExpRand.kr(50,99,i.kr(1/2)),2,4).sin,7/6,7/6).tanh);b}
+
+",  "//:marcus wrangoe */
+{Klank.ar(`[[99,98,953,923],nil,[1,1,1,1]],GVerb.ar(CombC.ar(Gendy1.ar(6,6,3,Dust.ar([99,98],1),20,400),1,0.01,0.02),9,9,mul:0.005))}
+
+",  "//:batuhan bozkurt */
+{LocalOut.ar(x=LFNoise1.ar(0.5*LocalIn.ar(1)+0.1,0.5,0.5));PitchShift.ar(PitchShift.ar(Pulse.ar([90,90.01],x),10,x*4,x),10,4-(x*4),1-x)}
+
+",  
+	"//:batuhan bozkurt */
+{n=LFNoise0.kr(_);v=Blip.ar([2e4,2e4-9],1,n.(16)*0.5+0.5**9);42.do{v=LeakDC.ar(AllpassC.ar(v,1,n.(5)*5e-2+(5e-2+1e-3),100))};tanh(v*99)}
+
+",  "//:juan alzate romero */
+{d=Duty;t=d.kr(1,0,Dseq(0-[0,7,5,2],inf));f=d.kr(1/3,0,Dseq([0,3,7,12,8]+60,inf));GVerb.ar(Blip.ar(f.midicps*t.midiratio,4),99,4)} //#sc
+
+",  "//:juan alzate romero */
+{a=LFNoise0;b=FBSineC.ar(a.kr(4,2e4,2e4),a.kr(10,16,17),1,1.005,0.7)!2;Latch.ar(b,Impulse.ar(a.kr(0.5,5e3,4e3)))*a.kr(5,0.4,0.5)}
+
+",  "//:alexandra cardenas */
+{n=LFDNoise3;Limiter.ar(Splay.ar(VarSaw.ar([n.kr(1).range(60,180),80,n.kr(2).range(70,120)])*n.ar(50).wrap2(n.kr(1.7)),1,1,0),0.5,0.01)}
+
+",  
+	"//:nathaniel virgo */
+{p=PinkNoise.ar(1!2);BRF.ar(p+Blip.ar(p+2,400),150,2,0.1)+LPF.ar(FreeVerb2.ar(*LPF.ar(p+0.2*Dust.ar(0.1),60)++[1,1,0.2,1e4]).tanh,2000)}
+
+",  "//:nathaniel virgo */
+{a=PinkNoise.ar(1!2);50.do{a=BBandStop.ar(a,LFNoise1.kr(0.05.rand).exprange(40,15000),exprand(0.1,2))};LPF.ar(a,1e5)}
+
+",  "//:redfrik */
+{a=1/(2..5);GVerb.ar(Splay.ar(Ball.ar(LPF.ar(Impulse.ar(a),500),7-(1/a),1e-5,LFNoise2.kr(a/5,2e-4,12e-4))/2),5,0.5,0.9)}//#SuperCollider
+
+",  "//:pyoungryang ko */
+Routine({inf.do{|i|{SinOsc.ar(57.rand+i%181.nthPrime*5,0,EnvGen.kr(Env.sine(9.rand,0.01.rand),doneAction:2))}.play;(i%0.17).wait}})
+
+",  
+	"//:josh parmenter */
+{t=Dust.kr(1);FreeVerb.ar(GrainSin.ar(1,t,0.1,Select.kr(LFNoise1.kr(1,3,2),[[4,6,7,9,11,12],[0,4,4,7,7,7]].flop+84).midicps),1,1)*0.1}
+
+",  "//:redfrik */
+play{GVerb.ar(ceil(In ar:8*4+4)-4/10)};Pbind(\\dur,2,\\legato,Pgeom(0.5,1.1),\\degree,Pseq(List fib:8+[[1,4]]-9,9),\\out,8).play//#SuperCollider
+
+",  "//:nathaniel virgo */
+d={|l,h,f,p|({Ringz.ar(LFPulse.ar(f,p,0.01),exprand(l,h),0.5)}!20).sum};{d.(50,100,2,[0,1/4])+d.(3e3,1e4,4,0)+d.(2e2,3e3,1,0.5)*3e-4!2}
+
+",  "//:micromoog */
+{a=VarSaw.ar(SinOsc.ar(1/20,7/3,80,80),0,LFNoise1.kr(1,1/2,1/2))*Line.ar(0,1)!2;CombN.ar(a,2,2,20,1,a).softclip}
+
+",  
+	"//:juan alzate romero */
+{Splay.ar(SinOsc.ar(Latch.ar(SinOsc.ar(1.3,0,4e2,5e2),Impulse.ar([1,1.0001])*[1,2,3,4]).lag(0.05),0,0.9))}
+
+",  "//:micromoog */
+{LFCub.ar(LFSaw.kr(LFPulse.kr(1/4,1/4,1/4)*2+2,1,-20,50))+(WhiteNoise.ar(LFPulse.kr(4,0,LFPulse.kr(1,3/4)/4+0.05))/8)!2}
+
+",  "//:alexandra cardenas */
+{d=Dust;r=TRand.kr(40,100,d.kr(1));Splay.ar(Ringz.ar(LFPulse.ar([0.1,0.2,1,1.2]),[r,r*1.2,r*3,r*7],[0.6,0.4,0.2,0.1]),1,0.03,0.0)}
+
+",  "//:Monocular Sludgebath the 7th */
+{Mix.fill(99,{|i| var a=LFNoise2.kr(i*[0.001,0.01]); a*RLPF.ar(Saw.ar(40+(i*10).round(5.73),0.02),(a*2e3).max(100),(i+1)*0.001)})}
+
+",  
+	"//:nathaniel virgo */
+{LocalOut.ar(a=CombN.ar(BPF.ar(LocalIn.ar(2)*7.5+Saw.ar([32,33],0.2),2**LFNoise0.kr(4/3,4)*300,0.1).distort,2,2,40));a}
+
+",  "//:batuhan bozkurt */
+{n=LFNoise0.ar(_);f=[60,61];tanh(BBandPass.ar(max(max(n.(4),l=n.(6)),SinOsc.ar(f*ceil(l*9).lag(0.1))*0.7),f,n.(1).abs/2)*700*l.lag(1))}
+
+",  "//:miquel parera jaques */
+{Pan2.ar(SinOsc.ar(Demand.kr(Impulse.kr(rrand(2,33)),0,Dseq([0.3.rand,0.3.rand]+rrand(99,200),inf)),0,SinOsc.ar(rrand(6,33))),0,0.08)}
+
+",  "//:batuhan bozkurt */
+{LocalOut.ar(x=DelayC.ar(LPF.ar(LFNoise0.ar(8)**2+LocalIn.ar(2).tanh.round(0.05),6e3),1,LFNoise0.ar(8!2).range(1e-4,0.02)));x.tanh}//#sc
+
+",  
+	"//:thor */
+{x=SinOsc;y=LFNoise0;a=y.ar(8);(x.ar(Pulse.ar(1)*24)+x.ar(90+(a*90))+MoogFF.ar(Saw.ar(y.ar(4,333,666)),a*XLine.ar(1,39,99,99,0,2)))!2/3}
+
+",  "//:minkepatt */
+(f=Duty.kr(_,16,Dseq(\"berlin_calling\".ascii,inf));play{RHPF.ar(LFTri.ar(f.(5/34)*7),f.(1/13)*16,(LFSaw.ar(0.25,1)))};)
+
+",  "//:nathaniel virgo */
+Ndef(\\,{x=DelayN.ar(LeakDC.ar(Ndef(\\).ar),1,z=1e-2);LPF.ar(Trig1.ar(Amplitude.kr(x,5,120)*1.5+x+z-Dust.ar(2),4e-3)*0.1+x*0.99,1200)}).play
+
+",  "//:batuhan bozkurt */
+{t=[0,0,0,1,5,7,10,12,12,12]+30;a=Duty.kr(1/8,0,Dxrand(t+24++t++t,inf));(BHiPass.ar(LFNoise1.ar(8)**6,[a,a+7].midicps,a/3e3,67-a)).tanh}
+
+",  
+	"//:Monocular Sludgebath the 7th */
+{a=99; Mix.fill(a,{|i| e=EnvGen.ar(Env({1.0.rand}!a,{rrand(1,7)}!98,i.neg,97,0));e*Blip.ar(LFNoise2.ar(7*e,7,e*[a,1e3]+8),e*a%7,0.1)})}
+
+",  "//:jonatan liljedahl */
+{GVerb.ar({|i|Ringz.ar(LPF.ar(Impulse.ar(2/(1.2+i)),6e3),1e3/(i+1),0.3)}.dup(20).scramble.sum/2,18,5).tanh}
+
+",  "//:redfrik */
+{f={|o,i|if(i>0,{SinOsc.ar([i,i+1e-4]**2*f.(o,i-1),f.(o,i-1)*1e-4,f.(o,i-1))},o)};f.(60,6)/60}//#SuperCollider
+
+",  "//:redfrik */
+{b=LocalBuf(1e4,2).clear;i=Sweep.ar(BufRd.ar(2,b,Saw.ar(1,2e3,5e3)),5e5);BufWr.ar(Saw.ar([8,50]),b,i);BufRd.ar(2,b,i)/3}//#SuperCollider
+
+",  
+	"//:juan alzate romero */
+{Splay.ar(LFCub.ar(LFTri.kr([1,1.1],0,LFPar.kr(1/7,0,10),{(100,150..500).choose}!5),0,LFSaw.kr(4/[1,3,4,6,8])**LFPar.kr(1/8,0,7,8)))}
+
+",  "//:batuhan bozkurt */
+{AllpassC.ar(SinOsc.ar(55).tanh,0.4,TExpRand.ar(2e-4, 0.4,Impulse.ar(8)).round([2e-3,4e-3]),2)};// #supercollider with bass please...
+
+",  "//:dan stowell */
+d=(TChoose.kr(Impulse.kr(0.5),_));{([LPF,BPF,HPF].choose.ar(Saw.ar(d.((3..6)/3**2)*[44,45]),LFTri.ar(d.((1..8)))*9**3)*9).tanh}
+
+",  "//:juan alzate romero */
+{l=LFSaw;l.ar(l.kr(l.kr([1,3],0,4,[5,6]),l.kr(1/[4,8]),l.kr(1,0,99,100),l.kr(1/2,0,50,l.kr(1/4,1/3,50,100))))/2} // #sc LFSaw galore
+
+",  
+	"//:lfsaw */
+{Splay.ar({SinOscFB.ar(LFSaw.ar(Sweep.ar(Impulse.ar(Rand()),2)).range(Rand(99,999), Rand()),Sweep.ar(Impulse.ar(Rand())))}!10)}
+
+",  "//:tedthetrumpet0_PROXY_INCOMPAT */
+// NOTE: DOES NOT PLAY AS SOURCE OF PROXY
+Ndef(\\x,Pbind(\\midinote,Prand((20..60),inf),\\amp,20,\\dur,0.2));Ndef(\\y,{Ndef.ar(\\x).clip2(0.1)}).play;
+
+",  "//:juan alzate romero */
+{i=Impulse;a=Splay.ar((PulseCount.ar(i.ar((1..8)),i.ar(1/3))>4)*Blip.ar((40,44..62).midicps,2));a*0.1+GVerb.ar(HPF.ar(a,4e3),300,14)*4}
+
+",  "//:thor */
+{
+	var x, d;
+	x = Decay;
+	d = Dust.ar(4);
+	
+	FreeVerb.ar(LPF.ar(x.ar(d, 0.5, WhiteNoise.ar), 2000)
+	+ x.ar(d, 0.15, SinOsc.ar([40, 47], pi, 5)), 0.4, 0.6, TRand.ar(0, 1, d))
+
+}
+
+",  
+	"//:juan alzate romero */
+fork{loop{h=[100,800,3000].choose;play{Splay.ar({SinOsc.ar(exprand(60,h),0,0.1)}!40)*LFGauss.ar(19,1/4,0,0,2)};8.wait}}; 
+
+",  "//:batuhan bozkurt */
+{i=Impulse.ar(_);SinOsc.ar(i.(2).lagud(0,0.4)*360,Integrator.ar(Integrator.ar(i.(64).lag(LFNoise1.ar(2!2,2,2))*99,0.9),0.99).fold2(pi))}
+
+",  "//:batuhan bozkurt */
+{LeakDC.ar(BRF.ar(Saw.ar(8,Decay2.kr(x=Duty.kr(1/8,0,Drand([0,Drand((0.4,0.5..1))],inf)),0.01,0.3))**1.5,x*20+[45.1,45],0.1)).tanh}//#sc
+
+",  "//:nathaniel virgo */
+play{b=LocalBuf(4e5,2).clear;BufCombL.ar(b,LeakDC.ar(LPF.ar(PlayBuf.ar(2,b,16/15,0,0,1),300))+Blip.ar([20,21],1),2,40)/20}//#supercollider
+
+",  
+	"//:juan alzate romero */
+Buffer.allocConsecutive(8,s,1024,1,{|b,i|b.sine1Msg(1/(1..((i+1)*6)))},0);{f=[50,75,99];VOsc3.ar(LFNoise1.kr(1/4,3,4),*f).lag(3e-3)!2}
+
+",  "//:nathaniel virgo */
+b=Buffer.read(s,\"sounds/a11wlk01.wav\");play{t=Impulse.kr(5);PlayBuf.ar(1,b,1,t,Demand.kr(t,0,Dseq(1e3*[103,41,162,15,141,52,124,190],9)))!2}
+
+",  "//:redfrik */
+r{loop{z=20.rand+6;x={y=LFTri.ar(z).abs/9/z;RLPF.ar(TDuty.ar(y,0,y),z*600,0.06,9)!2}.play(s,0,z);wait(26-z);x.release}}
+
+",  "//:nathaniel virgo */
+Ndef(\\,{LPF.ar(x=DelayN.ar(LeakDC.ar(Ndef(\\).ar,1-2e-6)*0.99,1,0.01)+Dust.ar(0.5!2);x+(Trig1.ar(x<(x.mean.lag(30)),4e-3)*0.05),800)}).play
+
+",  
+	"//:minkepatt */
+{PanB2.ar(Gendy1.ar(3,4,2,2,305,500,0.33)*LFNoise2.kr(0.2,0.5),Saw.kr(0.2,3))}
+
+",  "//:jonathan siemasko */
+{CombC.ar(Klang.ar(`[[100,101,1000,1001]],1,0)*0.1,0.33,LFTri.ar(0.1, 0, 0.1, 0.11)+LFTri.ar(0.17, 0, 0.1, 0.22),10)!2}
+
+",  "//:micromoog */
+{BPF.ar(DynKlang.ar(`[[3,5,[4,6]]],Demand.kr(Impulse.kr(1/3),0,Dseq([9,8,6,4],inf))*7).floor,LFPar.ar(1,2,911,999))/3}.play;//#supercollider
+
+",  "//:marcus wrangoe */
+{GVerb.ar(CombC.ar(Dust.ar(100)/Blip.ar(200,Line.kr(5,50,200),0.1),Dust.ar(1),0.01,0.02),9,9,mul:0.0001)}
+
+",  
+	"//:juan alzate romero */
+{l=LFCub;Splay.ar(l.ar(l.kr(9.1,0,100,(200,300..500)),0,(l.kr(9,0,1,l.kr(1/[2,3,5,7],0,0.5,0))>(l.kr(1/2,0,0.4,0.5))).lag/2))} // #sc
+
+",  "//:minkepatt */
+{Ringz.ar((Impulse.kr(4))+(Dust.kr(9))*2/3*(HPF.ar(ClipNoise.ar(1/6),3300)),[34,21].squared)};
+
+",  "//:alexandra cardenas */
+{Splay.ar({Integrator.ar(LFPulse.ar(rrand(0.1,42.0),0.3,4e-4),0.999,VarSaw.ar(LFDNoise3.kr(2.1).range(100, 3600)),0)}!22,1,0.7,0)}
+
+",  "//:aucotsi */
+{b=SinOsc.kr(5);a=Line.kr(0.1,2pi,37);FreeVerb.ar(SinOsc.ar(a*341!2*Impulse.kr(b*680/pi),LFPulse.kr(2,0,pi/2),LFPulse.kr(3,0,1/pi*b)))}
+
+",  
+	"//:nathaniel virgo */
+x=LFPulse;d={|l,h,f,p,n|sum({Ringz.ar(x.ar(f,p,0.01),exprand(l,h).round(n),0.6)}!40)};{d.(30,150,2,[0,0.3],[1,x.kr(1/8)*10+40])*3e-4!2}
+
+",  "//:julian rohrhuber */
+Ndef(\\y, { a = {{ Drand([Dshuf({0.0001.rand}!rrand(2,11),SinOsc.kr(0.1)*40), 0.05], inf) }}; TDuty.ar(a!2!8,0,0.1).sum  })
+
+",  "//:scott wilson */
+{GVerb.ar(Formant.ar(Duty.kr({Drand([0.1,0.17],inf)},0,[\"SCBerlin10!\",\"Vielen Dank,Andre!\"].collect({|t|Dseq(t.ascii/2,inf)})))/4).sum}
+
+",  "//:batuhan bozkurt */
+{Mix({|k|k=k+1/2;2/k*Mix({|i|i=i+1;Blip.ar(i*XLine.kr(rand(2e2,4e2),87+LFNoise2.kr(2)*k,15),2,1/(i/a=XLine.kr(0.3,1,9))/9)}!9)}!40)!2*a}
+
+",  
+	"//:andre bartetzki */
+{SinOsc.ar([20,23.7]*3,0,0.4).sqrt.thresh(LFNoise0.ar(11.3)).scaleneg(WhiteNoise.ar(0.4)).ring2(Impulse.ar([12.7, 10.1]))}
+
+",  "//:taylan cihan */
+{{Mix.fill(8,{a=LFDNoise0.kr(9);b=a.range(1e-4,0.2);c=a.abs*2e3;d=b.sqrt;RLPF.ar(CombL.ar(FBSineL.ar(c,a,a,a),b,b,d),c,d).tanh*0.2})}!2}
+
+",  "//:mr proxxxy */
+(q=10;q.do{|i|{SinOscFB.ar([75+i,85+i],LFPulse.kr([60/q,60.05/q],add:0,mul:LFTri.kr(20/q,mul:20/q)),mul:1/q)}.play})
+
+",  "//:aucotsi */
+{b=SinOsc.kr(1);a=Line.kr(0.1,2*pi,37);FreeVerb.ar(SinOsc.ar(b*340!2*Impulse.kr(b*680),LFPulse.kr(2,0,pi/2),LFPulse.kr(3,0,1/pi*a)))}
+
+",  
+	"//:juan alzate romero */
+{l=LFNoise2;FreeVerb2.ar(*XFade2.ar(SinOscFB.ar([80,81],l.kr(1)+1/2),SinOscFB.ar([121,160],l.kr(1)+1/2),l.kr(1)))}
+
+",  "//:batuhan bozkurt */
+{t=[0,3,5,7,10,12]+40;p=Duty.ar(1/4,0,Drand((t+12++t).midicps,inf));Blip.ar([b=TRand.ar(1500,2e3,Impulse.ar(16)).lag,b+p],1).mean!2**2}
+
+",  "//:nathaniel virgo */
+x=0;Pbind(*[type:\\set,id:{|freq=10|LFTri.ar(freq.lag(0.1))!2}.play.nodeID,freq:Pfunc{x=x+32%355;x%12+1*40},dur:1/6])
+
+",  "//:jonatan liljedahl */
+{tanh((z=Ringz).ar((i=Impulse).ar(1,[0,5.7/8,1.7/8],[4,1,0.2]).sum,[400,300],0.3)+z.ar(i.ar(1/2,3/4),50,0.7,1+PinkNoise.ar))}
+
+",  
+	"//:redfrik */
+{a=SinOscFB;sum({|i|a.ar(a.ar(a.ar(a.ar(i+1,1/9,999),1/9,a.ar(1/9,1,1/9)),a.ar(0.1,3),i+2*999),a.ar(1/9,1/9),1/9)}!9)!2}//#SuperCollider
+
+",  "//:juan alzate romero */
+{l=LocalIn.ar+Decay2.ar(Impulse.ar(3),3e-2,0.05,LFCub.ar(LFNoise2.kr(19,500,600)));l=DelayN.ar(l,1,1/2);LocalOut.ar(l/3);l!2}
+
+",  "//:jonatan liljedahl */
+{GVerb.ar(Mix.fill(14,{|i|BPF.ar(Decay.ar(Impulse.ar(i*0.1+0.5),0.5,1.2),800*i+40)/(i+1)}),2.7,9).tanh}
+
+",  "//:scacinto */
+{var w,x,z;x=LFNoise0.kr(5,0.3,0.3);w=Mix(SinOsc.ar(x*99%50)!4);z=SinOsc.ar(x*500*w,w%pi+pi).clip(x,x*3)*w.clip;z!2}
+
+",  
+	"//:batuhan bozkurt */
+play{f=LocalIn.ar(2).tanh;k=Latch.kr(f[0].abs,Impulse.kr(1/4));LocalOut.ar(f+CombC.ar(Blip.ar([4,6],100*k+50,0.9),1,k*0.3,50*f));f}//44.1kHz
+
+",  "//:batuhan bozkurt */
+{i=Impulse.ar(8).lag(0.3)!2;10.do{i=LeakDC.ar(AllpassC.ar(i,1,LFNoise0.ar(8).range(1e-5,0.2),-0.15,LFNoise0.ar(8).range(1,3))).tanh};i}
+
+",  "//:juan alzate romero */
+{l=LFTri;l.ar(l.kr(1/4,1/1.5,l.kr(1,0,10,10),{|i|50+i}!8+l.kr(1/3,0,3,40)),0,l.kr((1..8),0,0.2).excess(0.01)*({|i|16-i/20}!16)).sum!2}
+
+",  "//:aucotsi */
+{c=LFPulse.kr(0.5);b=SinOsc.kr(0.0034);a=Line.kr(0.1,2pi,37);FreeVerb.ar(Blip.ar(a*340!2*Impulse.kr(b*34/pi),c*TIRand.kr(0,113,c),c))}
+
+",  
+	"//:redfrik */
+{a=SinOsc;Limiter.ar(LeakDC.ar(a.ar(0.11,BRF.ar(a.ar(a.ar(0.12).exprange(1,1e4),2pi),1/a.ar(0.13).range(1,[99,100])))))}//#SuperCollider",  "//:nathaniel virgo */
+x=Ndef(\\x,Pbind(\\freq,Pseq(a=(3..5);a/.x a*.x[40,80],8)));Ndef(\\,{Limiter ar:GVerb.ar(PitchShift.ar(Ndef ar:\\,1,2,0,0.1),30,9)/4+x.ar})
+
+",  "//:juan alzate romero */
+{f=FreeVerb;x=Decay2.ar(Impulse.ar([3,4]),1/99,1/9,LFCub.ar({rrand(40,400)}!4,0,0.1)).sum;5.do{x=f.ar(x,LFTri.kr(1/16,0,1/4,0.3))};x!2}
+
+",  "//:juan alzate romero */
+{e=ExpRand;Splay.ar(Decay2.ar(Impulse.ar({e.new(1,8).round/3}!9),5e-3,{e.new(0.1,1)}!9,LFCub.ar({e.new(66,666).round(20)}!9)))}
+
+",  
+	"//:david granstroem */
+{z=LFDNoise0;x=Blip.ar(Duty.kr(8,0,Dseq([220,174],inf)).lag,4);5.do{x=BPF.ar(x,z.kr(8!2,400,700).abs,z.kr(0.8!2).range(0.1,1).abs)};x*2}
+
+",  "//:micromoog */
+{VarSaw.ar((Hasher.ar(Latch.ar(SinOsc.ar((1..4)!2),Impulse.ar([5/2,5])))*300+300).round(60),0,LFNoise2.ar(2,1/3,1/2))/5}
+
+",  "//:nathaniel virgo */
+play{b=LocalBuf(1e5,2).clear;x=BufRd.ar(2,b,Phasor.ar(0,1,0,1e5))*0.6;BufWr.ar(Blip.ar([1,1.01],10)/5+x,b,LFNoise1.ar(0.2)+1*5e4);x}//#sc
+
+",  "//:batuhan bozkurt */
+{t=Impulse.ar(8)*LFNoise1.ar(2);CombL.ar(Saw.ar([3,4],Decay.ar(t,0.1)).tanh,1,TRand.ar(0,0.01,t).round(15e-4),TRand.ar(-30,30,t))};//#sc
+
+",  
+	"//:redfrik */
+{MoogFF.ar(LFTri.ar(CombN.ar(Duty.ar(1/8,0,Dseq(Dshuf(List.fib(16)%8*99,8),inf)),4,4,16))/4,LFTri.kr(1/16,0,2e3,3e3))!2}//#SuperCollider
+
+",  "//:matt barber */
+{g=LFNoise2.ar(3,11,12);f=LFNoise0.ar(g,4,6).octcps;x=Resonz.ar(LFNoise0.ar(f),f/6,(g**2.3)/f).clip;AllpassC.ar([x,0-x],1,g/230,g)}
+
+",  "//:josh parmenter */
+{r={|y,z|50.collect{Rand(y,z)}};Pluck.ar(Crackle.ar*0.01,Dust.kr(r.(9,12)),0.01,SinOsc.kr(1/r.(50,20),r.(0,6),4e-4,5e-4),2,0.01).sum}
+
+",  "//:david granstroem */
+{x=if(LFPulse.kr(2,0,LFNoise0.kr(1).range(0,1)),SinOsc.ar(1.5)*200,Saw.ar(4,Duty.kr(8,0,Dseq([400,800],inf))));LFTri.ar([120+x,480+x])}
+
+",  
+	"//:nathaniel virgo */
+play{x=Splay.ar({|i|RLPF.ar(0.6**i*40*Impulse.ar(2**i/32,1/2),4**LFNoise0.kr(1/16)*300,5e-3).sin}!8);2.do{x=FreeVerb2.ar(*x++[0.1,1,1])};x}
+
+",  "//:mr proxxxy */
+(q=4;q.do{|i|{BPF.ar(PinkNoise.ar(Impulse.kr([2*q,2*q+(0.01*q)])), 400*q,0.4/q)}.play;}; {SinOsc.ar([60,61],mul:0.25)}.play)
+
+",  "//:juan alzate romero */
+{a=Blip.ar(60,4,LFGauss.ar(4,1/8));a=a/4+LocalIn.ar(2);a=FreqShift.ar(a,LFNoise0.kr(1/4,90));LocalOut.ar(DelayC.ar(a,1,0.1,0.9));a}
+
+",  "//:juan alzate romero */
+{GVerb.ar(Blip.ar((Duty.kr(1/[1,2,4],0,Dseq([0,3,7,12,17]+24,inf))).midicps*[1,4,8],LFNoise1.kr(1/4,3,4)).sum,200,8)} // #sc
+
+",  
+	"//:thor
+
+b=Buffer.read(s, (Platform.resourceDir ++ \"/sounds/a11wlk01.wav\"));
+
+{t=Dust.kr(99);r=TRand;o=Warp1.ar(1,b,r.kr(0,4e4,t),r.kr(0.5,1,t),1)*Linen.kr(t,1);GVerb.ar(o)}
+
+",  "//:redfrik */
+r{loop{z=60.rand+1;x={y=LFTri.ar(z).abs/z;RLPF.ar(TDuty.ar(y,0,y),z*99+y,0.01,6+y)!2}.play(s,0,z);wait(z/3);x.release}}
+
+",  "//:xe kondo */
+{LPF.ar(SelectX.ar(LFNoise0.kr(0.2,20,20)lag:5,{Ringz.ar(TDuty.ar(Dseq([2,3,5].scramble*0.1,120)),Rand(110,440))*0.5}!40),999)!2}
+
+",  "//:redfrik */
+{a=SinOsc;Splay.ar({|i|i=i+1;a.ar(a.ar(i)+1**a.ar(2**a.ar(i/500)*(9-i))*a.ar(9*i).exprange(90,2**a.ar(i/20)*800))}!5)/4}//#SuperCollider
+
+",  
+	"//:juan alzate romero */
+{r=LFNoise0.kr(1/4,6,6).round.midiratio;Splay.ar({ToggleFF.ar(Impulse.ar(8.rand+1)).lag(1/99)*SinOsc.ar((50,100..800).choose*r)}!40)}
+
+",  "//:batuhan bozkurt */
+{f=LocalIn.ar(2).tanh;k=Latch.kr(f[0].abs,Impulse.kr(0.5));LocalOut.ar(f+AllpassN.ar(Pulse.ar([2,3],k*0.01+1e-6,0.9),1,k*0.3,100*k));f}
+
+",  "//:minkepatt */
+{PanB2.ar(Gendy1.ar(6,2,3,4,rrand(15,250),5000,0.1)*LFNoise2.kr(0.2,2),LFNoise0.kr(0.2))}
+
+",  "//:stefan nussbaumer */
+{e=Drand((3..65),inf);d={|i|p=Impulse.ar(i+1*2)}!2;GVerb.ar(Blip.ar(Demand.kr(A2K.kr(p),0,e),TExpRand.ar(2e4,20,d*10)),100,0.02,0.02)}
+
+",  
+	"//:nathaniel virgo */
+play{({|i|x=Dbufrd(b=LocalBuf(5).clear,i);x=x**x-LFNoise0.ar(1/(2**i),50).floor%16;Pulse.ar(Duty.ar(1/8,0,Dbufwr(x,b,i))*20)}!5).mean!2}
+
+",  "//:nathaniel virgo */
+d={|l,h,f,p,n|sum({Ringz.ar(LFPulse.ar(f,p,0.01),exprand(l,h).round(n),0.5)}!20)};{d.(50,150,[2,1,1],[0,1/4,3/4],[1,40,50])*3e-4!2}
+
+",  "//:mark hadman */
+{o=SinOsc;a=[2,3,5,7,11,13,17];Splay.ar(o.ar(o.ar(a,0,50,o.ar(0.119,0,5,32))*a,0,o.ar(0.027,-pi/2,9,9).dbamp/(1,2..7))).tanh}//#sc140
+
+",  "//:chad mckinney */
+{b=LocalBuf(8192,4);d=Dust.kr(9)+Dust2.kr([4,4]);r=PlayBuf.ar(2,b,TExpRand.kr(0.01,19,d),d,0,1)/4;FFT(b,d+(d*r));Out.ar(0,r.clip2(1))};
+
+",  
+	"//:redfrik */
+r{loop{x={BPF.ar(Pluck.ar(Crackle.ar([1.9,1.8]),Impulse.ar(5.rand+1),0.05,0.05.linrand),1200.rand)}.play(s,0,9);wait(9);x.release(69)}}
+
+",  "//:redfrik */
+{{|i|CombC.ar(In.ar(8),3+i,LFTri.ar(0.5,0,1,2+i),99)}!2};Pbind(\\out,8,\\note,Pstutter(8,Pseq(List.fib(32)%9/3,inf))).play//#SuperCollider
+
+",  "//:juan alzate romero */
+{f=LFPar.kr(0.22,0,100,150).round(50).lag;Gendy2.ar(6,6,0.5,0.01,f,f+[1,2],1/2,1/2,19,f/4)*SetResetFF.ar(Impulse.ar(4),Dust.ar(4)).lag}
+
+",  "//:redfrik */
+{a=SinOsc;LeakDC.ar(a.ar(a.ar(0.31),a.ar(a.ar(0.21),a.ar(a.ar(0.11,a.ar(0.01)),0,a.ar([2,3],0,400))),a.ar([0.3,0.21])))}
+
+",  
+	"//:matt barber */
+{g=LFNoise2.ar(3,11,12);f=LFNoise0.ar(g,4,6).octcps;x=Resonz.ar(LFNoise0.ar(f),f/6,(g**2.3)/f).clip;AllpassC.ar([x,0-x],1,g/23,99)}
+
+",  "//:alexandra cardenas */
+{a=Dust;b=TRand;Splay.ar(Blip.ar(b.kr(1,40,a.kr(2.5)),b.kr(1,150,a.kr(0.5))!3),1,b.kr(0,1,a.kr(2)),b.kr(-1,1,a.kr(0.7)))}
+
+",  "//:nathaniel virgo */
+n={|r,f,n=0,d=1|round(r**LFNoise0.ar([4,1,8,2]!d)*f,n)};play{Splay.ar(d=n.(3,0.6);Ringz.ar(d*0.01,n.(2,n.(20,400),40,20),d).mean.tanh)}
+
+",  "//:andrea valle */
+{\"|i|{Saw.ar(i.ascii.midicps,Line.kr(1,0,1,1,0,2))}.play;0.1.wait\".do{|i|{Saw.ar(i.ascii.midicps,Line.kr(1,0,1,1,0,2))}.play;0.1.wait}}.fork
+
+",  
+	"//:batuhan bozkurt */
+{Mix({a=LFNoise1.ar(0.2.rand);DelayC.ar(BPF.ar(WhiteNoise.ar(Dust2.ar(a*a*4**2).lag(8e-3)),10e3.rand+300,0.09),3,a*1.5+1.5,45)}!80).dup}
+
+",  "//:adina izarra */
+({(Mix.fill(98,{SinOsc.ar(5000*rrand(1.0,1.9),0,1/18)}))*EnvGen.ar(Env.perc(0.01 * 0.5, 0.01 * 0.9),Dust.ar(6))!2}.play)
+
+",  "//:juan alzate romero */
+fork{loop{a=play{p=Pulse;p.ar(p.ar([p.kr(1)*3+4,4.01]*10,1/[3,4],[98,99],199),p.kr(1/4,1/2,1/2,1/2).lag)*p.kr([2,3],0.9)};4.wait;a.free;}}
+
+",  "//:redfrik */
+r{99.do{x={Pan2.ar(BPF.ar(Impulse.ar(18.linrand+0.5),9999.linrand,0.3.linrand,5),1.0.rand2)}.play;3.wait;x.release(9)}}
+
+",  
+	"//:aucotsi */
+Array.fib(7,0,4)!2.do({|i|{SinOsc.kr(i)*Line.ar(0.3,0,36,1,0,2)*Blip.ar(340!2*LFPulse.kr(2,0,1/i),TRand.kr(-2pi,2pi,Impulse.kr(9)))}.play})
+
+",  "//:jonatan liljedahl */
+{p=LFPulse;tanh(p.ar(40)*p.kr([0.5,1])+mean({|n|(p.ar(n*2e2+50*p.kr(2-n/[1,3,5],(1..3)/10).sum+4e2)*p.kr(n+1*6,0,0.8).lag)}!2)/2)}
+
+",  "//:juan alzate romero */
+9.do{|i|Pbind(\\scale,#[0,3,5,7,10],\\octave,3.rand+3,\\dur,(12.rand+1)/5,\\degree,Pn(Plazy{Pseq(18.partition(8.rand+2)-1,4)})).play}
+
+",  "//:micromoog */
+{a=LFNoise1;SinOsc.ar(round(VarSaw.ar(a.kr(10,0.1),0,1)*a.kr(1!2!2,400),a.kr(1/50,32,76))).tanh}
+
+",  
+	"//:nathaniel virgo */
+Ndef('x',{x=(Ndef('x').ar*1.8).tanh;BPF.ar(x+[0.01,0.1],12**Latch.ar(x.mean,Impulse.ar(3)).lag(0.1)*200)}).play//#supercollider
+
+",  "//:nathaniel virgo */
+x=Ndef(\\x,Pbind(\\freq,Pseq(a=(3..5);a*.x a*.x[4,8],8)));Ndef(\\,{Limiter ar:GVerb.ar(PitchShift.ar(Ndef ar:\\,1,2,0,0.1),20,20)/4+x.ar})
+
+",  "//:minkepatt */
+{Schmidt.ar(Saw.ar([48,50,60].midicps), (LFPar.kr(0.87.rand)), (LFPar.ar(CuspL.ar(0.45.rand))))};
+
+",  "//:nathaniel virgo */
+Ndef(\\,{x=DelayL.ar(n=Ndef(\\);n.ar,2,LFNoise0.kr(0.03*_!20)+1)+Blip.ar(0.5);LeakDC.ar(LPF.ar(x+x.mean*0.15,4e3)).sin});play{Splay.ar(n.ar)}
+
+",  
+	"//:minkepatt */
+{var a,f,t;a=Dseq([1,3,5,8,2,5]*[2,0,0.5],inf);t=(Impulse.kr([5,4,7]));f=Demand.kr(t,0,a)*[13,89];LFTri.ar(f)*0.2**Dust.ar(2)};
+
+",  "//:pyoungryang ko */
+{Mix.fill(64,{Resonz.ar(Impulse.ar(0.1.rand,0.8,9.9.rand),9+99.rand.nthPrime*SinOsc.kr([1,1.7]*0.001).range([59,2],[2,11]),0.0004,33)})}
+
+",  "//:marcus wrangoe */
+{x=6666;b=SinOsc;d=Dust;t=Trig.ar(d.ar(x),b.ar(0.001));f=t*b.ar(x+b.ar*t);Limiter.ar(GVerb.ar(GrainIn.ar(2,t,f,f,b.ar(x)),9,9)*0.2,0.6)}
+
+",  "//:juan alzate romero */
+fork{loop{r=rrand(-9,9);9.do{play{Pan2.ar(SinOsc.ar(LinRand(40,900,r))*EnvGen.ar(Env.sine(9),1,0.1,0,1,2),rrand(-1,1.0))}};rrand(6,8).wait}}
+
+",  
+	"//:batuhan bozkurt */
+{t=Impulse.kr(1/4);k=Duty.kr(2,0,Dxrand((50,52..90),inf));r={|a|Saw.ar(TIRand.kr(1,6,t),a+1*3)}!3;BPF.ar(r.sum,[k,k+0.5],1/9,50).tanh}
+
+",  "//:andre bartetzki */
+{FSinOsc.ar([11,11.3],0,100).sqrt.thresh(LFNoise0.ar(1.3,70)).scaleneg(Pulse.ar([7,8]*1000)).distort.ring4(LFNoise2.ar([0.3,0.3]))}
+
+",  "//:thor */
+{a=SinOsc.ar(0.15).clip(0,1);(Decay2.ar(LFSaw.ar(13)*a, 0.1)+DelayC.ar(RLPF.ar(PinkNoise.ar(0.3)*a,2300,0.1),3,3))!2}
+
+",  "//:miquel parera jaques */
+{Pan2.ar(FreeVerb.ar(SinOsc.ar(Demand.kr(Impulse.kr(Rand(10,100)),0,Dseq([Rand(100,333),Rand(100,333)],inf)),0,0.08),1,1,1),0)}
+
+",  
+	"//:batuhan bozkurt */
+{(HPF.ar(LFNoise1.ar(2),[10,10.1])*100).tanh}// #supercollider yay! (be very careful with this one, very loud)
+
+",  "//:micromoog */
+{BPF.ar(VarSaw.ar(LFNoise1.kr(3,40,200),0,0.25)+PinkNoise.ar(0.1),LFNoise2.kr(12,700,1000),0.3)!2};
+
+",  "//:jonatan liljedahl */
+n=LFNoise1;Ndef('x',{a=SinOsc.ar(65,Ndef('x').ar*n.ar(0.1,3),n.ar(3,6)).tanh;9.do{a=AllpassL.ar(a,0.3,{0.2.rand+0.1}!2,5)};a.tanh})
+
+",  "//:david granstroem */
+{z=SinOsc;y=222;GVerb.ar(z.ar(y+z.kr([27,81],0,y*LFDNoise1.kr(0.4,1.4).abs))*0.03+GVerb.ar(PinkNoise.ar(Decay2.kr(Dust.kr(1!2))*0.02)))}
+
+",  
+	"//:dan stowell */
+{ Klank.ar(`[(33,44..77).midicps,nil,0.1], SinOsc.ar(LFSaw.kr(1/60).exprange(0.01, 200)).exprange(100,1000)).dup/9 }
+
+",  "//:juan alzate romero */
+{RandSeed.kr(1,5);e=ExpRand;Splay.ar(Decay2.ar(Impulse.ar({e.new(1,8).round/3}!9),5e-3,{e.new(0.1,1)}!9,LFCub.ar({e.new(66,666)}!9)))}
+
+",  "//:juan alzate romero */
+{Splay.ar(SinOsc.ar(LastValue.kr(LFNoise0.kr(3!4,250,220),200).round(50)*LFPar.kr((1..4)/8,0,{0.02.rand}!4,1),0,1/2))}
+
+",  "//:juan alzate romero */
+{Splay.ar(Logistic.ar(LFCub.kr([1,2,4,8],0,1.9,2),LFNoise0.kr(1/[16,12,8,4],400,999).round(150)))}
+
+",  
+	"//:redfrik */
+{|i|x=i+6.rand;Pbind(\\dur,0.06,\\sustain,1,\\amp,0.01,\\degree,Pgauss(x,sin(x+Ptime()%6/6e3)*9),\\pan,Pkey(\\degree)-x*9).play}!6
+
+",  "//:nathaniel virgo */
+f=0;Routine({inf.do{|i|f=i/12+f%[4,3];{Formant.ar(2**f*100,2**(i%8*f*0.2)*100,100)*Line.kr(0.1,0,1)}.play;0.25.wait;}})
+
+",  "//:julian rohrhuber */
+{ [0,0.08] * Pulse.ar(2020) * product(LFPulse.ar([8,1])) + Dust.ar(XLine.kr(10000, 10, 20) ! 2, 2) };
+
+",  "//:taylan cihan */
+{Mix.fill(8,{a=LFDNoise1.kr(18);b=a.range(1e-4,0.1);AllpassC.ar(CombC.ar(FBSineC.ar(a.abs*2e4,a,a,a),b,b,b**a),b,b,a).distort*0.2}!2)}
+
+",  
+	"//:sciss */
+{{|i|b=LocalBuf(64);d=HPZ1.ar(Dust.ar(99));x=CombN.ar(IFFT(FFT(b,PlayBuf.ar(1,b)+d,1,0,1-d)))%1;RecordBuf.ar(InFeedback.ar(i),b);x}!2}
+
+",  "//:marcus wrangoe */
+{x=1500;b=SinOsc;d=Dust;t=Trig.ar(d.ar(x),b.ar(0.01));f=t*b.ar(x+b.ar*t);Limiter.ar(GVerb.ar(GrainIn.ar(2,t,f,f,b.ar(x)),9,9)*0.2,0.4)}
+
+",  "//:minkepatt */
+(f=Duty.kr(_,3,Dseq(\"berlin_calling\".ascii.mirror,inf));play{RLPF.ar(LFTri.ar(f.(5/34)*7),f.(1/13)*16,(LFSaw.ar(0.5,1)))};)
+
+",  "//:julian rohrhuber */
+Ndef(\\y, { a = { Drand([Dshuf({0.005.rand}!rrand(2,12),SinOsc.kr(0.1)*40), 0.1], inf)}; TDuty.ar(a!2,0,0.1)  })
+
+",  
+	"//:jonatan liljedahl */
+{a=PinkNoise.ar(LFNoise1.ar(9,0.05));9.do{a=LeakDC.ar(CombN.ar(a,0.3,{0.3.rand+0.03}!2,7))};LPF.ar(tanh(LPF.ar(a+a.mean,777)),7777)}
+
+",  "//:aucotsi */
+{#a,b=[SinOsc,TIRand];FreeVerb.ar(a.kr(1.1)*Formant.ar(44!2*Stepper.kr(LFTri.kr(2.9),0,b.kr(-4,12,a.kr(0.61).ceil)/4),a.kr(0.1),99,8))}
+
+",  "//:steel stylianou */
+{x=SinOsc;y=LFNoise1;a=y.ar(4);(MoogFF.ar(LFPulse.ar(y.ar(1,96,768))+x.ar(Pulse.ar(6)*64)+x.ar(8+(a*96)),a*XLine.ar(1,8,9,96,9,0)))!2/3}
+
+",  "//:scott wilson */
+{f=Duty.kr({Drand([0.1,0.13],inf)},0,[\"SCBerlin10!\",\"Vielen Dank,Andre!\"].collect({|t|Dseq(t.ascii/2,inf)}));Formant.ar(f,f*19,f*50)/4}
+
+",  
+	"//:juan alzate romero */
+{o=LFPulse.kr(1/[4,7,13,19]);PitchShift.ar(LFPar.ar(o@0*1e3+1e3,0,0.1).lag(1/1000),o@3*0.299+0.3,o@2*2+2,o@1,o[0]*0.1+0.1)!2}
+
+",  "//:redfrik */
+{x=CombC.ar(Phasor.ar(0,{|i|i+1/4}!5),0.2,LFPar.ar(0.09,0,0.05,0.1).round(0.022));Splay.ar(Phasor.ar(BPF.ar(x,50),x)/4)}//#SuperCollider
+
+",  "//:redfrik */
+x=0;{|i|Pbind(\\dur,i+1/4,\\lag,i/6/6,\\octave,i+3,\\legato,i+1/6,\\degree,Pn(Plazy{x=x+1%6;Pseq(asDigits(x+1*142857))})).play}!6//#SuperCollider
+
+",  "//:jonatan liljedahl */
+{LeakDC.ar(GVerb.ar(Mix.fill(14,{|i|BPF.ar(Decay.ar(Impulse.ar(i*0.1+0.5),0.5,1.5),1000*i+40)/(i+1)}),2.7,7)).tanh}
+
+",  
+	"//:redfrik */
+{Splay.ar({|i|f=i+5*99;RHPF.ar(Ringz.ar(Ball.ar(Saw.ar(i+1)>0,SinOsc.kr(0.1,0,1/5,0.3),0.05,0.02)/99,f,0.05),f,0.1)}!5)}//#SuperCollider
+
+",  "//:redfrik */
+r{{|j|a=play{sin(Decay.ar(Duty.ar(1/50,0,Dseq(flat({|i|asBinaryDigits(j+1*i)}!8),4),2),j+1*0.008))/2!2};5.12.wait}!256}
+
+",  "//:jonatan liljedahl */
+{GVerb.ar(Mix.fill(10,{|i|Ringz.ar(Impulse.ar(i*0.05+0.5),300*i+40,0.12,3+PinkNoise.ar(3)).sin/(i+1)*0.6}),3.4,7).tanh}
+
+",  "//:juan alzate romero */
+{x=LFDNoise3;Blip.ar(x.kr(1,[400,100],500),x.kr([1,2],6,5))*Gendy3.ar(1,1,1,1,x.kr(1,99,91),1,0.1)*x.ar(0.5,0.5,0.5)}
+
+",  
+	"//:nathaniel virgo */
+play{b=LocalBuf(4e5,2).clear;BufCombL.ar(b,LeakDC.ar(BufRd.ar(2,b,LFNoise1.ar(0.25)+1*2e5)*0.98)+Blip.ar(2!2,10),2,20)/10}//#supercollider
+
+",  "//:juan alzate romero */
+{l=LFNoise2;RLPF.ar(Crackle.ar,SpecPcile.kr(FFT(LocalBuf(1024),LFGauss.ar(1/[6,8,20].choose,0.01)),0.5),l.kr(1/8,0.1,0.15),2).fold2!2}
+
+",  "//:jonathan siemasko */
+{CombC.ar(Klang.ar(`[[100,101,1000,1001]],1,0)*0.1,1.33,LFTri.ar(0.3, 0, 0.1, 0.71)+LFTri.ar(0.7, 0, 0.1, 0.52),10)!2}
+
+",  "//:nathaniel virgo */
+play{x=Saw.ar([50,50.1]);8.do{|i|f=2**(8-i);x=BRF.ar(AllpassN.ar(x,1,0.1/(12-i),2),80**TRand.ar(0,1,Impulse.ar(f/32,1/2)).lag(1/f)*80,2)};x}
+
+",  
+	"//:lucas samaruga */
+q=play{SinOsc.ar({\\freq.kr.lag(0.9.rand)}!2)*0.1};fork{20.do{5.do{fork{(1800.rand!10).do{|i|q.set(\\freq,i);0.9.rand.wait}}};7.wait};q.release}
+
+",  "//:nathaniel virgo */
+Ndef('x',{x=Ndef('x').ar+0.01;a=BPF.ar(x,6**Latch.ar(x,Dust.ar(x))*200,0.1).sin;9.do{a=AllpassN.ar(a,0.2,{0.2.rand}!2,9)};a+a.mean}).play;
+
+",  "//:tedthetrumpet */
+Pbind(\\freq,Pseq((40,43..400).pyramid(3)),\\dur,0.01)
+
+",  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(256),  "/*
+
+//:mrostinato
+SynthDef(\\mrostinato,{|out= 0 freq = 440 amp = 0.1 gate=1 lforate = 10 lfowidth= 0.5 pan = 0.0|
+	var lfo, pulse, filter, env;
+	lfo = LFTri.kr(lforate,Rand(0,2.0)!3);
+	pulse = Pulse.ar(freq*[1,1.01,0.5],lfo*lfowidth+0.5);
+	env = EnvGen.ar(Env.adsr(0.01,0.05,0.5,0.1),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(Mix(pulse)*env*amp,pan));
+}).add
+)
+
+
+
+*/",  
+	"//:spookystrings
+SynthDef(\\spookystrings,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff=8000 rq=0.2 lfowidth=0.01 lforate=3.8 pan=0.0|
+
+	var pulse, filter, env, lfo;
+
+	lfo = LFTri.kr(lforate,Rand(0,2.0)!2);
+
+	//LFO only on second oscillator
+	pulse = Mix(Saw.ar(freq*[1,1.001]*[1.0,1.0+(lfowidth*lfo)]))*0.5;
+
+	filter = BHiPass.ar(pulse,cutoff,rq);
+
+	env = EnvGen.ar(Env.adsr(0.1,0.0,1.0,3),gate,doneAction:2);
+
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+
+}).add;
+
+",  "//:handclapsmash
+SynthDef(\\handclapsmash,{|out= 0 amp = 0.1 gate=1 cutoff= 12000 rq=0.5 releaseTime=0.5 pan=0.0|
+	var noise, filter, filterenv, env;
+	noise = WhiteNoise.ar;
+	filterenv = EnvGen.ar(Env([0.0,1.0,0.3,0.0],[0.0,0.3,0.3]));
+	//this involves a gate control, less use here
+	//filterenv = EnvGen.ar(Env.adsr(0.0,0.3,0.3,0.3),gate);
+	filter = BHiPass.ar(RLPF.ar(noise,cutoff*filterenv,rq),150);
+	//body
+	filter = BPeakEQ.ar(filter,440,1.0,8);
+	//snap
+	filter = BPeakEQ.ar(filter,1200,1.0,14);
+	//no gate, fixed percussion sound
+	env = EnvGen.ar(Env.perc(0.005,releaseTime),doneAction:2);
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+}).add;
+
+",  "//:mrostinato
+SynthDef(\\mrostinato,{|out= 0 freq = 440 amp = 0.1 gate=1 lforate = 10 lfowidth= 0.5 pan = 0.0|
+	var lfo, pulse, filter, env;
+	lfo = LFTri.kr(lforate,Rand(0,2.0)!3);
+	pulse = Pulse.ar(freq*[1,1.01,0.5],lfo*lfowidth+0.5);
+	env = EnvGen.ar(Env.adsr(0.01,0.05,0.5,0.1),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(Mix(pulse)*env*amp,pan));
+}).add
+)
+
+",  "//:werkit
+SynthDef(\\werkit,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff= 100 rq=0.1 pan=0.0|
+	var source, filter, env;
+	source = WhiteNoise.ar;
+	filter = BLowPass4.ar(source,freq,rq)*0.3;
+	//env = EnvGen.ar(Env.adsr(0.01,0.0,1.0,0.1),gate,doneAction:2);
+	//no gate, fixed envelope size
+	env = EnvGen.ar(Env([0,1,0.5,0.0],[0.02,0.1,0.1]),doneAction:2);
+	Out.ar(out,Pan2.ar((0.7*filter+(0.3*filter.distort))*env*amp,pan));
+}).add;
+
+",  
+	"//:bassfoundation
+SynthDef(\\bassfoundation,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff= 1000 rq=0.5 pan=0.0|
+	var osc, filter, env, filterenv;
+	osc = Saw.ar(freq);
+	filterenv = EnvGen.ar(Env.adsr(0.0,0.5,0.2,0.2),gate,doneAction:2);
+	filter =  RLPF.ar(osc,cutoff*filterenv+100,rq);
+	env = EnvGen.ar(Env.adsr(0.01,0.0,0.9,0.05),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(filter*env*amp*2,pan));
+}).add;
+
+",  "//:spacereverb
+SynthDef(\\spacereverb,{|out =0 gate= 1 threshold= 0.1 amp=0.1|
+
+	var a,c,z,y,in;
+	var env = Linen.kr(gate, 0.1, 1, 0.1, 2);
+
+	c = 6; // number of comb delays
+	a = 4; // number of allpass delays
+
+	in=In.ar(out,2);
+
+	// reverb predelay:
+	z = DelayN.ar(in, 0.048,0.048);
+
+	y=Mix.arFill(c,{CombL.ar(z,0.1,rrand(0.01, 0.1),5)});
+
+	// chain of 4 allpass delays on each of two channels (8 total) :
+	a.do({ y = AllpassN.ar(y, 0.051, [rrand(0.01, 0.05),rrand(0.01, 0.05)], 1) });
+
+	Out.ar(out,Pan2.ar(y,0)*env*amp);
+
+}).add;
+
+",  "//:samplereverb
+SynthDef(\\samplereverb,{|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var env = Linen.kr(gate, 0.0, 0.3, 0.1, 2);
+	var reverb;
+	reverb= FreeVerb.ar(source,1.0,0.6,0.6);
+	XOut.ar(out,env,reverb);
+}).add;
+
+
+)
+
+
+
+(
+var kick, snare,hat;
+
+s.latency= 0.1;
+
+kick = Pbind(
+	\\instrument, \\sampleplay,
+	\\bufnum,b[0],
+	\\dur,1.0,
+	\\pan,0.0,
+	\\amp, 0.5
+);
+
+
+snare = Pbind(
+	\\instrument, \\sampleplay,
+	\\bufnum,b[1],
+	\\dur,Pseq([1.25,0.75,2.0],inf),
+	\\bus,16,
+	\\amp,0.45,
+	\\pan,0.0
+);
+
+hat = Pbind(
+	\\instrument, \\sampleplay,
+	\\bufnum,b[2],
+	\\dur,Pseq(0.5!8++(0.25!16),inf),
+	\\amp, 0.15,
+	\\pan,Pseq(0.3!8++((-0.3)!16),inf)
+);
+
+
+//Pfxb organises private busses for each sound
+Ptpar([
+	0.0,
+	Pfxb(Pfx(kick,\\samplecompress),\\sampleeq1),
+	1.0,
+	Pfxb(Pfx(snare,\\samplecompress,\\gain,1,\\reduction,10,\\ratio,2,\\attackTime,0.02),\\samplereverb),
+	0.0,
+	Pfxb(hat,\\sampleeq2)
+]).play
+
+
+",  "//:spookyeffect
+SynthDef(\\spookyeffect, {|out =0 gate= 1 delaytime=0.25 phaserate=0.1|
+	var source = In.ar(out,2);
+	var delay,phaser;
+
+	var env = Linen.kr(gate, 0.0, 1, 0.1, 2);
+
+	delay= DelayN.ar(source,0.8,delaytime);
+
+	phaser = delay;
+	//phaser = AllpassN.ar(delay,0.04,SinOsc.kr(phaserate,0,0.005,0.035)); //not working that well, too obvious, need to make more subtle
+
+	Out.ar(out,phaser);
+
+}).add;
+
+",  
+	"//:synchronicity
+SynthDef(\\synchronicity,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff=8000 rq=0.2 pan=0.0|
+	var pulse, filter, env, slavefreq;
+	slavefreq = EnvGen.ar(Env([1,5,1],[0.04,0.9]))*freq;
+	pulse = SyncSaw.ar(freq,slavefreq);
+	filter = BLowPass.ar(pulse,cutoff,rq);
+	env = EnvGen.ar(Env.adsr(0.01,0.0,1.0,0.1),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+}).add;
+
+",  "/*
+
+//:pwnbling
+SynthDef(\\pwmbling,{|out= 0 freq = 440 amp = 0.1 gate=1 lforate = 4.85 lfowidth= 0.5 cutoff= 12000 rq=0.25 pan = 0.0|
+
+	var lfo, pulse, filter, env;
+	var basefreq =  ((freq.cpsmidi)+[0,12.12]).midicps;
+
+	lfo = LFTri.kr(lforate*[1,1.01],Rand(0,2.0)!2);
+
+	pulse = Pulse.ar(basefreq,lfo*lfowidth+0.5);
+
+	env = EnvGen.ar(Env.adsr(0.0,1.0,0.2,1.5),gate,doneAction:2);
+
+	filter = RLPF.ar(pulse,(cutoff*(env.squared))+100,rq);
+
+	Out.ar(out,Pan2.ar(Mix(filter)*env*amp,pan));
+
+}).add
+)
+
+
+
+*/",  "//:delayeffect
+SynthDef(\\delayeffect, {|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var delay;
+	var env = Linen.kr(gate, 0.1, 1, 0.1, 2);
+	delay= CombC.ar(source,0.25,0.25,2.0);
+	XOut.ar(out,env, delay);
+}).add;
+
+",  "//:filtereffect
+SynthDef(\\filtereffect, {|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var env = Linen.kr(gate, 0.0, 1, 0.1, 2);
+	var output;
+	output = BLowPass.ar(BLowPass.ar(source,SinOsc.ar(0.25,0,5000,5500),0.4),(200+(5000*SinOsc.ar(4.01,0.5,0.5,0.5))),0.6);
+	//output = BLowPass.ar(source,SinOsc.ar(0.275,0,5000,5500),0.1);
+	XOut.ar(out,env,output*env);
+}).add;
+
+",  
+	"//:winwoodlead
+SynthDef(\\winwoodlead,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff=8000 rq=0.8 lfowidth=0.01 lforate= 8 lagamount=0.01 pan=0.0|
+
+	var pulse, filter, env, lfo;
+
+	lfo = LFTri.kr(lforate,Rand(0,2.0)!2);
+
+	pulse = Mix(Pulse.ar((freq.lag(lagamount))*[1,1.001]*(1.0+(lfowidth*lfo)),[0.2,0.19]))*0.5;
+
+	filter =  RLPF.ar(pulse,cutoff,rq);
+
+	//remove low end
+	filter = BLowShelf.ar(filter,351,1.0,-9);
+
+	env = EnvGen.ar(Env.adsr(0.01,0.0,0.9,0.05),gate,doneAction:2);
+
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+
+}).add;
+
+",  "//:basshighend
+SynthDef(\\basshighend,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff= 3000 rq=0.1 drive = 2.0 pan=0.0|
+	var osc, filter, env, filterenv;
+	var ab;
+	//osc = Mix(VarSaw.ar(freq*[0.25,1,1.5],Rand(0.0,1.0)!3,0.9,[0.5,0.4,0.1]));
+	osc = Mix(Saw.ar(freq*[0.25,1,1.5],[0.5,0.4,0.1]));
+	//osc = Mix(DPW4Saw.ar(freq*[0.25,1,1.5],[0.5,0.4,0.1]));
+	filterenv = EnvGen.ar(Env.adsr(0.0,0.5,0.2,0.2),gate,doneAction:2);
+	filter =  RLPF.ar(osc,cutoff*filterenv+100,rq);
+
+ 	//distortion
+ 	//filter = filter.distort.softclip;
+
+	ab = abs(filter);
+ 	filter = (filter*(ab + drive)/(filter ** 2 + (drive - 1) * ab + 1));
+
+	//remove low end
+	filter = BLowShelf.ar(filter,300,1.0,-12);
+	//dip at 1600Hz
+	filter = BPeakEQ.ar(filter,1600,1.0,-6);
+
+	env = EnvGen.ar(Env.adsr(0.01,0.0,0.9,0.05),gate,doneAction:2);
+
+	Out.ar(out,Pan2.ar(filter*env*amp*2,pan));
+
+}).add;
+
+",  "//:pwnbling
+SynthDef(\\pwmbling,{|out= 0 freq = 440 amp = 0.1 gate=1 lforate = 4.85 lfowidth= 0.5 cutoff= 12000 rq=0.25 pan = 0.0|
+
+	var lfo, pulse, filter, env;
+	var basefreq =  ((freq.cpsmidi)+[0,12.12]).midicps;
+
+	lfo = LFTri.kr(lforate*[1,1.01],Rand(0,2.0)!2);
+
+	pulse = Pulse.ar(basefreq,lfo*lfowidth+0.5);
+
+	env = EnvGen.ar(Env.adsr(0.0,1.0,0.2,1.5),gate,doneAction:2);
+
+	filter = RLPF.ar(pulse,(cutoff*(env.squared))+100,rq);
+
+	Out.ar(out,Pan2.ar(Mix(filter)*env*amp,pan));
+
+}).add
+)
+
+",  "//:situationsynth
+SynthDef(\\situationsynth,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff=8000 rq=0.8 lfowidth=0.001 lforate= 3.3 pan=(-0.1)|
+
+	var pulse, filter, env, filterenv, lfo;
+
+	lfo = LFTri.kr(lforate,Rand(0,2.0)!2);
+
+	pulse = Mix(Pulse.ar((((freq.cpsmidi)+[0,0.14])+(lfo*lfowidth)).midicps,[0.5,0.51]+(lfowidth*lfo)))*0.5;
+
+	filterenv = EnvGen.ar(Env([0.0,1.0,0.3,0.0],[0.005,0.57,0.1],-3));
+
+	filter =  RLPF.ar(pulse,100+(filterenv*cutoff),rq);
+
+	env = EnvGen.ar(Env.adsr(0.002,0.57,1.0,0.3),gate,doneAction:2);
+
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+
+}).add;
+
+",  
+	"//:gatedreverb
+SynthDef(\\gatedreverb,{|out =0 gate= 1 threshold= 0.1 amp=0.1|
+	var a,c,z,y,in;
+	var env = Linen.kr(gate, 0.1, 1, 0.1, 2);
+
+	c = 5; // number of comb delays
+	a = 4; // number of allpass delays
+
+	in=In.ar(out,2);
+
+	gate = if((in.mean)>threshold,in.mean,DC.ar(0)!2);
+
+	// reverb predelay time :
+	z = gate; //DelayN.ar(gate, 0.048,0.048);
+
+	//for delaytime if want modulation-	//LFNoise1.kr(0.1.rand, 0.04, 0.05)
+	y=Mix.arFill(c,{CombL.ar(z,0.1,rrand(0.01, 0.1),rrand(1.5,4))});
+
+	// chain of 4 allpass delays on each of two channels (8 total) :
+	a.do({ y = AllpassN.ar(y, 0.051, [rrand(0.01, 0.05),rrand(0.01, 0.05)], 1) });
+
+	Out.ar(out,Pan2.ar(y,0)*env*amp);
+
+}).add;
+
+
+",  "//:ressquares
+SynthDef(\\ressquares,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff=8000 rq=0.8 pan=(-0.1)|
+
+	var pulse, filter, env;
+
+	//2 cents detune for second oscillator
+	pulse = Mix(Pulse.ar( ((freq.cpsmidi)+[0,0.02]).midicps, 0.5))*0.5;
+
+	filter =  BLowPass.ar(pulse,100+cutoff,rq);
+
+	env = EnvGen.ar(Env.adsr(0.002,0.1,1.0,0.2),gate,doneAction:2);
+
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+
+}).add;
+
+
+",  "//:tonewheeltwo
+SynthDef(\\tonewheeltwo,{|out= 0 freq = 440 amp = 0.1 gate=1 lforate = 4.85 lfowidth= 0.1 cutoff= 5000 rq=0.25 pan = 0.0|
+
+	var lfo, pulse, filter, env;
+
+	lfo = LFTri.kr(lforate*[1,1.01],Rand(0,2.0)!2);
+
+	pulse = Pulse.ar( (((freq*[1,3]).cpsmidi) + (lfo*lfowidth)).midicps,[0.5,0.51],[0.4,0.6]);
+
+	env = EnvGen.ar(Env.adsr(0.0,0.0,1.0,0.1),gate,doneAction:2);
+
+	filter = BLowPass4.ar(pulse,cutoff,rq);
+
+	filter= BPeakEQ.ar(filter,500,1.0,3);
+
+	Out.ar(out,Pan2.ar(Mix(filter)*env*amp,pan));
+
+}).add
+
+",  "//:everythingrhodes
+SynthDef(\\everythingrhodes,{|out= 0 freq = 440 amp = 0.1 gate=1 lforate = 4.85 lfowidth= 0.5 cutoff= 2000 rq=0.5 pan = 0.0|
+	var pulse, filter, env;
+	pulse = Pulse.ar(freq*[1,33.5.midiratio],[0.2,0.1],[0.7,0.3]);
+	env = EnvGen.ar(Env.adsr(0.0,1.0,0.8,3.0),gate,doneAction:2);
+
+	//keyboard tracking filter cutoff
+	filter = BLowPass4.ar(pulse,(cutoff*(env.squared))+200+freq,rq);
+	Out.ar(out,Pan2.ar(Mix(filter)*env*amp,pan));
+
+}).add;
+
+",  
+	"//:choruseffect
+SynthDef(\\choruseffect, {|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var chorus;
+	var env = Linen.kr(gate, 0.1, 1, 0.1, 2);
+	chorus= Mix.fill(7, {
+		var maxdelaytime= rrand(0.005,0.02);
+		DelayC.ar(source, maxdelaytime,LFNoise1.kr(Rand(4.5,10.5),0.25*maxdelaytime,0.75*maxdelaytime) )
+	});
+	XOut.ar(out,env, chorus);
+}).add;
+
+",  "//:eightoeightkick
+SynthDef(\\eightoeightkick,{|out= 0 freq = 440 amp = 0.1 ringTime=10.0 releaseTime=1.0 distortion = 0.1 pan=(-0.1)|
+	var impulse, filter, env;
+  	impulse = Impulse.ar(0);
+	filter = Ringz.ar(impulse,XLine.ar(freq,60,0.1),ringTime);
+	env = EnvGen.ar(Env.perc(0.001,releaseTime),doneAction:2);
+	filter = (1.0-distortion)*filter + (distortion*(filter.distort));
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+}).add;
+
+
+",  "//:vibrato_on_oscillator
+SynthDef(\\singleoscillatorwobble,{|out= 0 freq = 440 amp = 1.0 gate=1 lforate = 10 lfowidth= 0.5 cutoff= 12000 rq=0.5 pan=0.0|
+	var lfo, pulse, filter, env;
+	lfo = LFTri.kr(lforate,Rand(0,2.0)!2);
+	pulse = Pulse.ar(freq*(1.0+(lfowidth*lfo)),0.5);
+	filter = RLPF.ar(pulse,cutoff,rq);
+	env = EnvGen.ar(Env.adsr(0.01,0.0,1.0,0.5),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(filter*env*amp*0.5,pan));
+}).add;
+
+",  "//:spookystrings2
+SynthDef(\\spookystrings2,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff=8000 rq=0.2 pan=0.0|
+	var saw, pulse, filter, env, lfo, pulsewidthlfo;
+	lfo = LFTri.kr([3.5,5],Rand(0,2.0)!2);
+	pulsewidthlfo = SinOsc.kr(4.5);
+	saw = Saw.ar(freq*(1.0+(0.052*lfo[0])));
+	pulse = Pulse.ar(freq*(1.0+(0.072*lfo[1])),pulsewidthlfo*0.25+0.5);
+	//combine, equal mix
+	pulse = 0.5*(saw+pulse);
+	//filter specification not the clearest, so just going for slow attack to brightness
+	filter = BLowPass.ar(pulse,XLine.kr(678,cutoff,0.378),rq);
+	env = EnvGen.ar(Env.adsr(0.1,0.0,1.0,3),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+}).add;
+",  
+	"//:laserbeam
+//no use of gate, fixed length
+SynthDef(\\laserbeam,{|out= 0 freq = 440 amp = 0.1 attackTime= 0.04 gate=1 pan=0.0|
+	var osc1, freqenv, ampenv;
+	freqenv = EnvGen.ar(Env([4,0.5,1,1],[attackTime,0.01,1.0]));
+	osc1 = LFTri.ar(freq*freqenv);
+	//env = EnvGen.ar(Env.adsr(0.01,0.0,1.0,0.1),gate,doneAction:2);
+	//no gate, fixed envelope size
+	ampenv = EnvGen.ar(Env([0,1,0.5,0.0],[0.02,0.2,0.1]),doneAction:2);
+	Out.ar(out,Pan2.ar(osc1*ampenv*amp,pan));
+}).add;
+
+
+",  "//:handclapsmash2
+//with dirty attack
+SynthDef(\\handclapsmash2,{|out= 0 amp = 0.1 gate=1 cutoff= 12000 cutoff2=10000 rq=0.5 modamount=0.0 modrate=50 releaseTime=0.7 pan=0.0|
+	var noise, filter, filterenv, modulation, env;
+	noise = WhiteNoise.ar;
+	filterenv = EnvGen.ar(Env([0.0,1.0,0.3,0.0],[0.0,0.3,0.3]));
+	modulation = (LFSaw.ar(modrate).range(0.0,1.0))*EnvGen.ar(Env([1,1,0,0],[0.1,0.0,1.0]));
+	//filter = BHiPass.ar(RLPF.ar(noise,cutoff*filterenv*(1.0+(modamount*modulation)),rq),150); //alternative
+	filter = BHiPass.ar(RLPF.ar(noise,cutoff*filterenv+ (cutoff2*modamount*modulation),rq),150);
+	//body
+	filter = BPeakEQ.ar(filter,440,1.0,8);
+	//snap
+	filter = BPeakEQ.ar(filter,1200,1.0,14);
+	//no gate, fixed percussion sound
+	env = EnvGen.ar(Env.perc(0.005,releaseTime),doneAction:2);
+	//amp modulation too not very effective ((1.0-modamount)+(modamount*modulation))
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+}).add;
+
+",  "//:trianglewavebells
+SynthDef(\\trianglewavebells,{ | out= 0 freq = 440 amp = 0.1 gate = 1 lforate = 10 lfowidth = 0.0 cutoff = 100 rq = 0.5 pan = 0.0 |
+	var osc1, osc2, vibrato, filter, env;
+	vibrato = SinOsc.ar(lforate,Rand(0,2.0));
+	osc1 = Saw.ar(freq*(1.0+(lfowidth*vibrato)),0.75);
+	//Saw a bit rough, possibly slighter smoother:
+	//osc1 = DPW4Saw.ar(freq*(1.0+(lfowidth*vibrato)),0.5);
+	osc2 = Mix(LFTri.ar((freq.cpsmidi+[11.9,12.1]).midicps));
+	//filter = (osc1+(osc2*0.5))*0.5; //no filter version
+	filter = RHPF.ar((osc1+(osc2*0.5))*0.5,cutoff,rq);
+	env = EnvGen.ar(Env.adsr(0.01,0.1,1.0,0.5),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+}).add;
+
+",  "//:fatvelocitybass
+SynthDef(\\fatvelocitybass,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff= 12000 rq=0.25 lagTime=0.01 pan = 0.0|
+	var lfo, osc, filter, env;
+	var basefreq =  ((freq.lag(lagTime).cpsmidi)+[0,11.95,31.03]).midicps;
+	osc = Saw.ar(basefreq,[0.5,0.4,0.1]); //+PinkNoise.ar(Line.kr(1.0,0,0.03));
+	env = EnvGen.ar(Env.adsr(0.01,1.0,1.0,0.25),gate,doneAction:2);
+	filter = BLowPass4.ar(osc,100+((amp.squared)*(freq+cutoff)),rq);
+	Out.ar(out,Pan2.ar(Mix(filter)*env*amp*0.8,pan));
+}).add
+
+",  
+	"//:whoorgan
+SynthDef(\\whoorgan,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff=8000 rq=0.8 pan=(-0.1)|
+
+	var osc, filter, env;
+	var basefreq =  ((freq.cpsmidi)+[0,0.1]).midicps;
+
+	//osc = Mix(Blip.ar(basefreq,16))*0.5;
+
+  	osc = Mix.fill(10,{|i| SinOsc.ar(basefreq*(i+1),0.0,(0.25+(0.75*LFNoise0.kr(10.1+i,0.5,0.5)))/(1.0+(0.5*i)))})*0.2;
+
+	filter =  BLowPass.ar(osc,2000+(amp*cutoff),rq);
+
+	env = EnvGen.ar(Env.adsr(0.02,0.1,0.9,1.0),gate,doneAction:2);
+
+	Out.ar(out,Pan2.ar(Mix(filter)*env*amp,pan));
+
+}).add;
+
+",  "//:spacetheremin
+SynthDef(\\spacetheremin,{|out= 0 freq = 440 amp = 0.1 gate=1 lforate = 6 lfowidth= 0.5 cutoff= 4000 rq=0.25 lagTime=0.1 pan=0.0|
+
+	var lfo, osc, filter, env;
+
+	lfo = LFTri.kr(lforate+(LFNoise1.kr(5,0.3,0.3)),Rand(0,2.0));
+
+	osc = Saw.ar((freq.lag(lagTime).cpsmidi+(lfo*lfowidth)).midicps,0.5);
+
+	filter = BLowPass4.ar(osc,cutoff.lag(lagTime*4),rq);
+
+	env = EnvGen.ar(Env.adsr(0.6,0.0,1.0,0.05),gate,doneAction:2);
+
+	Out.ar(out,Pan2.ar(filter*env*amp.lag(lagTime*4),pan));
+
+}).add;
+
+",  "//:plastickystrings
+SynthDef(\\plastickystrings,{|out= 0 freq = 440 amp = 0.1 gate=1 lforate = 5900 lfowidth= 0.01 cutoff= 12000 rq=0.5 pan=0.0|
+	var lfo, saw, filter, env;
+	lfo = LFTri.ar(lforate,Rand(0,2.0));
+	saw = Saw.ar(freq*(1.0+(lfowidth*lfo)),0.5);
+	//filter = BBandPass.ar(saw,freq,4);
+	filter = BHiPass.ar(saw,freq,rq); 	//or using cutoff
+	env = EnvGen.ar(Env.adsr(0.4,0.0,1.0,1.0),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(filter*env*amp,pan));
+}).add;
+
+",  "//:samplecompress
+SynthDef(\\samplecompress,{|out =0 gain=2 reduction=8 ratio=3 gate= 1 attackTime=0.016 relaxTime=0.05|
+
+	var source = In.ar(out,2);
+	var compression;
+	var env = Linen.kr(gate, 0.0, 1, 0.1, 2);
+
+	compression= Compander.ar(2*source,source,(-8).dbamp,1.0,ratio.reciprocal,attackTime,relaxTime);
+
+	XOut.ar(out,env, compression);
+
+}).add;
+
+",  
+	"//:justwannahavefun
+SynthDef(\\justwannahavefun,{|out= 0 freq = 440 amp = 0.1 ringTime=10.0 pan=(-0.1)|
+
+	var impulse, filter, env;
+
+  	impulse = Impulse.ar(0);
+
+	filter = Ringz.ar(impulse,(freq.cpsmidi + (Rand(0.2,1.2)*SinOsc.kr(Rand(10,50)))).midicps,ringTime);
+
+	env = EnvGen.ar(Env([0.0,1.0,1.0,0.0],[0.001,0.04,0.04]),doneAction:2);
+
+	Out.ar(out,Pan2.ar((filter.softclip(0.9))*env*amp,pan));
+
+}).add;
+
+",  "//:choruscompresseffect
+SynthDef(\\choruscompresseffect, {|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var chorus;
+	var env = Linen.kr(gate, 0.1, 1, 0.1, 2);
+
+	chorus= Splay.ar(Array.fill(4,{
+		var maxdelaytime= rrand(0.005,0.02);
+
+		DelayC.ar(source[0], maxdelaytime,LFNoise1.kr(Rand(0.1,0.6),0.25*maxdelaytime,0.75*maxdelaytime) )
+	}));
+
+	chorus = Compander.ar(4*(source + chorus),source,0.4,1,4);
+
+	XOut.ar(out,env,chorus);
+
+}).add;
+
+",  "//:sampleeq2
+SynthDef(\\sampleeq2,{|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var env = Linen.kr(gate, 0.0, 1, 0.1, 2);
+	var eq;
+	eq= BHiPass(150,0.3);
+	XOut.ar(out,env,eq);
+}).add;
+
+",  "//:sampleeq1
+SynthDef(\\sampleeq1,{|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var env = Linen.kr(gate, 0.0, 1, 0.1, 2);
+	var eq;
+
+	eq= BLowShelf.ar(source,100,1.0,3);
+	eq= BPeakEQ.ar(eq,600,1.0,-3);
+
+	XOut.ar(out,env,eq);
+
+}).add;
+
+",  
+	"//:yazoodelayeffect
+SynthDef(\\yazoodelayeffect, {|out =0 gate= 1 pan= 0.1|
+	var source = In.ar(out,2);
+	var delay;
+	var env = Linen.kr(gate, 0.0, 1, 0.1, 2);
+
+	delay= DelayC.ar(source[0].distort,0.25,0.25);
+
+	Out.ar(out,Pan2.ar(delay*env,pan));
+
+}).add;
+
+",  "//:moogbasstone
+//no use of gate, fixed length
+SynthDef(\\moogbasstone,{|out= 0 freq = 440 amp = 0.1 gate=1 cutoff= 1000 gain=2.0 lagamount = 0.01 pan=0.0|
+	var osc, filter, env, filterenv;
+	osc = Mix(VarSaw.ar(freq.lag(lagamount)*[1.0,1.001,2.0],Rand(0.0,1.0)!3,Rand(0.5,0.75)!3,0.33));
+	//alternative: richer source: see moogbasstone2 below
+	//osc = Mix(Pulse.ar(freq.lag(lagamount)*[1.0,1.001,2.0],Rand(0.45,0.5)!3,0.33));
+	filterenv = EnvGen.ar(Env.adsr(0.2,0.0,1.0,0.2),gate,doneAction:2);
+	filter =  MoogFF.ar(osc,cutoff*(1.0+(0.5*filterenv)),gain);
+	env = EnvGen.ar(Env.adsr(0.001,0.3,0.9,0.2),gate,doneAction:2);
+	Out.ar(out,Pan2.ar((0.7*filter+(0.3*filter.distort))*env*amp*1.5,pan));
+}).add;
+
+
+",  "//:prophet5pwmstrings
+SynthDef(\\prophet5pwmstrings,{|out= 0 freq = 440 amp = 1.0 gate=1 lforate = 10 lfowidth= 0.5 cutoff= 12000 rq=0.5 pan = 0.0|
+	var lfo, pulse, filter, env;
+	lfo = LFTri.kr(lforate*[1,1.01],Rand(0,2.0)!2);
+	pulse = Pulse.ar(freq*[1,1.01],lfo*lfowidth+0.5);
+	filter = RLPF.ar(pulse,cutoff,rq);
+	env = EnvGen.ar(Env.adsr(0.01,0.0,1.0,0.5),gate,doneAction:2);
+	Out.ar(out,Pan2.ar(Mix(filter)*env*amp*0.5,pan));
+}).add
+
+",  "//:synthdistortion
+SynthDef(\\synthdistortion, {|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var env = Linen.kr(gate, 0.0, 1, 0.1, 2);
+	var abs, excess,output;
+	abs = source.abs;
+	excess = (abs-0.1).max(0.0).min(0.9)/0.9;
+	//original plus sinusoidal perturbation of amount based on absolute amplitude
+	output = source+(excess*(sin(excess*2pi*5)*0.5-0.5));
+	XOut.ar(out,env,output*env);
+}).add;
+
+",  
+	"//:choruseffect2
+SynthDef(\\choruseffect2, {|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var chorus;
+	var env = Linen.kr(gate, 0.1, 1, 0.1, 2);
+	chorus= Mix.fill(17, {
+		var maxdelaytime= rrand(0.005,0.02);
+		DelayC.ar(source, maxdelaytime,LFNoise1.kr(Rand(4.5,10.5),0.25*maxdelaytime,0.75*maxdelaytime) )
+	});
+	XOut.ar(out,env,0.5*chorus);
+}).add;
+
+",  "/*
+
+//:samplereverb
+SynthDef(\\samplereverb,{|out =0 gate= 1|
+	var source = In.ar(out,2);
+	var env = Linen.kr(gate, 0.0, 0.3, 0.1, 2);
+	var reverb;
+	reverb= FreeVerb.ar(source,1.0,0.6,0.6);
+	XOut.ar(out,env,reverb);
+}).add;
+
+
+)
+
+
+
+(
+var kick, snare,hat;
+
+s.latency= 0.1;
+
+kick = Pbind(
+	\\instrument, \\sampleplay,
+	\\bufnum,b[0],
+	\\dur,1.0,
+	\\pan,0.0,
+	\\amp, 0.5
+);
+
+
+snare = Pbind(
+	\\instrument, \\sampleplay,
+	\\bufnum,b[1],
+	\\dur,Pseq([1.25,0.75,2.0],inf),
+	\\bus,16,
+	\\amp,0.45,
+	\\pan,0.0
+);
+
+hat = Pbind(
+	\\instrument, \\sampleplay,
+	\\bufnum,b[2],
+	\\dur,Pseq(0.5!8++(0.25!16),inf),
+	\\amp, 0.15,
+	\\pan,Pseq(0.3!8++((-0.3)!16),inf)
+);
+
+
+//Pfxb organises private busses for each sound
+Ptpar([
+	0.0,
+	Pfxb(Pfx(kick,\\samplecompress),\\sampleeq1),
+	1.0,
+	Pfxb(Pfx(snare,\\samplecompress,\\gain,1,\\reduction,10,\\ratio,2,\\attackTime,0.02),\\samplereverb),
+	0.0,
+	Pfxb(hat,\\sampleeq2)
+]).play
+
+
+
+
+*/",  "//:moogbasstone2
+//no use of gate, fixed length
+SynthDef(\\moogbasstone2,{|out= 0 freq = 440 amp = 0.1 gate=1 attackTime= 0.2 fenvamount=0.5 cutoff= 1000 gain=2.0 pan=0.0|
+	var osc, filter, env, filterenv;
+	//alternative: richer source
+	osc = Mix(Pulse.ar(freq.lag(0.05)*[1.0,1.001,2.0],Rand(0.45,0.5)!3,0.33));
+	filterenv = EnvGen.ar(Env.adsr(attackTime,0.0,1.0,0.2),gate,doneAction:2);
+	filter =  MoogFF.ar(osc,cutoff*(1.0+(fenvamount*filterenv)),gain);
+	env = EnvGen.ar(Env.adsr(0.001,0.3,0.9,0.2),gate,doneAction:2);
+	Out.ar(out,Pan2.ar((0.7*filter+(0.3*filter.distort))*env*amp,pan));
+}).add;
+
+",  Array.prNew(2)
+];
+p = [
+	// ScriptLib
+	0, [ lib: o[1],  soundFilePath: o[603] ],  
+	// MultiLevelIdentityDictionary
+	1, [ dictionary: o[2] ],  
+	// IdentityDictionary
+	2, [ array: o[3],  size: 3,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	3, [ nil,  nil,  nil,  nil,  
+		'SC140_Originals',  o[4],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'SC140_Proxy_Style',  o[279],  nil,  nil,  
+		nil,  nil,  '---Config---',  o[555] ],  
+	// IdentityDictionary
+	4, [ array: o[5],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	5, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'bartetzki',  o[6],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	6, [ array: o[7],  size: 271,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	7, [ 'lucas',  o[8],  'tim',  o[9],  
+		'nathaniel18',  o[10],  'Monocular0',  o[11],  
+		'jonatan11',  o[12],  'nathaniel3',  o[13],  
+		'redfrik15',  o[14],  'juan38',  o[15],  
+		'nathaniel34',  o[16],  'nathaniel2',  o[17],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'jonatan10',  o[18],  'redfrik19',  o[19],  
+		nil,  nil,  'juan0',  o[20],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'juan10',  o[21],  
+		nil,  nil,  nil,  nil,  
+		'aliaksandr',  o[22],  'redfrik12',  o[23],  
+		'batuhan28',  o[24],  'miquel1',  o[25],  
+		'juan7',  o[26],  'juan29',  o[27],  
+		'batuhan2',  o[28],  nil,  nil,  
+		'juan34',  o[29],  nil,  nil,  
+		'andrea0',  o[30],  'minkepatt3',  o[31],  
+		'redfrik32',  o[32],  nil,  nil,  
+		'chad',  o[33],  'minkepatt2',  o[34],  
+		'tim1',  o[35],  'tim0',  o[36],  
+		'redfrik',  o[37],  'jonatan8',  o[38],  
+		'redfrik27',  o[39],  nil,  nil,  
+		nil,  nil,  'redfrik4',  o[40],  
+		'tweety',  o[41],  nil,  nil,  
+		'matt1',  o[42],  'aucotsi4',  o[43],  
+		nil,  nil,  'juan1',  o[44],  
+		'micromoog1',  o[45],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'aucotsi1',  o[46],  
+		'julian',  o[47],  'jonatan3',  o[48],  
+		'nathaniel30',  o[49],  'juan6',  o[50],  
+		nil,  nil,  nil,  nil,  
+		'jonatan12',  o[51],  'nathaniel',  o[52],  
+		'juan24',  o[53],  'redfrik1',  o[54],  
+		'batuhan25',  o[55],  nil,  nil,  
+		'redfrik29',  o[56],  'nathaniel13',  o[57],  
+		nil,  nil,  nil,  nil,  
+		'juan17',  o[58],  nil,  nil,  
+		'aucotsi5',  o[59],  nil,  nil,  
+		nil,  nil,  'juan13',  o[60],  
+		nil,  nil,  'matt',  o[61],  
+		'sciss',  o[62],  'juan28',  o[63],  
+		nil,  nil,  'batuhan19',  o[64],  
+		'batuhan12',  o[65],  'batuhan20',  o[66],  
+		'nathaniel29',  o[67],  'arthur',  o[68],  
+		'scott0',  o[69],  'marcus0',  o[70],  
+		'alexandra2',  o[71],  'lfsaw',  o[72],  
+		'minkepatt7',  o[73],  'josh0',  o[74],  
+		nil,  nil,  'pyoungryang',  o[75],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'batuhan23',  o[76],  
+		'batuhan6',  o[77],  'johannes',  o[78],  
+		'redfrik20',  o[79],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'jonatan16',  o[80],  nil,  nil,  
+		'batuhan3',  o[81],  'redfrik13',  o[82],  
+		'scott2',  o[83],  'mstep',  o[84],  
+		'alexandra3',  o[85],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'tristan',  o[86],  'redfrik24',  o[87],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'nathaniel17',  o[88],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'batuhan22',  o[89],  nil,  nil,  
+		'juan25',  o[90],  'alexandra0',  o[91],  
+		'matt3',  o[92],  'alexandra5',  o[93],  
+		'redfrik26',  o[94],  'nathaniel6',  o[95],  
+		nil,  nil,  nil,  nil,  
+		'nathaniel4',  o[96],  'tedthetrumpet0',  o[97],  
+		nil,  nil,  'batuhan27',  o[98],  
+		nil,  nil,  'redfrik11',  o[99],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'julian3',  o[100],  'nathaniel20',  o[101],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'tim2',  o[102],  
+		'batuhan10',  o[103],  nil,  nil,  
+		nil,  nil,  'nathaniel23',  o[104],  
+		'minkepatt1',  o[105],  'jonatan14',  o[106],  
+		'juan39',  o[107],  nil,  nil,  
+		'redfrik31',  o[108],  nil,  nil,  
+		'redfrik6',  o[109],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'juan40',  o[110],  'jonatan13',  o[111],  
+		'batuhan',  o[112],  nil,  nil,  
+		'jonatan2',  o[113],  'jonatan4',  o[114],  
+		'marcus3',  o[115],  'batuhan9',  o[116],  
+		'batuhan18',  o[117],  'juan5',  o[118],  
+		'juan2',  o[119],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'alexandra4',  o[120],  nil,  nil,  
+		nil,  nil,  'nathaniel19',  o[121],  
+		'nathaniel31',  o[122],  'redfrik17',  o[123],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'pyoungryang0',  o[124],  'josh1',  o[125],  
+		'redfrik21',  o[126],  'nathaniel26',  o[127],  
+		'micromoog2',  o[128],  nil,  nil,  
+		nil,  nil,  'juan',  o[129],  
+		nil,  nil,  'micromoog',  o[130],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'alexandra1',  o[131],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'Monocular',  o[132],  
+		'nathaniel27',  o[133],  'batuhan24',  o[134],  
+		nil,  nil,  nil,  nil,  
+		'miquel',  o[135],  'batuhan7',  o[136],  
+		'thor1',  o[137],  'minkepatt',  o[138],  
+		'nathaniel12',  o[139],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'batuhan13',  o[140],  
+		'Monocular1',  o[141],  'jonatan9',  o[142],  
+		'redfrik9',  o[143],  'redfrik14',  o[144],  
+		'juan16',  o[145],  'batuhan4',  o[146],  
+		'dan0',  o[147],  nil,  nil,  
+		'juan20',  o[148],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'lfsaw0',  o[149],  nil,  nil,  
+		'juan30',  o[150],  'thor',  o[151],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'juan36',  o[152],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'batuhan21',  o[153],  'batuhan14',  o[154],  
+		'nathaniel9',  o[155],  'juan9',  o[156],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'nathaniel16',  o[157],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'redfrik2',  o[158],  'nathaniel0',  o[159],  
+		'minkepatt8',  o[160],  nil,  nil,  
+		nil,  nil,  'jonathan',  o[161],  
+		nil,  nil,  'micromoog4',  o[162],  
+		'marcus',  o[163],  'juan18',  o[164],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'minkepatt5',  o[165],  
+		'alexandra6',  o[166],  nil,  nil,  
+		nil,  nil,  'aucotsi0',  o[167],  
+		nil,  nil,  'nathaniel24',  o[168],  
+		'julian2',  o[169],  'scott',  o[170],  
+		'batuhan16',  o[171],  'andre',  o[172],  
+		'taylan',  o[173],  'mr0',  o[174],  
+		'aucotsi3',  o[175],  'juan32',  o[176],  
+		'batuhan17',  o[177],  'nathaniel21',  o[178],  
+		'jonatan1',  o[179],  'redfrik10',  o[180],  
+		'juan21',  o[181],  nil,  nil,  
+		nil,  nil,  'jonatan5',  o[182],  
+		'scacinto',  o[183],  'batuhan1',  o[184],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'batuhan26',  o[185],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'juan19',  o[186],  nil,  nil,  
+		'aucotsi',  o[187],  'redfrik33',  o[188],  
+		nil,  nil,  'nathaniel32',  o[189],  
+		'juan15',  o[190],  nil,  nil,  
+		nil,  nil,  'juan12',  o[191],  
+		nil,  nil,  'david0',  o[192],  
+		'micromoog3',  o[193],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'nathaniel11',  o[194],  'batuhan8',  o[195],  
+		'redfrik22',  o[196],  'matt2',  o[197],  
+		nil,  nil,  'josh',  o[198],  
+		nil,  nil,  'david1',  o[199],  
+		nil,  nil,  nil,  nil,  
+		'nathaniel7',  o[200],  nil,  nil,  
+		'mr',  o[201],  'juan26',  o[202],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'juan4',  o[203],  'thor2',  o[204],  
+		nil,  nil,  'redfrik3',  o[205],  
+		'xe',  o[206],  'redfrik30',  o[207],  
+		'juan35',  o[208],  'batuhan0',  o[209],  
+		'minkepatt9',  o[210],  nil,  nil,  
+		'stefan',  o[211],  nil,  nil,  
+		nil,  nil,  'nathaniel8',  o[212],  
+		nil,  nil,  nil,  nil,  
+		'nathaniel25',  o[213],  'mark',  o[214],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'chad0',  o[215],  
+		'redfrik5',  o[216],  'redfrik23',  o[217],  
+		'juan31',  o[218],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'redfrik8',  o[219],  
+		'matt0',  o[220],  'alexandra',  o[221],  
+		'nathaniel22',  o[222],  'andrea',  o[223],  
+		'batuhan5',  o[224],  'adina',  o[225],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'juan33',  o[226],  nil,  nil,  
+		nil,  nil,  'redfrik0',  o[227],  
+		'aucotsi2',  o[228],  'jonatan7',  o[229],  
+		'juan8',  o[230],  nil,  nil,  
+		nil,  nil,  'micromoog5',  o[231],  
+		'nathaniel15',  o[232],  'nathaniel33',  o[233],  
+		'minkepatt4',  o[234],  'nathaniel1',  o[235],  
+		'minkepatt6',  o[236],  nil,  nil,  
+		'pyoungryang1',  o[237],  'marcus2',  o[238],  
+		'juan22',  o[239],  nil,  nil,  
+		'batuhan15',  o[240],  'andre0',  o[241],  
+		'thor0',  o[242],  'miquel0',  o[243],  
+		nil,  nil,  nil,  nil,  
+		'batuhan11',  o[244],  'micromoog0',  o[245],  
+		nil,  nil,  'jonatan0',  o[246],  
+		'david',  o[247],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'dan',  o[248],  nil,  nil,  
+		'juan11',  o[249],  'juan27',  o[250],  
+		nil,  nil,  'juan23',  o[251],  
+		nil,  nil,  'redfrik7',  o[252],  
+		nil,  nil,  'nathaniel28',  o[253],  
+		'julian0',  o[254],  'taylan0',  o[255],  
+		'sciss0',  o[256],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'marcus1',  o[257],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'minkepatt0',  o[258],  'julian1',  o[259],  
+		nil,  nil,  nil,  nil,  
+		'jonatan',  o[260],  'aucotsi6',  o[261],  
+		'steel',  o[262],  nil,  nil,  
+		nil,  nil,  'scott1',  o[263],  
+		nil,  nil,  'juan14',  o[264],  
+		'redfrik28',  o[265],  nil,  nil,  
+		nil,  nil,  'redfrik25',  o[266],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'jonatan15',  o[267],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'redfrik18',  o[268],  
+		nil,  nil,  nil,  nil,  
+		'redfrik16',  o[269],  nil,  nil,  
+		'jonatan6',  o[270],  'juan3',  o[271],  
+		'nathaniel10',  o[272],  'juan37',  o[273],  
+		nil,  nil,  'jonathan0',  o[274],  
+		'nathaniel5',  o[275],  'lucas0',  o[276],  
+		'nathaniel14',  o[277],  'tedthetrumpet',  o[278] ],  
+	// IdentityDictionary
+	279, [ array: o[280],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	280, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'bartetzky_proxy_style',  o[281],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	281, [ array: o[282],  size: 272,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	282, [ 'lucas',  o[283],  'tim',  o[284],  
+		'nathaniel18',  o[285],  'Monocular0',  o[286],  
+		'jonatan11',  o[287],  'nathaniel3',  o[288],  
+		'redfrik15',  o[289],  'juan38',  o[290],  
+		'nathaniel34',  o[291],  'nathaniel2',  o[292],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'jonatan10',  o[293],  'redfrik19',  o[294],  
+		nil,  nil,  'juan0',  o[295],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'juan10',  o[296],  
+		nil,  nil,  nil,  nil,  
+		'aliaksandr',  o[297],  'redfrik12',  o[298],  
+		'batuhan28',  o[299],  'miquel1',  o[300],  
+		'juan7',  o[301],  'juan29',  o[302],  
+		'batuhan2',  o[303],  nil,  nil,  
+		'juan34',  o[304],  nil,  nil,  
+		'andrea0',  o[305],  'minkepatt3',  o[306],  
+		'redfrik32',  o[307],  nil,  nil,  
+		'chad',  o[308],  'minkepatt2',  o[309],  
+		'tim1',  o[310],  'tim0',  o[311],  
+		'redfrik',  o[312],  'jonatan8',  o[313],  
+		'redfrik27',  o[314],  nil,  nil,  
+		nil,  nil,  'redfrik4',  o[315],  
+		'tweety',  o[316],  nil,  nil,  
+		'matt1',  o[317],  'aucotsi4',  o[318],  
+		nil,  nil,  'juan1',  o[319],  
+		'micromoog1',  o[320],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'aucotsi1',  o[321],  
+		'julian',  o[322],  'jonatan3',  o[323],  
+		'nathaniel30',  o[324],  'juan6',  o[325],  
+		nil,  nil,  nil,  nil,  
+		'jonatan12',  o[326],  'nathaniel',  o[327],  
+		'juan24',  o[328],  'redfrik1',  o[329],  
+		'batuhan25',  o[330],  nil,  nil,  
+		'redfrik29',  o[331],  'nathaniel13',  o[332],  
+		nil,  nil,  nil,  nil,  
+		'juan17',  o[333],  nil,  nil,  
+		'aucotsi5',  o[334],  nil,  nil,  
+		nil,  nil,  'juan13',  o[335],  
+		nil,  nil,  'matt',  o[336],  
+		'sciss',  o[337],  'juan28',  o[338],  
+		nil,  nil,  'batuhan19',  o[339],  
+		'batuhan12',  o[340],  'batuhan20',  o[341],  
+		'nathaniel29',  o[342],  'arthur',  o[343],  
+		'scott0',  o[344],  'marcus0',  o[345],  
+		'alexandra2',  o[346],  'lfsaw',  o[347],  
+		'minkepatt7',  o[348],  'josh0',  o[349],  
+		nil,  nil,  'pyoungryang',  o[350],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'batuhan23',  o[351],  
+		'batuhan6',  o[352],  'johannes',  o[353],  
+		'redfrik20',  o[354],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'jonatan16',  o[355],  nil,  nil,  
+		'batuhan3',  o[356],  'redfrik13',  o[357],  
+		'scott2',  o[358],  'mstep',  o[359],  
+		'alexandra3',  o[360],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'tristan',  o[361],  'redfrik24',  o[362],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'nathaniel17',  o[363],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'batuhan22',  o[364],  nil,  nil,  
+		'juan25',  o[365],  'alexandra0',  o[366],  
+		'matt3',  o[367],  'alexandra5',  o[368],  
+		'redfrik26',  o[369],  'nathaniel6',  o[370],  
+		nil,  nil,  nil,  nil,  
+		'nathaniel4',  o[371],  'tedthetrumpet0',  o[372],  
+		nil,  nil,  'batuhan27',  o[373],  
+		nil,  nil,  'redfrik11',  o[374],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'julian3',  o[375],  'nathaniel20',  o[376],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'tim2',  o[377],  
+		'batuhan10',  o[378],  nil,  nil,  
+		nil,  nil,  'nathaniel23',  o[379],  
+		'minkepatt1',  o[380],  'jonatan14',  o[381],  
+		'juan39',  o[382],  nil,  nil,  
+		'redfrik31',  o[383],  nil,  nil,  
+		'redfrik6',  o[384],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'juan40',  o[385],  'jonatan13',  o[386],  
+		'batuhan',  o[387],  nil,  nil,  
+		'jonatan2',  o[388],  'jonatan4',  o[389],  
+		'marcus3',  o[390],  'batuhan9',  o[391],  
+		'batuhan18',  o[392],  'juan5',  o[393],  
+		'juan2',  o[394],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'alexandra4',  o[395],  nil,  nil,  
+		nil,  nil,  'nathaniel19',  o[396],  
+		'nathaniel31',  o[397],  'redfrik17',  o[398],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'pyoungryang0',  o[399],  'josh1',  o[400],  
+		'redfrik21',  o[401],  'nathaniel26',  o[402],  
+		'micromoog2',  o[403],  nil,  nil,  
+		nil,  nil,  'juan',  o[404],  
+		nil,  nil,  'micromoog',  o[405],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'alexandra1',  o[406],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'Monocular',  o[407],  
+		'nathaniel27',  o[408],  'batuhan24',  o[409],  
+		nil,  nil,  nil,  nil,  
+		'miquel',  o[410],  'batuhan7',  o[411],  
+		'thor1',  o[412],  'minkepatt',  o[413],  
+		'nathaniel12',  o[414],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'batuhan13',  o[415],  
+		'Monocular1',  o[416],  'jonatan9',  o[417],  
+		'redfrik9',  o[418],  'redfrik14',  o[419],  
+		'juan16',  o[420],  'batuhan4',  o[421],  
+		'dan0',  o[422],  nil,  nil,  
+		'juan20',  o[423],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'lfsaw0',  o[424],  'tedthetrumpet0_PROXY_INCOMPAT',  o[425],  
+		'juan30',  o[426],  'thor',  o[427],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'juan36',  o[428],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'batuhan21',  o[429],  'batuhan14',  o[430],  
+		'nathaniel9',  o[431],  'juan9',  o[432],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'nathaniel16',  o[433],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'redfrik2',  o[434],  'nathaniel0',  o[435],  
+		'minkepatt8',  o[436],  nil,  nil,  
+		nil,  nil,  'jonathan',  o[437],  
+		nil,  nil,  'micromoog4',  o[438],  
+		'marcus',  o[439],  'juan18',  o[440],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'minkepatt5',  o[441],  
+		'alexandra6',  o[442],  nil,  nil,  
+		nil,  nil,  'aucotsi0',  o[443],  
+		nil,  nil,  'nathaniel24',  o[444],  
+		'julian2',  o[445],  'scott',  o[446],  
+		'batuhan16',  o[447],  'andre',  o[448],  
+		'taylan',  o[449],  'mr0',  o[450],  
+		'aucotsi3',  o[451],  'juan32',  o[452],  
+		'batuhan17',  o[453],  'nathaniel21',  o[454],  
+		'jonatan1',  o[455],  'redfrik10',  o[456],  
+		'juan21',  o[457],  nil,  nil,  
+		nil,  nil,  'jonatan5',  o[458],  
+		'scacinto',  o[459],  'batuhan1',  o[460],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'batuhan26',  o[461],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'juan19',  o[462],  nil,  nil,  
+		'aucotsi',  o[463],  'redfrik33',  o[464],  
+		nil,  nil,  'nathaniel32',  o[465],  
+		'juan15',  o[466],  nil,  nil,  
+		nil,  nil,  'juan12',  o[467],  
+		nil,  nil,  'david0',  o[468],  
+		'micromoog3',  o[469],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'nathaniel11',  o[470],  'batuhan8',  o[471],  
+		'redfrik22',  o[472],  'matt2',  o[473],  
+		nil,  nil,  'josh',  o[474],  
+		nil,  nil,  'david1',  o[475],  
+		nil,  nil,  nil,  nil,  
+		'nathaniel7',  o[476],  nil,  nil,  
+		'mr',  o[477],  'juan26',  o[478],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'juan4',  o[479],  'thor2',  o[480],  
+		nil,  nil,  'redfrik3',  o[481],  
+		'xe',  o[482],  'redfrik30',  o[483],  
+		'juan35',  o[484],  'batuhan0',  o[485],  
+		'minkepatt9',  o[486],  nil,  nil,  
+		'stefan',  o[487],  nil,  nil,  
+		nil,  nil,  'nathaniel8',  o[488],  
+		nil,  nil,  nil,  nil,  
+		'nathaniel25',  o[489],  'mark',  o[490],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'chad0',  o[491],  
+		'redfrik5',  o[492],  'redfrik23',  o[493],  
+		'juan31',  o[494],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'redfrik8',  o[495],  
+		'matt0',  o[496],  'alexandra',  o[497],  
+		'nathaniel22',  o[498],  'andrea',  o[499],  
+		'batuhan5',  o[500],  'adina',  o[501],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'juan33',  o[502],  nil,  nil,  
+		nil,  nil,  'redfrik0',  o[503],  
+		'aucotsi2',  o[504],  'jonatan7',  o[505],  
+		'juan8',  o[506],  nil,  nil,  
+		nil,  nil,  'micromoog5',  o[507],  
+		'nathaniel15',  o[508],  'nathaniel33',  o[509],  
+		'minkepatt4',  o[510],  'nathaniel1',  o[511],  
+		'minkepatt6',  o[512],  nil,  nil,  
+		'pyoungryang1',  o[513],  'marcus2',  o[514],  
+		'juan22',  o[515],  nil,  nil,  
+		'batuhan15',  o[516],  'andre0',  o[517],  
+		'thor0',  o[518],  'miquel0',  o[519],  
+		nil,  nil,  nil,  nil,  
+		'batuhan11',  o[520],  'micromoog0',  o[521],  
+		nil,  nil,  'jonatan0',  o[522],  
+		'david',  o[523],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'dan',  o[524],  nil,  nil,  
+		'juan11',  o[525],  'juan27',  o[526],  
+		nil,  nil,  'juan23',  o[527],  
+		nil,  nil,  'redfrik7',  o[528],  
+		nil,  nil,  'nathaniel28',  o[529],  
+		'julian0',  o[530],  'taylan0',  o[531],  
+		'sciss0',  o[532],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'marcus1',  o[533],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'minkepatt0',  o[534],  'julian1',  o[535],  
+		nil,  nil,  nil,  nil,  
+		'jonatan',  o[536],  'aucotsi6',  o[537],  
+		'steel',  o[538],  nil,  nil,  
+		nil,  nil,  'scott1',  o[539],  
+		nil,  nil,  'juan14',  o[540],  
+		'redfrik28',  o[541],  nil,  nil,  
+		nil,  nil,  'redfrik25',  o[542],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'jonatan15',  o[543],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'redfrik18',  o[544],  
+		nil,  nil,  nil,  nil,  
+		'redfrik16',  o[545],  nil,  nil,  
+		'jonatan6',  o[546],  'juan3',  o[547],  
+		'nathaniel10',  o[548],  'juan37',  o[549],  
+		nil,  nil,  'jonathan0',  o[550],  
+		'nathaniel5',  o[551],  'lucas0',  o[552],  
+		'nathaniel14',  o[553],  'tedthetrumpet',  o[554] ],  
+	// IdentityDictionary
+	555, [ array: o[556],  size: 1,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	556, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'StealThisSoundSynthDefs',  o[557],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil ],  
+	// IdentityDictionary
+	557, [ array: o[558],  size: 44,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	558, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'mrostinato_debug',  o[559],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'spookystrings',  o[560],  
+		'handclapsmash',  o[561],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'mrostinato',  o[562],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'werkit',  o[563],  
+		nil,  nil,  'bassfoundation',  o[564],  
+		'spacereverb',  o[565],  'samplereverb',  o[566],  
+		nil,  nil,  'spookyeffect',  o[567],  
+		nil,  nil,  'synchronicity',  o[568],  
+		'pwnbling_debug',  o[569],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'delayeffect',  o[570],  
+		nil,  nil,  'filtereffect',  o[571],  
+		'winwoodlead',  o[572],  nil,  nil,  
+		'basshighend',  o[573],  'pwnbling',  o[574],  
+		nil,  nil,  'situationsynth',  o[575],  
+		'gatedreverb',  o[576],  'ressquares',  o[577],  
+		'tonewheeltwo',  o[578],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'everythingrhodes',  o[579],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'choruseffect',  o[580],  
+		'eightoeightkick',  o[581],  'vibrato_on_oscillator',  o[582],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'spookystrings2',  o[583],  
+		'laserbeam',  o[584],  nil,  nil,  
+		'handclapsmash2',  o[585],  nil,  nil,  
+		nil,  nil,  'trianglewavebells',  o[586],  
+		nil,  nil,  nil,  nil,  
+		'fatvelocitybass',  o[587],  'whoorgan',  o[588],  
+		nil,  nil,  'spacetheremin',  o[589],  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'plastickystrings',  o[590],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		'samplecompress',  o[591],  nil,  nil,  
+		nil,  nil,  'justwannahavefun',  o[592],  
+		nil,  nil,  nil,  nil,  
+		'choruscompresseffect',  o[593],  nil,  nil,  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'sampleeq2',  o[594],  
+		nil,  nil,  'sampleeq1',  o[595],  
+		'yazoodelayeffect',  o[596],  nil,  nil,  
+		'moogbasstone',  o[597],  nil,  nil,  
+		'prophet5pwmstrings',  o[598],  'synthdistortion',  o[599],  
+		'choruseffect2',  o[600],  'samplereverb_debug',  o[601],  
+		nil,  nil,  'moogbasstone2',  o[602] ],  
+	// Array
+	603, [ 'SoundFiles',  o[0] ]
+];
+prUnarchive(o,p);
